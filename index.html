@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,155 +7,654 @@
 <title>Big Island Hawaii · June 2–14, 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--surface:#1a1d27;--surface2:#242836;--border:rgba(255,255,255,0.08);--text:#e8eaf0;--text-muted:rgba(255,255,255,0.5);--text-muted2:rgba(255,255,255,0.35);--accent:#f0c040;--accent-dim:rgba(240,192,64,0.15);--green:#34d399;--green-dim:rgba(52,211,153,0.12);--orange:#fb923c;--orange-dim:rgba(251,146,60,0.12);--red:#f87171;--red-dim:rgba(248,113,113,0.12);--purple:#a78bfa;--purple-dim:rgba(167,139,250,0.12);--cyan:#22d3ee;--cyan-dim:rgba(34,211,238,0.12);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
-.container{max-width:900px;margin:0 auto;padding:20px 16px 80px;}
-.header{text-align:center;padding:40px 0 30px;}
-.header-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
-.header h1{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;margin-bottom:6px;}
-.header-sub{font-size:14px;color:var(--text-muted);margin-bottom:20px;}
-.stats-bar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border);margin-bottom:30px;}
-.stat{text-align:center;min-width:80px;}.stat-value{font-size:22px;font-weight:700;color:var(--accent);}.stat-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted2);}
-.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);}.legend-dot{width:8px;height:8px;border-radius:50%;}
-.day-card{border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;transition:all 0.2s ease;}
-.day-card.open{background:var(--surface);border-color:rgba(255,255,255,0.12);}
-.day-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;background:none;border:none;width:100%;color:var(--text);font-family:inherit;text-align:left;}
-.day-header:hover{background:rgba(255,255,255,0.02);}
-.day-icon{font-size:24px;line-height:1;}.day-info{flex:1;min-width:0;}
-.day-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted2);}
-.day-title{font-size:16px;font-weight:600;margin-top:2px;}
-.day-badge{font-size:10px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.06);color:var(--text-muted);white-space:nowrap;}
-.day-progress{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden;}
-.day-progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width 0.3s;}
-.day-arrow{font-size:16px;color:var(--text-muted2);transition:transform 0.2s;}.day-card.open .day-arrow{transform:rotate(180deg);}
-.day-content{padding:0 16px 16px;}.day-divider{border-top:1px solid var(--border);margin-bottom:14px;}
-.activity-item{display:flex;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:6px;align-items:flex-start;position:relative;transition:opacity 0.2s;}
-.activity-item.done{opacity:0.5;}.activity-item.done .activity-label{text-decoration:line-through;}
-.activity-check{width:20px;height:20px;border-radius:5px;border:2px solid rgba(255,255,255,0.2);background:none;cursor:pointer;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:all 0.15s;}
-.activity-check.checked{background:var(--green);border-color:var(--green);color:#fff;}
-.activity-time{min-width:65px;font-size:11px;font-weight:700;padding-top:3px;}.activity-label{font-size:13px;line-height:1.5;flex:1;}
-.activity-remove{background:none;border:none;color:var(--text-muted2);cursor:pointer;font-size:16px;padding:0 4px;opacity:0;transition:opacity 0.15s;}
-.activity-item:hover .activity-remove{opacity:1;}
-.type-activity{background:var(--green-dim);}.type-activity .activity-time{color:var(--green);}.type-activity .activity-label{color:#78d890;}
-.type-food{background:var(--orange-dim);}.type-food .activity-time{color:var(--orange);}.type-food .activity-label{color:#e8b868;}
-.type-beach{background:var(--cyan-dim);}.type-beach .activity-time{color:var(--cyan);}.type-beach .activity-label{color:#70e0f8;}
-.type-transport{background:rgba(140,160,190,0.1);}.type-transport .activity-time{color:#90a8c0;}.type-transport .activity-label{color:#b0c4d8;}
-.type-hotel{background:var(--purple-dim);}.type-hotel .activity-time{color:var(--purple);}.type-hotel .activity-label{color:#c8b0e8;}
-.add-activity-row{display:flex;gap:6px;margin-top:10px;}
-.add-input{flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:13px;}
-.add-input::placeholder{color:var(--text-muted2);}.add-input:focus{outline:none;border-color:var(--accent);}
-.add-select{padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:12px;}
-.add-time-input{width:80px;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:12px;}
-.add-btn{padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:600;cursor:pointer;font-size:13px;white-space:nowrap;}
-.add-btn:hover{background:#f5d060;}
-.tip-box{margin-top:14px;padding:12px 14px;background:var(--accent-dim);border-radius:10px;border-left:3px solid var(--accent);}
-.tip-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
-.tip-text{font-size:12px;line-height:1.6;color:rgba(255,255,255,0.65);}
-.day-notes{margin-top:10px;}
-.notes-textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:12px;resize:vertical;min-height:50px;line-height:1.5;}
-.notes-textarea::placeholder{color:var(--text-muted2);}.notes-textarea:focus{outline:none;border-color:var(--accent);}
-.cash-estimate{margin-top:8px;font-size:11px;color:var(--text-muted2);text-align:right;}
-.footer{margin-top:30px;padding:20px;border-radius:12px;background:var(--surface);border:1px solid var(--border);text-align:center;}
-.footer-total-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
-.footer-total{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;}
-.footer-sub{font-size:12px;color:var(--text-muted2);margin-top:4px;}
-.booking-section{margin-top:20px;padding:20px;border-radius:12px;background:var(--surface);border:1px solid var(--border);}
-.booking-title{font-size:14px;font-weight:600;margin-bottom:12px;}
-.booking-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
-.booking-item:last-child{border-bottom:none;}
-.booking-status{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;cursor:pointer;user-select:none;}
-.status-pending{background:var(--red-dim);color:var(--red);}.status-booked{background:var(--green-dim);color:var(--green);}
-.booking-name{flex:1;}
-.reset-section{text-align:center;margin-top:20px;}
-.reset-btn{padding:8px 20px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text-muted);cursor:pointer;font-size:12px;font-family:inherit;}
-.reset-btn:hover{border-color:var(--red);color:var(--red);}
-@media(max-width:600px){.header h1{font-size:28px;}.stats-bar{gap:8px;padding:12px;}.stat-value{font-size:18px;}.add-activity-row{flex-wrap:wrap;}.add-time-input,.add-select{width:100%;}.activity-remove{opacity:1;}}
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #242836;
+  --border: rgba(255,255,255,0.08);
+  --text: #e8eaf0;
+  --text-muted: rgba(255,255,255,0.5);
+  --text-muted2: rgba(255,255,255,0.35);
+  --accent: #f0c040;
+  --accent-dim: rgba(240,192,64,0.15);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.12);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.12);
+  --orange: #fb923c;
+  --orange-dim: rgba(251,146,60,0.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.12);
+  --cyan: #22d3ee;
+  --cyan-dim: rgba(34,211,238,0.12);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 20px 16px 80px; }
+
+/* Header */
+.header { text-align: center; padding: 40px 0 30px; }
+.header-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 700; margin-bottom: 6px; }
+.header-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+
+/* Stats Bar */
+.stats-bar {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  padding: 16px; background: var(--surface); border-radius: 12px;
+  border: 1px solid var(--border); margin-bottom: 30px;
+}
+.stat { text-align: center; min-width: 80px; }
+.stat-value { font-size: 22px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted2); }
+
+/* Legend */
+.legend { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Day Cards */
+.day-card {
+  border: 1px solid var(--border); border-radius: 14px;
+  margin-bottom: 8px; overflow: hidden;
+  transition: all 0.2s ease;
+}
+.day-card.open { background: var(--surface); border-color: rgba(255,255,255,0.12); }
+.day-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer; user-select: none;
+  background: none; border: none; width: 100%;
+  color: var(--text); font-family: inherit; text-align: left;
+}
+.day-header:hover { background: rgba(255,255,255,0.02); }
+.day-icon { font-size: 24px; line-height: 1; }
+.day-info { flex: 1; min-width: 0; }
+.day-meta { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted2); }
+.day-title { font-size: 16px; font-weight: 600; margin-top: 2px; }
+.day-badge {
+  font-size: 10px; padding: 3px 10px; border-radius: 20px;
+  background: rgba(255,255,255,0.06); color: var(--text-muted);
+  white-space: nowrap;
+}
+.day-progress {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.06); overflow: hidden;
+}
+.day-progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.3s; }
+.day-arrow { font-size: 16px; color: var(--text-muted2); transition: transform 0.2s; }
+.day-card.open .day-arrow { transform: rotate(180deg); }
+
+/* Day Content */
+.day-content { padding: 0 16px 16px; }
+.day-divider { border-top: 1px solid var(--border); margin-bottom: 14px; }
+
+/* Activity Items */
+.activity-item {
+  display: flex; gap: 10px; padding: 10px 12px;
+  border-radius: 10px; margin-bottom: 6px;
+  align-items: flex-start; position: relative;
+  transition: opacity 0.2s;
+}
+.activity-item.done { opacity: 0.5; }
+.activity-item.done .activity-label { text-decoration: line-through; }
+.activity-check {
+  width: 20px; height: 20px; border-radius: 5px; border: 2px solid rgba(255,255,255,0.2);
+  background: none; cursor: pointer; flex-shrink: 0; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: transparent; transition: all 0.15s;
+}
+.activity-check.checked { background: var(--green); border-color: var(--green); color: #fff; }
+.activity-time {
+  min-width: 65px; font-size: 11px; font-weight: 700;
+  padding-top: 3px; letter-spacing: 0.3px;
+}
+.activity-label { font-size: 13px; line-height: 1.5; flex: 1; }
+.activity-remove {
+  background: none; border: none; color: var(--text-muted2);
+  cursor: pointer; font-size: 16px; padding: 0 4px; opacity: 0;
+  transition: opacity 0.15s;
+}
+.activity-item:hover .activity-remove { opacity: 1; }
+
+/* Type Colors */
+.type-activity { background: var(--green-dim); }
+.type-activity .activity-time { color: var(--green); }
+.type-activity .activity-label { color: #78d890; }
+.type-food { background: var(--orange-dim); }
+.type-food .activity-time { color: var(--orange); }
+.type-food .activity-label { color: #e8b868; }
+.type-beach { background: var(--cyan-dim); }
+.type-beach .activity-time { color: var(--cyan); }
+.type-beach .activity-label { color: #70e0f8; }
+.type-transport { background: rgba(140,160,190,0.1); }
+.type-transport .activity-time { color: #90a8c0; }
+.type-transport .activity-label { color: #b0c4d8; }
+.type-hotel { background: var(--purple-dim); }
+.type-hotel .activity-time { color: var(--purple); }
+.type-hotel .activity-label { color: #c8b0e8; }
+
+/* Add Activity */
+.add-activity-row {
+  display: flex; gap: 6px; margin-top: 10px;
+}
+.add-input {
+  flex: 1; padding: 8px 12px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); font-family: inherit; font-size: 13px;
+}
+.add-input::placeholder { color: var(--text-muted2); }
+.add-input:focus { outline: none; border-color: var(--accent); }
+.add-select {
+  padding: 8px 10px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); font-family: inherit; font-size: 12px;
+}
+.add-select:focus { outline: none; border-color: var(--accent); }
+.add-time-input {
+  width: 80px; padding: 8px 10px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); font-family: inherit; font-size: 12px;
+}
+.add-btn {
+  padding: 8px 14px; border-radius: 8px; border: none;
+  background: var(--accent); color: #000; font-weight: 600;
+  cursor: pointer; font-size: 13px; white-space: nowrap;
+}
+.add-btn:hover { background: #f5d060; }
+
+/* Tip Box */
+.tip-box {
+  margin-top: 14px; padding: 12px 14px;
+  background: var(--accent-dim); border-radius: 10px;
+  border-left: 3px solid var(--accent);
+}
+.tip-title { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+.tip-text { font-size: 12px; line-height: 1.6; color: rgba(255,255,255,0.65); }
+
+/* Day Notes */
+.day-notes {
+  margin-top: 10px;
+}
+.notes-textarea {
+  width: 100%; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); font-family: inherit; font-size: 12px;
+  resize: vertical; min-height: 50px; line-height: 1.5;
+}
+.notes-textarea::placeholder { color: var(--text-muted2); }
+.notes-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* Cash Estimate */
+.cash-estimate {
+  margin-top: 8px; font-size: 11px; color: var(--text-muted2);
+  text-align: right;
+}
+
+/* Footer */
+.footer {
+  margin-top: 30px; padding: 20px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  text-align: center;
+}
+.footer-total-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+.footer-total { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; }
+.footer-sub { font-size: 12px; color: var(--text-muted2); margin-top: 4px; }
+
+/* Booking Checklist */
+.booking-section {
+  margin-top: 20px; padding: 20px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.booking-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.booking-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 0;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.booking-item:last-child { border-bottom: none; }
+.booking-status {
+  padding: 3px 10px; border-radius: 20px; font-size: 10px;
+  font-weight: 600; cursor: pointer; user-select: none;
+  letter-spacing: 0.5px;
+}
+.status-pending { background: var(--red-dim); color: var(--red); }
+.status-booked { background: var(--green-dim); color: var(--green); }
+.booking-name { flex: 1; }
+
+/* Reset Button */
+.reset-section { text-align: center; margin-top: 20px; }
+.reset-btn {
+  padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border);
+  background: none; color: var(--text-muted); cursor: pointer;
+  font-size: 12px; font-family: inherit;
+}
+.reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+@media (max-width: 600px) {
+  .header h1 { font-size: 28px; }
+  .stats-bar { gap: 8px; padding: 12px; }
+  .stat-value { font-size: 18px; }
+  .add-activity-row { flex-wrap: wrap; }
+  .add-time-input { width: 100%; }
+  .add-select { width: 100%; }
+  .activity-remove { opacity: 1; }
+}
+
+/* Volcano Status */
+.volcano-section {
+  margin-bottom: 20px; padding: 16px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.volcano-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.volcano-link {
+  display: inline-block; padding: 8px 16px; border-radius: 8px;
+  background: var(--red-dim); color: var(--red); text-decoration: none;
+  font-size: 12px; font-weight: 600; margin-top: 8px;
+  transition: background 0.15s;
+}
+.volcano-link:hover { background: rgba(248,113,113,0.2); }
+.volcano-info { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-top: 6px; }
+
+/* Add-ons */
+.addons-box {
+  margin-top: 10px; padding: 10px 14px;
+  background: var(--blue-dim); border-radius: 10px;
+  border-left: 3px solid var(--blue);
+}
+.addons-title { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+.addon-item { font-size: 12px; color: rgba(255,255,255,0.55); padding: 2px 0; }
 </style>
+
 </head>
 <body>
 <div class="container" id="app"></div>
+
 <script>
-const DEFAULT_DAYS=[{"day": 1, "date": "Tue, Jun 2", "title": "Arrival — Settle Into Kona", "location": "Kona / Kohala Coast", "icon": "✈️", "vibe": "Easy landing day", "cash": "$200 Costco + $150 dinner", "tip": "Don't plan anything big today. You're coming from Florida with a 6-hour time shift. Costco first (5 min from airport), then hotel, then food. Let the kids decompress.", "items": [{"time": "5:00 PM", "label": "Arrive at Kona (KOA), pick up two Jeep Wranglers", "type": "transport", "done": false}, {"time": "5:15 PM", "label": "Hit Costco Kona — stock up on water, snacks, sunscreen, groceries for the week", "type": "food", "done": false}, {"time": "6:30 PM", "label": "Check into Kohala Coast hotel — drop bags, breathe", "type": "hotel", "done": false}, {"time": "7:30 PM", "label": "Dinner at Lava Lava Beach Club, Waikoloa — toes in the sand, fish tacos, live music", "type": "food", "done": false}]}, {"day": 2, "date": "Wed, Jun 3", "title": "Kohala Coast — Beach & Snorkel Day", "location": "Kona / Kohala Coast", "icon": "🤿", "vibe": "Water day", "cash": "$700 snorkel tour + $160 meals", "tip": "Kealakekua Bay: kayak in or take a snorkel boat tour. The reef is untouched. The 10-year-old and Adrian will see turtles guaranteed.", "items": [{"time": "8:00 AM", "label": "Breakfast at hotel or grab pastries from a local bakery", "type": "food", "done": false}, {"time": "9:30 AM", "label": "Kealakekua Bay — Captain Cook monument. Best snorkeling on the island: dolphins, reef fish, crystal-clear water", "type": "activity", "done": false}, {"time": "12:30 PM", "label": "Lunch at Super J's in Captain Cook — authentic Hawaiian plate lunch. Cash only, local favorite", "type": "food", "done": false}, {"time": "2:00 PM", "label": "Around The Kava Bowl — try traditional kava (adults + 19-year-old)", "type": "activity", "done": false}, {"time": "4:00 PM", "label": "Beach time at Manini'owali (Kua Bay) — white sand, turquoise water, bodyboarding", "type": "beach", "done": false}, {"time": "7:00 PM", "label": "Dinner at Kona Brewing Co. — Longboard Lager and kalua pork pizza", "type": "food", "done": false}]}, {"day": 3, "date": "Thu, Jun 4", "title": "Kohala UTV & Paniolo Country", "location": "North Kohala / Waimea", "icon": "🏎️", "vibe": "Off-road adventure", "cash": "$900 UTVs (2 vehicles) + $350 meals", "tip": "Kohala backcountry is private land — you can't see it any other way. Need 2 UTVs for 7 people. Book in advance, it sells out.", "items": [{"time": "7:30 AM", "label": "Early breakfast, pack snacks", "type": "food", "done": false}, {"time": "9:00 AM", "label": "Kohala UTV Adventure — 2.5 hours along Pololū Valley rim. Two UTVs for 7 people.", "type": "activity", "done": false}, {"time": "12:00 PM", "label": "Hawi town — tiny art town. Lunch at Sushi Rock or Kohala Burger", "type": "food", "done": false}, {"time": "2:00 PM", "label": "Pololū Valley Lookout — hike down to the black sand beach if kids are up for it", "type": "activity", "done": false}, {"time": "4:00 PM", "label": "Drive through Waimea (cowboy country) — Village Burger or Hawaiian Style Cafe", "type": "food", "done": false}, {"time": "6:30 PM", "label": "Dinner at Merriman's — farm-to-table, splurge night. Reserve table for 7.", "type": "food", "done": false}]}, {"day": 4, "date": "Fri, Jun 5", "title": "Private Waterfalls & Kohala Hiking", "location": "North Kohala", "icon": "🌊", "vibe": "Deep nature day", "cash": "$1,400 tour (7 pax) + $100 meals", "tip": "Private access waterfalls no tourist ever sees. Your family will swim in pools surrounded by jungle. Book EARLY — sells out weeks ahead. Min age 8, so both kids can go.", "items": [{"time": "7:00 AM", "label": "Light breakfast — you need energy for this one", "type": "food", "done": false}, {"time": "8:30 AM", "label": "Kohala Waterfalls Adventure with Hawaii Forest & Trail — full-day guided hike. Private land, no crowds. Lunch included.", "type": "activity", "done": false}, {"time": "3:30 PM", "label": "Return to hotel — pool time, decompress", "type": "beach", "done": false}, {"time": "5:00 PM", "label": "Shave ice — the real stuff with azuki beans and condensed milk", "type": "food", "done": false}, {"time": "7:00 PM", "label": "Easy dinner — poke bowls from Da Poke Shack in Kona. Eat at the beach.", "type": "food", "done": false}]}, {"day": 5, "date": "Sat, Jun 6", "title": "Manta Rays & Kona Culture", "location": "Kailua-Kona", "icon": "🌙", "vibe": "Culture + bucket list night", "cash": "$700 manta tour (7 pax) + $140 meals + $80 coffee tour", "tip": "Both kids (10 and 9) can do the manta snorkel — most operators allow ages 8+. Go from Keauhou Bay. BOOK EARLY.", "items": [{"time": "9:00 AM", "label": "Sleep in! Lazy morning at the beach or hotel pool", "type": "beach", "done": false}, {"time": "11:00 AM", "label": "Kona coffee farm tour — Heavenly Hawaiian or Greenwell Farms", "type": "activity", "done": false}, {"time": "1:00 PM", "label": "Lunch at Kona Farmers Market or food truck on Ali'i Drive", "type": "food", "done": false}, {"time": "2:30 PM", "label": "Explore historic Kailua Village — Hulihe'e Palace, shops on Ali'i Drive", "type": "activity", "done": false}, {"time": "4:00 PM", "label": "Rest at hotel — nap recommended, it's a late night", "type": "hotel", "done": false}, {"time": "6:00 PM", "label": "Manta Ray Night Snorkel — Keauhou Bay. Life-changing experience for the whole crew.", "type": "activity", "done": false}]}, {"day": 6, "date": "Sun, Jun 7", "title": "Move Day — Kona to Volcano Village", "location": "Kona → South Point → Volcano", "icon": "🚙", "vibe": "Road trip with stops", "cash": "$30 park entry + $140 green sand rides + $100 meals", "tip": "Leave by 8 AM. Green sand beach hike is exposed — bring water, hats, sunscreen. Andres and Paola can take turns with Adrian if he gets tired.", "items": [{"time": "8:00 AM", "label": "Check out of Kohala hotel. Grab breakfast on the way.", "type": "transport", "done": false}, {"time": "10:00 AM", "label": "Punalu'u Black Sand Beach — sea turtles sunbathing. Don't touch them.", "type": "beach", "done": false}, {"time": "11:30 AM", "label": "South Point (Ka Lae) — southernmost point in the US. Raw, windswept.", "type": "activity", "done": false}, {"time": "12:30 PM", "label": "Papakōlea Green Sand Beach — 2.5 mile hike or pay locals $20/person for a truck ride", "type": "activity", "done": false}, {"time": "3:00 PM", "label": "Lunch at Punalu'u Bake Shop — famous malasadas and sweetbread", "type": "food", "done": false}, {"time": "4:30 PM", "label": "Check into Volcano Village lodging", "type": "hotel", "done": false}, {"time": "7:00 PM", "label": "First visit to Volcanoes National Park — Crater Rim for Halema'uma'u glow at dusk", "type": "activity", "done": false}]}, {"day": 7, "date": "Mon, Jun 8", "title": "Hawai'i Volcanoes National Park — Full Day", "location": "Volcano", "icon": "🌋", "vibe": "The main event", "cash": "$0 (park pass from Day 6) + $180 meals", "tip": "Pre-sunrise viewing is how locals do it — no crowds, brightest glow against the dark sky. If Kīlauea is in an active fountaining episode, you'll see 800+ foot lava fountains. Monitor USGS updates.", "items": [{"time": "4:30 AM", "label": "PRE-SUNRISE drive to Keanakāko'i Overlook — lava glow before dawn, almost nobody around", "type": "activity", "done": false}, {"time": "6:30 AM", "label": "Breakfast back at lodging or Café Ono in Volcano Village", "type": "food", "done": false}, {"time": "9:00 AM", "label": "Kīlauea Iki Trail — 4-mile loop across a solidified lava lake. Surreal.", "type": "activity", "done": false}, {"time": "12:00 PM", "label": "Thurston Lava Tube (Nāhuku) — 500-year-old lava tube", "type": "activity", "done": false}, {"time": "1:00 PM", "label": "Lunch at Volcano House — only restaurant overlooking an active volcano caldera in the US", "type": "food", "done": false}, {"time": "2:30 PM", "label": "Chain of Craters Road — 18 miles to the coast through old lava flows. Petroglyphs, sea arches.", "type": "activity", "done": false}, {"time": "7:00 PM", "label": "Dinner at Thai Thai Bistro or Kīlauea Lodge in Volcano Village", "type": "food", "done": false}]}, {"day": 8, "date": "Tue, Jun 9", "title": "Hilo Side — Waterfalls & Local Food", "location": "Hilo", "icon": "🌺", "vibe": "Local culture day", "cash": "$200 meals + $100 market spending", "tip": "Hilo is the anti-resort. No luxury shopping or chain restaurants. Let the kids each pick exotic fruit at the market. Budget $100 for fruit and crafts.", "items": [{"time": "7:00 AM", "label": "Hilo Farmers Market — 200+ vendors, tropical fruit, local crafts. Get there early.", "type": "activity", "done": false}, {"time": "9:30 AM", "label": "Rainbow Falls — 80-foot waterfall right in Hilo town. 2-minute walk.", "type": "activity", "done": false}, {"time": "10:30 AM", "label": "Akaka Falls State Park — 442-foot waterfall surrounded by jungle", "type": "activity", "done": false}, {"time": "12:00 PM", "label": "Lunch at Suisan Fish Market — best poke on the island. Or Café 100 for loco moco.", "type": "food", "done": false}, {"time": "1:30 PM", "label": "Pe'epe'e Falls & Boiling Pots — stacked pools connected by lava tubes (look, don't swim)", "type": "activity", "done": false}, {"time": "3:00 PM", "label": "Explore downtown Hilo — old-school Hawaii town, bookshops, vintage stores", "type": "activity", "done": false}, {"time": "7:00 PM", "label": "Dinner at Moon and Turtle or Hilo Bay Café", "type": "food", "done": false}]}, {"day": 9, "date": "Wed, Jun 10", "title": "Waipi'o Valley — Sacred Valley Day", "location": "Hamakua Coast", "icon": "🏔️", "vibe": "Once in a lifetime", "cash": "$400 shuttle (7 pax) + $160 meals", "tip": "The shuttle is the ONLY way into Waipi'o unless you're a Big Island resident. Your guide grew up in the valley. This is the authentic Hawaiian experience — sacred land, real stories.", "items": [{"time": "7:00 AM", "label": "Breakfast, pack water and snacks", "type": "food", "done": false}, {"time": "9:00 AM", "label": "Waipi'o Valley Shuttle Tour — 105-minute guided 4WD into the Valley of the Kings. 4,000-ft cliffs, Hi'ilawe Falls, taro fields, wild horses.", "type": "activity", "done": false}, {"time": "11:30 AM", "label": "Waipi'o Valley Lookout — free, stunning views", "type": "activity", "done": false}, {"time": "12:30 PM", "label": "Lunch in Honoka'a — Tex Drive-In for malasadas, or Gramma's Kitchen", "type": "food", "done": false}, {"time": "2:00 PM", "label": "Drive the Hamakua Coast — jungle-covered cliffs and ocean views", "type": "activity", "done": false}, {"time": "4:30 PM", "label": "Back to Volcano Village — pool/rest time", "type": "hotel", "done": false}, {"time": "7:00 PM", "label": "Dinner at Kīlauea Lodge — elk medallions, venison, or fresh fish. Fireplace vibes.", "type": "food", "done": false}]}, {"day": 10, "date": "Thu, Jun 11", "title": "Mauna Kea — Stargazing at 13,800 Feet", "location": "Mauna Kea", "icon": "⭐", "vibe": "Above the clouds", "cash": "$2,200 tours (7 pax, split summit + family) + $100 meals", "tip": "Kids under 13 can't go to the summit. Both your 10-year-old AND Adrian (age 9) need the family program at 9,200 ft — still incredible stargazing. The 5 adults/teens go to the top. Call Hawaii Forest & Trail to book both tours same evening.", "items": [{"time": "9:00 AM", "label": "Lazy morning. Sleep in or revisit a favorite beach.", "type": "beach", "done": false}, {"time": "11:00 AM", "label": "Original Hawaiian Chocolate Factory — tour a working cacao farm", "type": "activity", "done": false}, {"time": "1:00 PM", "label": "Lunch — keep it light, you're going to altitude tonight", "type": "food", "done": false}, {"time": "2:00 PM", "label": "Rest and prep. Bring warm layers — 30-40°F at the summit.", "type": "hotel", "done": false}, {"time": "4:00 PM", "label": "Mauna Kea Summit & Stars Tour — 8-9 hour experience. Sunset above clouds, dinner included, stargazing. Clearest skies on Earth.", "type": "activity", "done": false}]}, {"day": 11, "date": "Fri, Jun 12", "title": "Free Day — Your Call", "location": "Flexible", "icon": "🏖️", "vibe": "Do whatever you want", "cash": "$150–$1,500 depending on choices", "tip": "With 7 people, splitting up works great — Andres and Paola take Adrian to the beach while you do the helicopter tour. Or everyone just does nothing together.", "items": [{"time": "Option A", "label": "Return to Volcanoes National Park for anything you missed", "type": "activity", "done": false}, {"time": "Option B", "label": "Beach day at Hapuna Beach — bodyboard, snorkel, relax", "type": "beach", "done": false}, {"time": "Option C", "label": "Helicopter tour over Kīlauea and Hamakua Coast (~$250/person)", "type": "activity", "done": false}, {"time": "Option D", "label": "Revisit Hilo — more poke, more farmers market, botanical garden", "type": "activity", "done": false}, {"time": "Evening", "label": "Last real dinner on the island — pick your favorite spot from the trip", "type": "food", "done": false}]}, {"day": 12, "date": "Sat, Jun 13–Sun, Jun 14", "title": "Departure Day", "location": "Volcano → Kona Airport", "icon": "🌅", "vibe": "One last taste", "cash": "$70 lunch", "tip": "Saddle Road is the fastest route and most beautiful. You'll drive between two massive volcanoes. Don't rush it. Flight departs 9:25 PM from KOA.", "items": [{"time": "7:00 AM", "label": "Sunrise walk or one last crater view", "type": "activity", "done": false}, {"time": "8:30 AM", "label": "Check out, pack the Jeeps", "type": "transport", "done": false}, {"time": "9:30 AM", "label": "Drive to Kona via Saddle Road — most scenic drive in Hawaii", "type": "transport", "done": false}, {"time": "12:00 PM", "label": "Last lunch — Da Poke Shack in Kona", "type": "food", "done": false}, {"time": "2:00 PM", "label": "Beach time or souvenir shopping in Kona", "type": "beach", "done": false}, {"time": "6:00 PM", "label": "Return Jeeps, head to KOA airport", "type": "transport", "done": false}, {"time": "9:25 PM", "label": "Fly home: KOA → PHX → MIA. Arrive 3:54 PM next day.", "type": "transport", "done": false}]}];
-const DEFAULT_BOOKINGS=[
-{name:"Flights \u2014 American Airlines MIA\u2192LAX\u2192KOA (7 pax)",booked:true},
-{name:"Mauna Kea Summit & Stars Tour \u2014 Hawaii Forest & Trail",booked:false},
-{name:"Kohala Waterfalls Adventure \u2014 Hawaii Forest & Trail",booked:false},
-{name:"Manta Ray Night Snorkel \u2014 Keauhou Bay",booked:false},
-{name:"Waipi\u02bbo Valley Shuttle Tour",booked:false},
-{name:"Kohala UTV Adventure (2 vehicles)",booked:false},
-{name:"Jeep Wrangler #1 \u2014 Big Island Jeep Rental",booked:false},
-{name:"Jeep Wrangler #2 \u2014 Hawaii Lifted Jeep Rentals",booked:false},
-{name:"Hotel \u2014 Kona/Kohala side (6 nights, 3 rooms)",booked:false},
-{name:"Hotel \u2014 Volcano/Hilo side (6 nights, 3 rooms)",booked:false},
-{name:"Merriman's Waimea \u2014 Table for 7",booked:false}
+const DEFAULT_DAYS = [
+  {
+    day: 1, date: "Tue, Jun 2", title: "Arrival — Discover Hilton Waikoloa", location: "Hilton Waikoloa Village", icon: "✈️", vibe: "Easy landing day",
+    cash: "$200 Costco + $150 dinner",
+    tip: "Don't plan anything big. You're 6 hours behind Miami time. Costco first, then let the kids discover the resort — water slides, tram rides between towers, canal boats, dolphins in the lagoon. The resort IS the activity tonight.",
+    items: [
+      { time: "5:00 PM", label: "Arrive KOA, pick up 2 Jeep Wranglers (Gladiator + Lifted)", type: "transport", done: false },
+      { time: "5:15 PM", label: "Costco Kona (5 min from airport) — water, snacks, sunscreen, groceries", type: "food", done: false },
+      { time: "6:15 PM", label: "Check into Hilton Waikoloa — 3 rooms. Let kids explore: tram, boats, lagoon, water slides", type: "hotel", done: false },
+      { time: "7:30 PM", label: "Dinner at Lava Lava Beach Club — toes in the sand, fish tacos, live music. Table for 7.", type: "food", done: false },
+    ],
+    addons: ["Walk the Museum Walkway between towers — $7M art collection", "Dolphin Quest viewing area (free to watch)"]
+  },
+  {
+    day: 2, date: "Wed, Jun 3", title: "Snorkel Morning → Resort Afternoon", location: "Kona Coast + Hilton Waikoloa", icon: "🤿", vibe: "Water + resort",
+    cash: "$700 snorkel + $160 meals",
+    tip: "Kealakekua Bay is the best snorkeling on the island — spinner dolphins, reef fish, crystal water. Get out early, be back by 2 PM for resort time. The kava bar is a real local Polynesian experience — not a tourist thing.",
+    items: [
+      { time: "7:00 AM", label: "Early breakfast at hotel", type: "food", done: false },
+      { time: "8:30 AM", label: "Kealakekua Bay snorkel tour — dolphins, turtles, reef fish. BOOK 7 SPOTS.", type: "activity", done: false },
+      { time: "12:00 PM", label: "Lunch at Super J's in Captain Cook — authentic Hawaiian plate lunch (lau lau, kalua pork). Cash only. LOCAL favorite.", type: "food", done: false },
+      { time: "1:00 PM", label: "Around The Kava Bowl — traditional Polynesian kava drink. Real local scene, mix with the locals.", type: "activity", done: false },
+      { time: "2:30 PM", label: "🏨 RESORT TIME — Hilton pools, water slides, lagoon. Kids go wild.", type: "beach", done: false },
+      { time: "5:00 PM", label: "Shave ice — the real stuff with azuki beans and condensed milk", type: "food", done: false },
+      { time: "7:00 PM", label: "Dinner at Kona Brewing Co. — Longboard Lager and kalua pork pizza", type: "food", done: false },
+    ],
+    addons: ["Manini'owali (Kua Bay) — white sand, turquoise water, bodyboarding", "Two Step (Honaunau Bay) for extra snorkeling"]
+  },
+  {
+    day: 3, date: "Thu, Jun 4", title: "UTV Adventure → Resort Sunset", location: "North Kohala + Hilton", icon: "🏎️", vibe: "Off-road + cowboy country",
+    cash: "$900 UTVs + $350 meals",
+    tip: "Kohala backcountry is private land — only way to see it. This is Paniolo (Hawaiian cowboy) country — predated American cowboys. Waimea feels like being dropped into Wyoming. Merriman's is farm-to-table pioneer dining.",
+    items: [
+      { time: "7:30 AM", label: "Early breakfast, pack snacks", type: "food", done: false },
+      { time: "9:00 AM", label: "Kohala UTV Adventure — 2.5 hrs, 2 vehicles, Pololū Valley rim. BOOK 2 UTVs.", type: "activity", done: false },
+      { time: "12:00 PM", label: "Hawi town — tiny art town at the northern tip. Lunch at Sushi Rock or Kohala Burger. Chat with locals.", type: "food", done: false },
+      { time: "1:30 PM", label: "Pololū Valley Lookout — hike down to the black sand beach (30 min down, steep back up)", type: "activity", done: false },
+      { time: "3:30 PM", label: "🏨 RESORT TIME — back to Hilton for pools and rest", type: "beach", done: false },
+      { time: "6:30 PM", label: "Dinner at Merriman's Waimea — farm-to-table pioneer restaurant. RESERVE TABLE FOR 7.", type: "food", done: false },
+    ],
+    addons: ["Drive through Waimea — Hawaiian cowboy (Paniolo) town", "Village Burger or Hawaiian Style Cafe in Waimea"]
+  },
+  {
+    day: 4, date: "Fri, Jun 5", title: "Private Waterfalls → Pool Day", location: "North Kohala + Hilton", icon: "🌊", vibe: "Deep nature + resort",
+    cash: "$1,400 tour + $100 meals",
+    tip: "THE highlight of the Kona side. Private access waterfalls — no tourist ever sees these. Swim in pools surrounded by nothing but jungle. Book EARLY — sells out weeks ahead. Min age 8, both kids qualify.",
+    items: [
+      { time: "7:00 AM", label: "Light breakfast — you need energy for this one", type: "food", done: false },
+      { time: "8:30 AM", label: "Kohala Waterfalls Adventure — Hawaii Forest & Trail. Full-day hike, private land, swimming holes, lunch included. BOOK 7.", type: "activity", done: false },
+      { time: "3:30 PM", label: "🏨 RESORT TIME — you earned it. Pool, water slides, or collapse at the lagoon", type: "beach", done: false },
+      { time: "5:00 PM", label: "Walk the resort — canal boats, koi fish, tram ride between towers", type: "hotel", done: false },
+      { time: "7:00 PM", label: "Easy dinner — poke bowls from Da Poke Shack in Kona. Eat on the beach.", type: "food", done: false },
+    ],
+    addons: ["Sunset from the resort beach", "Night walk along the resort lagoon — sometimes mantas visit"]
+  },
+  {
+    day: 5, date: "Sat, Jun 6", title: "Coffee Culture → Manta Ray Night", location: "Kailua-Kona + Hilton", icon: "🌙", vibe: "Culture + bucket list",
+    cash: "$700 manta + $200 meals + $80 coffee",
+    tip: "Sleep in — tonight is the manta snorkel and it runs late. Both kids (10 and 9) can do it. Nap at 4 PM. The Kona coffee farm and Ali'i Drive are where you mix with locals — real farming, real history.",
+    items: [
+      { time: "9:00 AM", label: "Sleep in! 🏨 RESORT — enjoy the pool and breakfast", type: "beach", done: false },
+      { time: "11:00 AM", label: "Kona coffee farm tour — Heavenly Hawaiian or Greenwell Farms. Real local farming.", type: "activity", done: false },
+      { time: "1:00 PM", label: "Lunch at Kona Farmers Market or food truck on Ali'i Drive — mix with locals", type: "food", done: false },
+      { time: "2:00 PM", label: "Explore historic Kailua Village — Hulihe'e Palace, Ahu'ena Heiau, Ali'i Drive", type: "activity", done: false },
+      { time: "3:30 PM", label: "🏨 RESORT — back to Hilton, NAP. It's a late night.", type: "hotel", done: false },
+      { time: "6:00 PM", label: "🌙 Manta Ray Night Snorkel — Keauhou Bay. Life-changing. BOOK 7 SPOTS.", type: "activity", done: false },
+      { time: "9:00 PM", label: "Back to hotel — late snack, crash. Move day tomorrow.", type: "hotel", done: false },
+    ],
+    addons: ["Original Hawaiian Chocolate Factory — only US-grown cacao", "Kaloko-Honokohau NHP — sea turtles, ancient fishponds"]
+  },
+  {
+    day: 6, date: "Sun, Jun 7", title: "Beaches Road Trip → Volcano at Night", location: "Kona → South Point → Volcano", icon: "🚙", vibe: "Road trip → GO GO GO starts",
+    cash: "$30 park + $140 green sand + $100 meals",
+    tip: "Check out early. Hit BOTH unique beaches on the way. Arrive Volcano by dusk for your first crater glow. This is the start of the GO GO GO block — pack every hour until you leave Volcano.",
+    items: [
+      { time: "8:00 AM", label: "Check out Hilton Waikoloa. Grab breakfast on the way.", type: "transport", done: false },
+      { time: "10:00 AM", label: "Punalu'u Black Sand Beach — jet-black volcanic sand, sea turtles. Don't touch them.", type: "beach", done: false },
+      { time: "11:00 AM", label: "South Point (Ka Lae) — southernmost point in the US. Raw, windswept, locals fishing.", type: "activity", done: false },
+      { time: "12:00 PM", label: "Papakōlea Green Sand Beach — 2.5 mi hike or $20/person truck ride. 1 of 4 on Earth.", type: "activity", done: false },
+      { time: "2:30 PM", label: "Lunch at Punalu'u Bake Shop — famous malasadas and sweetbread", type: "food", done: false },
+      { time: "4:30 PM", label: "Check into Volcano Airbnb — 3BR house, 5 min from park. Drop bags only — going right back out.", type: "hotel", done: false },
+      { time: "5:30 PM", label: "Volcano Winery — only winery on the Big Island. Quick tasting.", type: "activity", done: false },
+      { time: "7:00 PM", label: "🌋 Volcanoes National Park — Crater Rim for Halema'uma'u glow at dusk. $30/vehicle.", type: "activity", done: false },
+      { time: "8:30 PM", label: "Dinner at Kīlauea Lodge — fireplace, elk, fresh fish. RESERVE TABLE FOR 7.", type: "food", done: false },
+    ],
+    addons: ["Night walk around steam vents", "Hilo Sharks Coffee for local coffee on the way"]
+  },
+  {
+    day: 7, date: "Mon, Jun 8", title: "Volcano Full Day — Dawn to Dark", location: "Volcanoes National Park", icon: "🌋", vibe: "GO GO GO — The main event",
+    cash: "$0 (park pass) + $180 meals",
+    tip: "PRE-SUNRISE is how locals do it — no crowds, brightest glow. Check USGS the night before. If Kīlauea is fountaining, you'll see 800+ ft lava fountains. Pack EVERY hour today.",
+    items: [
+      { time: "4:30 AM", label: "🌋 PRE-SUNRISE — Keanakāko'i Overlook. Lava glow before dawn. Almost nobody. THE experience.", type: "activity", done: false },
+      { time: "6:30 AM", label: "Breakfast at Café Ono or the Airbnb", type: "food", done: false },
+      { time: "8:30 AM", label: "Kīlauea Iki Trail — 4-mile loop ACROSS a solidified lava lake. Surreal.", type: "activity", done: false },
+      { time: "12:00 PM", label: "Thurston Lava Tube (Nāhuku) — 500-year-old lava tube. Bring flashlight.", type: "activity", done: false },
+      { time: "1:00 PM", label: "Lunch at Volcano House — ONLY restaurant overlooking an active volcano in the US", type: "food", done: false },
+      { time: "2:30 PM", label: "Chain of Craters Road — 18 miles to the coast. Petroglyphs, sea arches.", type: "activity", done: false },
+      { time: "5:30 PM", label: "Devastation Trail — 1-mile walk through volcanic devastation. Eerie, beautiful.", type: "activity", done: false },
+      { time: "6:30 PM", label: "Sulphur Banks + Steam Vents — smell and feel the volcano", type: "activity", done: false },
+      { time: "7:30 PM", label: "Dinner at Thai Thai Bistro in Volcano Village", type: "food", done: false },
+      { time: "9:00 PM", label: "Optional: one more crater glow viewing — the glow changes every night", type: "activity", done: false },
+    ],
+    addons: ["Volcano Art Center Gallery — local Hawaiian art inside the park", "Volcano Garden Arts — sculpture garden in the village"]
+  },
+  {
+    day: 8, date: "Tue, Jun 9", title: "Hilo Waterfalls + Local Food Crawl", location: "Hilo + Volcano", icon: "🌺", vibe: "GO GO GO — Local culture",
+    cash: "$200 meals + $100 market",
+    tip: "Hilo is the anti-resort. Where real Hawaiians live and eat. Let the kids pick exotic fruit. Back to Airbnb to sleep — tomorrow you leave for Mauna Lani.",
+    items: [
+      { time: "6:30 AM", label: "Quick breakfast — early start, pack snacks", type: "food", done: false },
+      { time: "7:30 AM", label: "Hilo Farmers Market — 200+ vendors, tropical fruit, crafts. Go early.", type: "activity", done: false },
+      { time: "9:30 AM", label: "Rainbow Falls — 80-ft waterfall in Hilo town. 2-min walk.", type: "activity", done: false },
+      { time: "10:15 AM", label: "Pe'epe'e Falls & Boiling Pots — stacked pools, underground lava tubes", type: "activity", done: false },
+      { time: "11:00 AM", label: "'Akaka Falls — 442-ft waterfall surrounded by jungle. Short loop trail.", type: "activity", done: false },
+      { time: "12:30 PM", label: "Lunch at Suisan Fish Market — best poke on the island. Locals line up.", type: "food", done: false },
+      { time: "2:00 PM", label: "Downtown Hilo — old-school Hawaii town, bookshops, vintage stores. No tourist veneer.", type: "activity", done: false },
+      { time: "3:30 PM", label: "Richardson's Beach — Hilo's best beach, black sand, sea turtles, snorkeling", type: "beach", done: false },
+      { time: "5:30 PM", label: "Drive back to Volcano Airbnb — last night here", type: "transport", done: false },
+      { time: "7:00 PM", label: "Farewell dinner in Volcano Village — Kīlauea Lodge or Ohelo Café", type: "food", done: false },
+      { time: "9:00 PM", label: "Optional: final crater glow — say goodbye to the volcano", type: "activity", done: false },
+    ],
+    addons: ["Big Island Candies — macadamia shortbread, free samples", "Mauna Loa Mac Nut Factory (free tour)", "Zip line at Umauma Falls — 9 lines over waterfalls"]
+  },
+  {
+    day: 9, date: "Wed, Jun 10", title: "Waipi'o Valley → Mauna Lani", location: "Hamakua Coast → Kohala", icon: "🏔️", vibe: "Sacred valley + luxury arrival",
+    cash: "$400 shuttle + $160 meals",
+    tip: "Check out Volcano, hit Waipi'o on the way to Mauna Lani. The shuttle guide grew up in the valley — sacred land, real stories. Arrive at Mauna Lani by afternoon. FHR kicks in: free breakfast, $100 credit/room, upgrade, late checkout. SLOW DOWN from here.",
+    items: [
+      { time: "7:00 AM", label: "Check out Volcano Airbnb. Pack Jeeps, quick breakfast.", type: "transport", done: false },
+      { time: "9:30 AM", label: "Waipi'o Valley Shuttle — 105-min 4WD into Valley of the Kings. 4,000-ft cliffs, waterfalls, taro fields, wild horses. BOOK 7.", type: "activity", done: false },
+      { time: "11:30 AM", label: "Waipi'o Valley Lookout — stunning views from the top", type: "activity", done: false },
+      { time: "12:30 PM", label: "Lunch in Honoka'a — Tex Drive-In for malasadas", type: "food", done: false },
+      { time: "1:30 PM", label: "Drive Hamakua Coast — jungle cliffs and ocean views", type: "transport", done: false },
+      { time: "3:00 PM", label: "🏨 Check into Mauna Lani, Auberge Collection. Leis, welcome drinks, kids get free ice cream.", type: "hotel", done: false },
+      { time: "4:00 PM", label: "🏨 RESORT — pools, Beach Club, snorkel lagoon with sea turtles, walk fishponds", type: "beach", done: false },
+      { time: "7:00 PM", label: "Dinner at CanoeHouse — oceanfront, world-class. RESERVE TABLE FOR 7.", type: "food", done: false },
+    ],
+    addons: ["Hawaii Tropical Bioreserve & Garden on Hamakua Coast", "Waimea Coffee Company stop"]
+  },
+  {
+    day: 10, date: "Thu, Jun 11", title: "Beach Club Day → Mauna Kea Stars", location: "Mauna Lani + Mauna Kea", icon: "⭐", vibe: "Resort morning + above the clouds",
+    cash: "$2,200 tours + $100 meals",
+    tip: "FHR breakfast — take your time, eat oceanfront. Enjoy the resort ALL morning. Mauna Kea pickup ~4 PM. Kids under 13 do the family program at 9,200 ft. 5 adults/teens to the summit. BOOK BOTH TOURS — sells out fastest.",
+    items: [
+      { time: "8:00 AM", label: "☕ FHR free breakfast at CanoeHouse — oceanfront, no rush", type: "food", done: false },
+      { time: "10:00 AM", label: "🏨 RESORT — Beach Club, lagoon snorkeling with sea turtles, cabanas, surf shack", type: "beach", done: false },
+      { time: "12:00 PM", label: "Lunch at The Market — use your $100 FHR credit", type: "food", done: false },
+      { time: "1:00 PM", label: "🏨 More resort — adult pool for you and wife, kids pool. Or nap for tonight.", type: "beach", done: false },
+      { time: "4:00 PM", label: "⭐ Mauna Kea Summit & Stars Tour — 8-9 hrs. 13,800 ft. Sunset above clouds, stargazing. BOOK NOW.", type: "activity", done: false },
+    ],
+    addons: ["Hapuna Beach (10 min) — #1 rated beach in the US", "Original Hawaiian Chocolate Factory"]
+  },
+  {
+    day: 11, date: "Fri, Jun 12", title: "Full Resort + Water Day", location: "Mauna Lani Resort", icon: "🏖️", vibe: "You earned this — DON'T LEAVE",
+    cash: "$150–$500",
+    tip: "DO NOT LEAVE THE RESORT. You paid premium — enjoy every inch. FHR breakfast, Beach Club, lagoon turtles, pools, fishpond walk, surf shack, kids program. This is the day your wife will remember.",
+    items: [
+      { time: "8:00 AM", label: "☕ FHR free breakfast — last one, make it count. Sit oceanfront.", type: "food", done: false },
+      { time: "9:30 AM", label: "🏨 Beach Club — snorkel lagoon with turtles, rent paddleboards or kayaks", type: "beach", done: false },
+      { time: "11:00 AM", label: "🏨 Kids activity program — crafts, treasure hunts. Adults get quiet pool time.", type: "activity", done: false },
+      { time: "12:00 PM", label: "Lunch at Beach Club or The Market — use remaining FHR credits", type: "food", done: false },
+      { time: "1:30 PM", label: "🏨 Pool time — infinity pool, adult pool, kids pool", type: "beach", done: false },
+      { time: "3:00 PM", label: "Walk the historic fishponds and cultural trail — ancient Hawaiian fishponds still in use", type: "activity", done: false },
+      { time: "4:30 PM", label: "🏨 Surf shack — boogie boards, SUP, or just float in the lagoon", type: "beach", done: false },
+      { time: "6:30 PM", label: "Farewell dinner — CanoeHouse sunset table or Merriman's Waimea. Make it special.", type: "food", done: false },
+    ],
+    addons: ["Spa at Mauna Lani — 28,000 sq ft tropical gardens", "Helicopter tour over Kīlauea (~$250/person)", "Hapuna Beach half-day trip"]
+  },
+  {
+    day: 12, date: "Sat, Jun 13–Sun, Jun 14", title: "Last Morning → Fly Home", location: "Mauna Lani → KOA Airport", icon: "🌅", vibe: "One last taste",
+    cash: "$70 lunch",
+    tip: "Only 25 min from airport. No rush. FHR late checkout (noon). Last breakfast, last beach, last swim. Flight is 9:25 PM — you have ALL DAY.",
+    items: [
+      { time: "8:00 AM", label: "☕ Last FHR breakfast at CanoeHouse — soak it in", type: "food", done: false },
+      { time: "9:30 AM", label: "🏨 Last beach/pool — lagoon snorkel, one more swim, take photos", type: "beach", done: false },
+      { time: "12:00 PM", label: "Check out Mauna Lani (FHR late checkout — noon)", type: "transport", done: false },
+      { time: "12:30 PM", label: "Last lunch — Da Poke Shack or Lava Lava Beach Club one more time", type: "food", done: false },
+      { time: "2:00 PM", label: "Last beach at Kua Bay or souvenir shopping in Kona", type: "beach", done: false },
+      { time: "5:00 PM", label: "Return both Jeeps", type: "transport", done: false },
+      { time: "6:30 PM", label: "KOA airport. Amex Platinum lounge access if available.", type: "transport", done: false },
+      { time: "9:25 PM", label: "Fly home: KOA → PHX → MIA. Red-eye. Kids sleep. Arrive 3:54 PM Sunday.", type: "transport", done: false },
+    ],
+    addons: ["Kona Saturday farmers market", "Last shave ice from a local stand"]
+  }
 ];
-function loadState(){try{const s=localStorage.getItem('hawaii-trip-2026');if(s)return JSON.parse(s);}catch(e){}return{days:JSON.parse(JSON.stringify(DEFAULT_DAYS)),bookings:JSON.parse(JSON.stringify(DEFAULT_BOOKINGS)),openDay:0};}
-function saveState(st){try{localStorage.setItem('hawaii-trip-2026',JSON.stringify(st));}catch(e){}}
-let state=loadState();
-function getStats(){let total=0,done=0;state.days.forEach(d=>{d.items.forEach(i=>{total++;if(i.done)done++;});});const booked=state.bookings.filter(b=>b.booked).length;return{total,done,booked,totalBookings:state.bookings.length};}
-function renderActivity(item,di,ii){
-  return '<div class="activity-item type-'+item.type+(item.done?' done':'')+'">'+
-    '<div class="activity-check'+(item.done?' checked':'')+'" onclick="toggleActivity('+di+','+ii+')">'+(item.done?'\u2713':'')+
-    '</div><div class="activity-time">'+item.time+'</div><div class="activity-label">'+item.label+
-    '</div><button class="activity-remove" onclick="removeActivity('+di+','+ii+')">\u2715</button></div>';}
-function renderDay(d,di){
-  const isOpen=state.openDay===di;
-  const prog=d.items.length>0?(d.items.filter(i=>i.done).length/d.items.length)*100:0;
-  let html='<div class="day-card'+(isOpen?' open':'')+'"><div class="day-header" onclick="toggleDay('+di+')">'+
-    '<span class="day-icon">'+d.icon+'</span><div class="day-info">'+
-    '<div class="day-meta">Day '+d.day+' \u00b7 '+d.date+' \u00b7 '+d.location+'</div>'+
-    '<div class="day-title">'+d.title+'</div></div>'+
-    '<span class="day-badge">'+d.vibe+'</span>'+
-    '<div class="day-progress"><div class="day-progress-fill" style="width:'+prog+'%"></div></div>'+
-    '<span class="day-arrow">&#9662;</span></div>';
-  if(isOpen){
-    html+='<div class="day-content"><div class="day-divider"></div>'+
-      d.items.map((item,ii)=>renderActivity(item,di,ii)).join('')+
-      '<div class="add-activity-row">'+
-      '<input class="add-time-input" id="add-time-'+di+'" placeholder="Time" />'+
-      '<input class="add-input" id="add-label-'+di+'" placeholder="Add an activity..." onkeydown="if(event.key===\'Enter\')addActivity('+di+')" />'+
-      '<select class="add-select" id="add-type-'+di+'">'+
-      '<option value="activity">Activity</option><option value="food">Food</option>'+
-      '<option value="beach">Beach</option><option value="transport">Transport</option>'+
-      '<option value="hotel">Lodging</option></select>'+
-      '<button class="add-btn" onclick="addActivity('+di+')">Add</button></div>'+
-      '<div class="tip-box"><div class="tip-title">Insider Tip</div><div class="tip-text">'+d.tip+'</div></div>'+
-      '<div class="day-notes"><textarea class="notes-textarea" placeholder="Family notes for this day..." onchange="updateNotes('+di+',this.value)">'+(d.notes||'')+'</textarea></div>'+
-      '<div class="cash-estimate">Est. cash spend: '+d.cash+'</div></div>';}
-  return html+'</div>';}
-function render(){
-  const stats=getStats();
-  let html='<div class="header"><div class="header-label">Big Island, Hawai\u02bbi</div>'+
-    '<h1>June 2\u201314, 2026</h1>'+
-    '<div class="header-sub">7 Passengers &middot; 12 Days &middot; 2 Jeeps &middot; 0 Tourist Traps</div></div>'+
-    '<div class="stats-bar">'+
-    '<div class="stat"><div class="stat-value">12</div><div class="stat-label">Days</div></div>'+
-    '<div class="stat"><div class="stat-value">7</div><div class="stat-label">People</div></div>'+
-    '<div class="stat"><div class="stat-value">'+stats.done+'/'+stats.total+'</div><div class="stat-label">Activities</div></div>'+
-    '<div class="stat"><div class="stat-value">'+stats.booked+'/'+stats.totalBookings+'</div><div class="stat-label">Booked</div></div></div>'+
-    '<div class="legend">'+
-    '<div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Activity</div>'+
-    '<div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Food</div>'+
-    '<div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>Beach</div>'+
-    '<div class="legend-item"><div class="legend-dot" style="background:#90a8c0"></div>Transport</div>'+
-    '<div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Lodging</div></div>'+
-    state.days.map((d,di)=>renderDay(d,di)).join('')+
-    '<div class="booking-section"><div class="booking-title">&#128203; Booking Checklist</div>'+
-    state.bookings.map((b,bi)=>'<div class="booking-item"><div class="booking-status '+(b.booked?'status-booked':'status-pending')+'" onclick="toggleBooking('+bi+')">'+(b.booked?'\u2713 BOOKED':'PENDING')+'</div><div class="booking-name">'+b.name+'</div></div>').join('')+'</div>'+
-    '<div class="footer"><div class="footer-total-label">Estimated Cash Spend (Activities, Food, Transport)</div>'+
-    '<div class="footer-total">~$14,000 \u2013 $15,500</div>'+
-    '<div class="footer-sub">Flights ($7,123) &amp; hotels covered by points &middot; ~249K pts rebate pending</div></div>'+
-    '<div class="reset-section"><button class="reset-btn" onclick="resetAll()">Reset All Data</button></div>';
-  document.getElementById('app').innerHTML=html;
-  saveState(state);}
-function toggleDay(di){state.openDay=state.openDay===di?-1:di;render();}
-function toggleActivity(di,ii){state.days[di].items[ii].done=!state.days[di].items[ii].done;render();}
-function addActivity(di){const time=document.getElementById('add-time-'+di).value||'\u2014';const label=document.getElementById('add-label-'+di).value.trim();const type=document.getElementById('add-type-'+di).value;if(!label)return;state.days[di].items.push({time,label,type,done:false});render();}
-function removeActivity(di,ii){state.days[di].items.splice(ii,1);render();}
-function updateNotes(di,val){state.days[di].notes=val;saveState(state);}
-function toggleBooking(bi){state.bookings[bi].booked=!state.bookings[bi].booked;render();}
-function resetAll(){if(confirm('Reset all data? This will clear all changes, notes, and checkmarks.')){localStorage.removeItem('hawaii-trip-2026');state={days:JSON.parse(JSON.stringify(DEFAULT_DAYS)),bookings:JSON.parse(JSON.stringify(DEFAULT_BOOKINGS)),openDay:0};render();}}
+
+const DEFAULT_BOOKINGS = [
+  { name: "✈️ Flights — AA MIA→LAX→KOA, 7 pax, Jun 2–14 ($7,123)", booked: true },
+  { name: "🚙 Jeep #1 — Gladiator Rubicon, Big Island Jeep Rental", booked: true },
+  { name: "🚙 Jeep #2 — Hawaii Lifted Jeep Rentals", booked: true },
+  { name: "🏨 Hilton Waikoloa Room 1 — Ocean View (Hilton pts)", booked: true },
+  { name: "🏨 Hilton Waikoloa Room 2 — Palace Grand Ocean View (Amex)", booked: true },
+  { name: "🏨 Hilton Waikoloa Room 3 — Palace Grand King+Sofa (Amex)", booked: true },
+  { name: "🏡 Volcano Airbnb — Jun 7–10, 3BR house (pending Sharon)", booked: false },
+  { name: "🏨 Mauna Lani Room 1 — 2Q Ocean View FHR (Amex)", booked: true },
+  { name: "🏨 Mauna Lani Room 2 — 2Q Ocean View FHR (Amex)", booked: true },
+  { name: "💰 $10K points → Business Checking deposit", booked: true },
+  { name: "💳 Hilton $200 statement credit enrolled", booked: true },
+  { name: "⭐ Mauna Kea Summit & Stars — call (808) 331-8505", booked: false },
+  { name: "🌊 Kohala Waterfalls — call (808) 331-8505", booked: false },
+  { name: "🌙 Manta Ray Night Snorkel — 7 spots", booked: false },
+  { name: "🏔️ Waipi'o Valley Shuttle — call (808) 775-7121", booked: false },
+  { name: "🏎️ Kohala UTV Adventure — 2 vehicles", booked: false },
+  { name: "🍽️ Merriman's Waimea — Table for 7", booked: false },
+  { name: "🍽️ Kīlauea Lodge — Table for 7", booked: false },
+  { name: "🍽️ CanoeHouse at Mauna Lani — Table for 7 (2 nights)", booked: false },
+  { name: "💺 AA seat selection — all 7 on aa.com", booked: false },
+  { name: "📞 Call Hilton (808) 886-1234 — 3 rooms same tower", booked: false },
+];
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('hawaii-trip-2026-v2');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
+}
+
+function saveState(state) {
+  try { localStorage.setItem('hawaii-trip-2026-v2', JSON.stringify(state)); } catch(e) {}
+}
+
+let state = loadState();
+
+function getStats() {
+  let total = 0, done = 0;
+  state.days.forEach(d => { d.items.forEach(i => { total++; if (i.done) done++; }); });
+  const booked = state.bookings.filter(b => b.booked).length;
+  return { total, done, booked, totalBookings: state.bookings.length };
+}
+
+function render() {
+  const stats = getStats();
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="header">
+      <div class="header-label">Big Island, Hawai'i</div>
+      <h1>June 2–14, 2026</h1>
+      <div class="header-sub">7 Passengers · 12 Days · 2 Jeeps · Hilton Waikoloa → Volcano Airbnb → Mauna Lani</div>
+    </div>
+
+    <div class="volcano-section">
+      <div class="volcano-title">🌋 Kīlauea Volcano — Live Status</div>
+      <div class="volcano-info">Kīlauea has been erupting in short, intense episodes since Dec 2024. Each episode lasts hours to days, pauses, then fires again. Check status before your volcano days (Jun 7–9).</div>
+      <a class="volcano-link" href="https://www.usgs.gov/volcanoes/kilauea/volcano-updates" target="_blank">🔴 Check USGS Live Updates</a>
+      <a class="volcano-link" style="margin-left:8px" href="https://www.nps.gov/havo/planyourvisit/lava2.htm" target="_blank">🏞️ NPS Park Conditions</a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-value">12</div><div class="stat-label">Days</div></div>
+      <div class="stat"><div class="stat-value">7</div><div class="stat-label">People</div></div>
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">Resorts</div></div>
+      <div class="stat"><div class="stat-value">${stats.done}/${stats.total}</div><div class="stat-label">Activities</div></div>
+      <div class="stat"><div class="stat-value">${stats.booked}/${stats.totalBookings}</div><div class="stat-label">Booked</div></div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Activity</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Food</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>Beach/Resort</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#90a8c0"></div>Transport</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Lodging</div>
+    </div>
+    ${state.days.map((d, di) => renderDay(d, di)).join('')}
+    <div class="booking-section">
+      <div class="booking-title">📋 Booking Checklist</div>
+      ${state.bookings.map((b, bi) => `
+        <div class="booking-item">
+          <div class="booking-status ${b.booked ? 'status-booked' : 'status-pending'}" onclick="toggleBooking(${bi})">
+            ${b.booked ? '✓ BOOKED' : 'PENDING'}
+          </div>
+          <div class="booking-name">${b.name}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="footer">
+      <div class="footer-total-label">Estimated Cash Spend (Activities, Food, Transport, Airbnb)</div>
+      <div class="footer-total">~$14,000 – $16,000</div>
+      <div class="footer-sub">Flights ($7,123) & hotels covered by points · 35% rebates pending · FHR perks at Mauna Lani</div>
+    </div>
+    <div class="reset-section">
+      <button class="reset-btn" onclick="resetAll()">Reset All Data</button>
+    </div>
+  `;
+  saveState(state);
+}
+
+function renderDay(d, di) {
+  const isOpen = state.openDay === di;
+  const doneCount = d.items.filter(i => i.done).length;
+  const progress = d.items.length > 0 ? (doneCount / d.items.length) * 100 : 0;
+  const addonsHtml = (d.addons && d.addons.length > 0) ? `
+    <div class="addons-box">
+      <div class="addons-title">Optional Add-ons</div>
+      ${d.addons.map(a => `<div class="addon-item">+ ${a}</div>`).join('')}
+    </div>
+  ` : '';
+  return `
+    <div class="day-card ${isOpen ? 'open' : ''}">
+      <div class="day-header" onclick="toggleDay(${di})">
+        <span class="day-icon">${d.icon}</span>
+        <div class="day-info">
+          <div class="day-meta">Day ${d.day} · ${d.date} · ${d.location}</div>
+          <div class="day-title">${d.title}</div>
+        </div>
+        <span class="day-badge">${d.vibe}</span>
+        <div class="day-progress"><div class="day-progress-fill" style="width:${progress}%"></div></div>
+        <span class="day-arrow">▾</span>
+      </div>
+      ${isOpen ? `
+        <div class="day-content">
+          <div class="day-divider"></div>
+          ${d.items.map((item, ii) => renderActivity(item, di, ii)).join('')}
+          <div class="add-activity-row">
+            <input class="add-time-input" id="add-time-${di}" placeholder="Time" />
+            <input class="add-input" id="add-label-${di}" placeholder="Add an activity..." onkeydown="if(event.key==='Enter')addActivity(${di})" />
+            <select class="add-select" id="add-type-${di}">
+              <option value="activity">Activity</option>
+              <option value="food">Food</option>
+              <option value="beach">Beach</option>
+              <option value="transport">Transport</option>
+              <option value="hotel">Lodging</option>
+            </select>
+            <button class="add-btn" onclick="addActivity(${di})">Add</button>
+          </div>
+          <div class="tip-box">
+            <div class="tip-title">Insider Tip</div>
+            <div class="tip-text">${d.tip}</div>
+          </div>
+          ${addonsHtml}
+          <div class="day-notes">
+            <textarea class="notes-textarea" placeholder="Family notes for this day..."
+              onchange="updateNotes(${di}, this.value)">${d.notes || ''}</textarea>
+          </div>
+          <div class="cash-estimate">Est. cash spend: ${d.cash}</div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderActivity(item, di, ii) {
+  return `<div class="activity-item type-${item.type} ${item.done ? 'done' : ''}">
+    <div class="activity-check ${item.done ? 'checked' : ''}" onclick="toggleActivity(${di},${ii})">
+      ${item.done ? '✓' : ''}
+    </div>
+    <div class="activity-time">${item.time}</div>
+    <div class="activity-label">${item.label}</div>
+    <button class="activity-remove" onclick="removeActivity(${di},${ii})">✕</button>
+  </div>`;
+}
+
+function toggleDay(di) { state.openDay = state.openDay === di ? -1 : di; render(); }
+function toggleActivity(di, ii) { state.days[di].items[ii].done = !state.days[di].items[ii].done; render(); }
+
+function addActivity(di) {
+  const time = document.getElementById(`add-time-${di}`).value || '—';
+  const label = document.getElementById(`add-label-${di}`).value.trim();
+  const type = document.getElementById(`add-type-${di}`).value;
+  if (!label) return;
+  state.days[di].items.push({ time, label, type, done: false });
+  render();
+}
+
+function removeActivity(di, ii) { state.days[di].items.splice(ii, 1); render(); }
+function updateNotes(di, val) { state.days[di].notes = val; saveState(state); }
+function toggleBooking(bi) { state.bookings[bi].booked = !state.bookings[bi].booked; render(); }
+
+function resetAll() {
+  if (confirm('Reset all data? This will clear all changes, notes, and checkmarks.')) {
+    localStorage.removeItem('hawaii-trip-2026-v2');
+    state = { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
+    render();
+  }
+}
+
 render();
-</script></body></html>
+</script>
+
+</body>
+</html>
