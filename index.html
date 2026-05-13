@@ -320,20 +320,7 @@ const DEFAULT_DAYS = [
     addons: ["Drive through Waimea — Hawaiian cowboy (Paniolo) town", "Village Burger or Hawaiian Style Cafe in Waimea"]
   },
   {
-    day: 4, date: "Fri, Jun 5", title: "Private Waterfalls → Pool Day", location: "North Kohala + Hilton", icon: "🌊", vibe: "Deep nature + resort",
-    cash: "$1,400 tour + $100 meals",
-    tip: "THE highlight of the Kona side. Private access waterfalls — no tourist ever sees these. Swim in pools surrounded by nothing but jungle. Book EARLY — sells out weeks ahead. Min age 8, both kids qualify.",
-    items: [
-      { time: "7:00 AM", label: "Light breakfast — you need energy for this one", type: "food", done: false },
-      { time: "8:30 AM", label: "Kohala Waterfalls Adventure — Hawaii Forest & Trail. Full-day hike, private land, swimming holes, lunch included. BOOK 7.", type: "activity", done: false },
-      { time: "3:30 PM", label: "🏨 RESORT TIME — you earned it. Pool, water slides, or collapse at the lagoon", type: "beach", done: false },
-      { time: "5:00 PM", label: "Walk the resort — canal boats, koi fish, tram ride between towers", type: "hotel", done: false },
-      { time: "7:00 PM", label: "Easy dinner — poke bowls from Da Poke Shack in Kona. Eat on the beach.", type: "food", done: false },
-    ],
-    addons: ["Sunset from the resort beach", "Night walk along the resort lagoon — sometimes mantas visit"]
-  },
-  {
-    day: 5, date: "Sat, Jun 6", title: "Coffee Culture → Manta Ray Night", location: "Kailua-Kona + Hilton", icon: "🌙", vibe: "Culture + bucket list",
+    day: 4, date: "Fri, Jun 5", title: "Coffee Culture → Manta Ray Night", location: "Kailua-Kona + Hilton", icon: "🌙", vibe: "Culture + bucket list",
     cash: "$700 manta + $200 meals + $80 coffee",
     tip: "Sleep in — tonight is the manta snorkel and it runs late. Both kids (10 and 9) can do it. Nap at 4 PM. The Kona coffee farm and Ali'i Drive are where you mix with locals — real farming, real history.",
     items: [
@@ -346,6 +333,19 @@ const DEFAULT_DAYS = [
       { time: "9:00 PM", label: "Back to hotel — late snack, crash. Move day tomorrow.", type: "hotel", done: false },
     ],
     addons: ["Original Hawaiian Chocolate Factory — only US-grown cacao", "Kaloko-Honokohau NHP — sea turtles, ancient fishponds"]
+  },
+  {
+    day: 5, date: "Sat, Jun 6", title: "Private Waterfalls → Last Hilton Night", location: "North Kohala + Hilton", icon: "🌊", vibe: "Deep nature + resort",
+    cash: "$1,400 tour + $100 meals",
+    tip: "✅ BOOKED — Hawaii Forest & Trail, 7 spots. Pickup 8:10 AM at Queen's Marketplace",
+    items: [
+      { time: "7:00 AM", label: "Light breakfast — you need energy for this one", type: "food", done: false },
+      { time: "8:10 AM", label: "✅ Kohala Waterfalls Adventure — Hawaii Forest & Trail. 7 spots booked. Pickup at Queen's Marketplace.", type: "activity", done: false },
+      { time: "3:30 PM", label: "🏨 RESORT TIME — you earned it. Pool, water slides, or collapse at the lagoon", type: "beach", done: false },
+      { time: "5:00 PM", label: "Walk the resort — canal boats, koi fish, tram ride between towers", type: "hotel", done: false },
+      { time: "7:00 PM", label: "Easy dinner — poke bowls from Da Poke Shack in Kona. Eat on the beach.", type: "food", done: false },
+    ],
+    addons: ["Sunset from the resort beach", "Night walk along the resort lagoon — sometimes mantas visit"]
   },
   {
     day: 6, date: "Sun, Jun 7", title: "Beaches Road Trip → Volcano at Night", location: "Kona → South Point → Volcano", icon: "🚙", vibe: "Road trip → GO GO GO starts",
@@ -419,14 +419,14 @@ const DEFAULT_DAYS = [
   },
   {
     day: 10, date: "Thu, Jun 11", title: "Beach Club Day → Mauna Kea Stars", location: "Mauna Lani + Mauna Kea", icon: "⭐", vibe: "Resort morning + above the clouds",
-    cash: "$2,200 tours + $100 meals",
-    tip: "FHR breakfast — take your time, eat oceanfront. Enjoy the resort ALL morning. Mauna Kea pickup ~4 PM. Kids under 13 do the family program at 9,200 ft. 5 adults/teens to the summit. BOOK BOTH TOURS — sells out fastest.",
+    cash: "$945 (3 × $315) + $100 meals",
+    tip: "FHR breakfast — take your time, eat oceanfront. Enjoy the resort ALL morning. Mauna Kea pickup ~4 PM. Alex, Laurens & Leiven go to the summit. Andres, Paola, Layla & Adrian stay at Mauna Lani — Beach Club, lagoon, resort day.",
     items: [
       { time: "8:00 AM", label: "☕ FHR free breakfast at CanoeHouse — oceanfront, no rush", type: "food", done: false },
       { time: "10:00 AM", label: "🏨 RESORT — Beach Club, lagoon snorkeling with sea turtles, cabanas, surf shack", type: "beach", done: false },
       { time: "12:00 PM", label: "Lunch at The Market — use your $100 FHR credit", type: "food", done: false },
       { time: "1:00 PM", label: "🏨 More resort — adult pool for you and wife, kids pool. Or nap for tonight.", type: "beach", done: false },
-      { time: "4:00 PM", label: "⭐ Mauna Kea Summit & Stars Tour — 8-9 hrs. 13,800 ft. Sunset above clouds, stargazing. BOOK NOW.", type: "activity", done: false },
+      { time: "4:00 PM", label: "⭐ Mauna Kea Summit & Stars — ✅ BOOKED. 3 spots (Alex, Laurens, Leiven). 8-9 hrs, 13,800 ft, sunset above clouds + stargazing. Andres, Paola, Layla & Adrian stay at resort.", type: "activity", done: false },
     ],
     addons: ["Hapuna Beach (10 min) — #1 rated beach in the US", "Original Hawaiian Chocolate Factory"]
   },
@@ -476,8 +476,8 @@ const DEFAULT_BOOKINGS = [
   { name: "🏨 Mauna Lani Room 2 — 2Q Ocean View FHR (Amex)", booked: true },
   { name: "💰 $10K points → Business Checking deposit", booked: true },
   { name: "💳 Hilton $200 statement credit enrolled", booked: true },
-  { name: "⭐ Mauna Kea Summit & Stars — call (808) 331-8505", booked: false },
-  { name: "🌊 Kohala Waterfalls — call (808) 331-8505", booked: false },
+  { name: "⭐ Mauna Kea Summit & Stars — 3 spots (Alex, Laurens, Leiven) Jun 11", booked: true },
+  { name: "🌊 Kohala Waterfalls — 7 spots, Jun 6, pickup 8:10 AM Queen's Marketplace", booked: true },
   { name: "🌙 Manta Ray Night Snorkel — 7 spots", booked: false },
   { name: "🏔️ Waipi'o Valley Shuttle — call (808) 775-7121", booked: false },
   { name: "🏎️ Kohala UTV Adventure — 2 vehicles", booked: false },
