@@ -353,7 +353,17 @@ const DEFAULT_DAYS = [
       ]},
       { time: "3:00 PM", label: "Pololū Valley Lookout — jaw-dropping views of valley and coastline", type: "activity", done: false },
       { time: "4:00 PM", label: "Hawi town — tiny art town at northern tip. Browse galleries, chat with locals.", type: "activity", done: false },
-      { time: "6:30 PM", label: "Dinner at Merriman's Waimea — farm-to-table pioneer. RESERVE TABLE FOR 7.", type: "food", done: false },
+      { time: "7:15 PM", label: "Dinner at Merriman's Waimea ✅ — Wahine Dinner, 7 guests, $665 prepaid", type: "food", done: false, bookingDetails: [
+        { row: "Restaurant", val: "Merriman's – Waimea – Big Island" },
+        { row: "Event", val: "Wahine Dinner (special prix fixe)" },
+        { row: "Date", val: "Wednesday, June 3, 2026 at 7:15 PM" },
+        { row: "Guests", val: "7" },
+        { row: "Cost", val: "$665 prepaid ($95 × 7) — Amex 1006" },
+        { row: "Address", val: "65-1227 Opelo Rd, Kamuela, HI 96743" },
+        { row: "Phone", val: "(808) 885-6822" },
+        { warn: "Cancel/change via OpenTable, 24 hrs in advance. No-shows charged $95/person." },
+        { note: "🪪 Bring ID if ordering alcohol." }
+      ]},
     ],
     addons: ["Drive through Waimea — Hawaiian cowboy (Paniolo) town", "Village Burger or Hawaiian Style Cafe in Waimea"]
   },
@@ -630,7 +640,7 @@ const DEFAULT_BOOKINGS = [
   { name: "🌙 Manta Ray Night Snorkel — 7 spots · Booking #348812179", booked: true },
   { name: "🏔️ Waipiʻo Valley Shuttle — 7 spots · Booking #348815349", booked: true },
   { name: "🏎️ Kohala UTV Adventure — ✅ BOOKED. 2 vehicles, 7 guests, Jun 3, 12:30 PM. $1,260. Kohala Eco Ventures.", booked: true },
-  { name: "🍽️ Merriman's Waimea — Table for 7", booked: false },
+  { name: "🍽️ Merriman's Waimea — ✅ BOOKED. Wahine Dinner, 7 guests, Wed Jun 3, 7:15 PM. $665 prepaid.", booked: true },
   { name: "🍽️ Kīlauea Lodge — Table for 7", booked: false },
   { name: "🍽️ CanoeHouse at Mauna Lani — Table for 7 (2 nights)", booked: false },
   { name: "💺 AA seat selection — all 7 on aa.com", booked: false },
@@ -703,7 +713,7 @@ function render() {
     </div>
     <div class="footer">
       <div class="footer-total-label">Estimated Cash Spend (Activities, Food, Transport, Airbnb)</div>
-      <div class="footer-total">~$12,415+</div>
+      <div class="footer-total">~$13,080+</div>
       <div class="footer-sub">Flights ($7,123) & hotels covered by points · 35% rebates pending · FHR perks at Mauna Lani</div>
     </div>
     <div class="reset-section">
