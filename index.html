@@ -270,6 +270,38 @@ body {
 }
 .addons-title { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
 .addon-item { font-size: 12px; color: rgba(255,255,255,0.55); padding: 2px 0; }
+
+/* Booking Details Expandable */
+.booking-details-toggle {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 6px; padding: 3px 9px; border-radius: 5px;
+  background: none; border: 1px solid rgba(96,165,250,0.3);
+  color: var(--blue); font-size: 11px; font-weight: 600;
+  cursor: pointer; letter-spacing: 0.3px;
+  transition: background 0.15s, border-color 0.15s;
+  font-family: inherit; text-decoration: none !important;
+}
+.booking-details-toggle:hover { background: var(--blue-dim); border-color: var(--blue); }
+.booking-details-toggle .bd-arrow { transition: transform 0.2s; display: inline-block; }
+.booking-details-toggle.open .bd-arrow { transform: rotate(90deg); }
+.booking-details-card {
+  margin-top: 8px; padding: 12px 14px;
+  background: var(--blue-dim); border-radius: 10px;
+  border-left: 3px solid var(--blue); display: none;
+}
+.booking-details-card.open { display: block; }
+.booking-detail-section {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--blue); margin: 10px 0 4px; font-weight: 700;
+}
+.booking-detail-section:first-child { margin-top: 0; }
+.booking-detail-row { font-size: 12px; color: rgba(255,255,255,0.65); padding: 2px 0; line-height: 1.6; }
+.booking-detail-label { color: rgba(255,255,255,0.88); font-weight: 600; }
+.booking-detail-link { color: var(--blue); text-decoration: none; font-size: 12px; }
+.booking-detail-link:hover { text-decoration: underline; }
+.booking-detail-note { font-size: 12px; color: rgba(255,255,255,0.5); padding: 2px 0; line-height: 1.6; }
+.booking-detail-warning { font-size: 12px; color: var(--orange); padding: 2px 0; line-height: 1.6; }
+.activity-item.done .booking-details-toggle { opacity: 0.6; text-decoration: none !important; }
 </style>
 
 </head>
@@ -286,38 +318,57 @@ const DEFAULT_DAYS = [
       { time: "5:00 PM", label: "Arrive KOA, pick up 2 Jeep Wranglers (Gladiator + Lifted)", type: "transport", done: false },
       { time: "5:15 PM", label: "Costco Kona (5 min from airport) — water, snacks, sunscreen, groceries", type: "food", done: false },
       { time: "6:15 PM", label: "Check into Hilton Waikoloa — 3 rooms. Let kids explore: tram, boats, lagoon, water slides", type: "hotel", done: false },
-      { time: "7:30 PM", label: "Dinner at Lava Lava Beach Club — toes in the sand, fish tacos, live music. Table for 7.", type: "food", done: false },
+      { time: "7:30 PM", label: "Dinner at Lava Lava Beach Club ✅ — beachfront, live music, toes in the sand", type: "food", done: false, bookingDetails: [
+        { row: "Reservation", val: "OpenTable · 6 people" },
+        { warn: "⚠️ Requested 7 — call to update: (808) 769-5282" },
+        { row: "Time", val: "7:30 PM" },
+        { row: "Phone", val: "(808) 769-5282" },
+        { row: "Location", val: "Anaeho'omalu Bay, Waikoloa Beach Resort (5 min walk from Hilton)" },
+        { row: "Request", val: "Outdoor beachfront table" },
+        { note: "🎵 Live music · toes-in-the-sand dining" }
+      ]},
     ],
     addons: ["Walk the Museum Walkway between towers — $7M art collection", "Dolphin Quest viewing area (free to watch)"]
   },
   {
-    day: 2, date: "Wed, Jun 3", title: "Snorkel Morning → Resort Afternoon", location: "Kona Coast + Hilton Waikoloa", icon: "🤿", vibe: "Water + resort",
-    cash: "$700 snorkel + $160 meals",
-    tip: "Kealakekua Bay is the best snorkeling on the island — spinner dolphins, reef fish, crystal water. Get out early, be back by 2 PM for resort time. The kava bar is a real local Polynesian experience — not a tourist thing.",
+    day: 2, date: "Wed, Jun 3", title: "Resort Morning → UTV Adventure", location: "Hilton Waikoloa + North Kohala", icon: "🏎️", vibe: "Off-road + cowboy country",
+    cash: "$1,260 UTV + $200 meals",
+    tip: "Kohala backcountry is private land — only way to see it. This is Paniolo (Hawaiian cowboy) country — predated American cowboys by 30 years. Waimea feels like being dropped into Wyoming. Merriman's is farm-to-table pioneer dining.",
     items: [
-      { time: "7:00 AM", label: "Early breakfast at hotel", type: "food", done: false },
-      { time: "8:30 AM", label: "Kealakekua Bay snorkel tour — dolphins, turtles, reef fish. BOOK 7 SPOTS.", type: "activity", done: false },
-      { time: "12:00 PM", label: "Lunch at Super J's in Captain Cook — authentic Hawaiian plate lunch (lau lau, kalua pork). Cash only. LOCAL favorite.", type: "food", done: false },
-      { time: "1:00 PM", label: "Around The Kava Bowl — traditional Polynesian kava drink. Real local scene, mix with the locals.", type: "activity", done: false },
+      { time: "Morning", label: "🏨 RESORT TIME — pools, water slides, lagoon. Relax before the drive.", type: "beach", done: false },
+      { time: "11:30 AM", label: "Drive to North Kohala (40 min)", type: "transport", done: false },
+      { time: "12:15 PM", label: "Check in at Kohala Eco Ventures — sign waivers at check-in", type: "transport", done: false },
+      { time: "12:30 PM", label: "🏎️ Kohala UTV Adventure ✅ — 2 vehicles, 7 guests, Kohala Eco Ventures", type: "activity", done: false, bookingDetails: [
+        { row: "Operator", val: "Kohala Eco Ventures / Kohala UTV Adventure" },
+        { row: "Date", val: "Wednesday, June 3, 2026" },
+        { row: "Time", val: "12:30 PM tour (12:15 PM check-in)" },
+        { row: "Vehicles", val: "2 UTVs · 7 guests total" },
+        { row: "Cost", val: "$1,260.00" },
+        { row: "Phone", val: "844-933-4294" },
+        { row: "Location", val: "North Kohala (40 min from Hilton Waikoloa)" },
+        { warn: "🪪 Driver must be 21+ with valid license" },
+        { warn: "👶 Min age for passengers: 5 years old" },
+        { note: "👕 Wear clothes that can get wet/muddy" },
+        { warn: "⚠️ Waivers required at check-in. No-shows charged full amount." }
+      ]},
+      { time: "3:00 PM", label: "Pololū Valley Lookout — jaw-dropping views of valley and coastline", type: "activity", done: false },
+      { time: "4:00 PM", label: "Hawi town — tiny art town at northern tip. Browse galleries, chat with locals.", type: "activity", done: false },
+      { time: "6:30 PM", label: "Dinner at Merriman's Waimea — farm-to-table pioneer. RESERVE TABLE FOR 7.", type: "food", done: false },
+    ],
+    addons: ["Drive through Waimea — Hawaiian cowboy (Paniolo) town", "Village Burger or Hawaiian Style Cafe in Waimea"]
+  },
+  {
+    day: 3, date: "Thu, Jun 4", title: "Snorkel Morning → Resort Afternoon", location: "Kona Coast + Hilton Waikoloa", icon: "🤿", vibe: "Water + resort",
+    cash: "$700 snorkel + $160 meals",
+    tip: "Kealakekua Bay is the best snorkeling on the island — spinner dolphins, reef fish, crystal water. Get out early, be back by 2:30 PM for resort time. The kava bar is a real local Polynesian experience — not a tourist thing.",
+    items: [
+      { time: "8:30 AM", label: "Kealakekua Bay snorkel — dolphins, turtles, reef fish. BOOK 7 SPOTS.", type: "activity", done: false },
+      { time: "12:00 PM", label: "Lunch at Super J's in Captain Cook — authentic Hawaiian plate lunch (lau lau, kalua pork). Cash only.", type: "food", done: false },
+      { time: "1:00 PM", label: "Around The Kava Bowl — traditional Polynesian kava drink. Real local scene.", type: "activity", done: false },
       { time: "2:30 PM", label: "🏨 RESORT TIME — Hilton pools, water slides, lagoon. Kids go wild.", type: "beach", done: false },
-      { time: "5:00 PM", label: "Shave ice — the real stuff with azuki beans and condensed milk", type: "food", done: false },
       { time: "7:00 PM", label: "Dinner at Kona Brewing Co. — Longboard Lager and kalua pork pizza", type: "food", done: false },
     ],
     addons: ["Manini'owali (Kua Bay) — white sand, turquoise water, bodyboarding", "Two Step (Honaunau Bay) for extra snorkeling"]
-  },
-  {
-    day: 3, date: "Thu, Jun 4", title: "UTV Adventure → Resort Sunset", location: "North Kohala + Hilton", icon: "🏎️", vibe: "Off-road + cowboy country",
-    cash: "$900 UTVs + $350 meals",
-    tip: "Kohala backcountry is private land — only way to see it. This is Paniolo (Hawaiian cowboy) country — predated American cowboys. Waimea feels like being dropped into Wyoming. Merriman's is farm-to-table pioneer dining.",
-    items: [
-      { time: "7:30 AM", label: "Early breakfast, pack snacks", type: "food", done: false },
-      { time: "9:00 AM", label: "Kohala UTV Adventure — 2.5 hrs, 2 vehicles, Pololū Valley rim. BOOK 2 UTVs.", type: "activity", done: false },
-      { time: "12:00 PM", label: "Hawi town — tiny art town at the northern tip. Lunch at Sushi Rock or Kohala Burger. Chat with locals.", type: "food", done: false },
-      { time: "1:30 PM", label: "Pololū Valley Lookout — hike down to the black sand beach (30 min down, steep back up)", type: "activity", done: false },
-      { time: "3:30 PM", label: "🏨 RESORT TIME — back to Hilton for pools and rest", type: "beach", done: false },
-      { time: "6:30 PM", label: "Dinner at Merriman's Waimea — farm-to-table pioneer restaurant. RESERVE TABLE FOR 7.", type: "food", done: false },
-    ],
-    addons: ["Drive through Waimea — Hawaiian cowboy (Paniolo) town", "Village Burger or Hawaiian Style Cafe in Waimea"]
   },
   {
     day: 4, date: "Fri, Jun 5", title: "Coffee Culture → Manta Ray Night", location: "Kailua-Kona + Hilton", icon: "🌙", vibe: "Culture + bucket list",
@@ -329,8 +380,32 @@ const DEFAULT_DAYS = [
       { time: "1:00 PM", label: "Lunch at Kona Farmers Market or food truck on Ali'i Drive — mix with locals", type: "food", done: false },
       { time: "2:00 PM", label: "Explore historic Kailua Village — Hulihe'e Palace, Ahu'ena Heiau, Ali'i Drive", type: "activity", done: false },
       { time: "3:30 PM", label: "🏨 RESORT — back to Hilton, NAP. It's a late night.", type: "hotel", done: false },
-      { time: "6:00 PM", label: "🌙 Manta Ray Night Snorkel — Keauhou Bay. Life-changing. BOOK 7 SPOTS.", type: "activity", done: false },
-      { time: "9:00 PM", label: "Back to hotel — late snack, crash. Move day tomorrow.", type: "hotel", done: false },
+      { time: "8:40 PM", label: "🌙 Manta Ray Night Snorkel ✅ — Hawaii Oceanic, Keauhou Harbor", type: "activity", done: false, bookingDetails: [
+        { row: "Operator", val: "Hawaii Oceanic — Manta Magic Moonlight Tour" },
+        { row: "Booking #", val: "348812179" },
+        { row: "Date", val: "Friday, June 5, 2026" },
+        { row: "Time", val: "8:40 PM – 9:30 PM" },
+        { warn: "⏰ Arrive by 8:10 PM (30 min early)" },
+        { row: "Cost", val: "$1,101.17 (7 × $139 + taxes)" },
+        { row: "Charged to", val: "Amex 1006 · \"FH* Hawaii Oceanic\"" },
+        { row: "Phone", val: "(808) 209-9680" },
+        { section: "📍 Meeting Point" },
+        { note: "Keauhou Harbor — white van with \"Hawaii Oceanic\" on sides" },
+        { note: "Kaleiopapa St, Kailua-Kona, HI 96740" },
+        { link: "🗺 Google Maps →", href: "https://goo.gl/maps/x2wbjTuDGqXcWkUr5" },
+        { note: "They will text exact van location day-of" },
+        { section: "🎒 Included" },
+        { note: "Snorkel gear · wetsuits (optional) · foam noodle · light board · water & drinks" },
+        { section: "🧳 What to Bring" },
+        { note: "Swimsuit to harbor · towel · light jacket" },
+        { note: "Optional: waterproof camera or GoPro rental ($50 — call to reserve)" },
+        { warn: "💊 Motion sickness: take non-drowsy Bonine beforehand" },
+        { section: "👥 Guests (7)" },
+        { note: "Franz Collier, Laurens Mavarez, Leiven Mavarez, Layla Collier, Andres Collier, Paola Barreto, Adrian Guzman" },
+        { warn: "💰 Tip crew — cash, Venmo, or PayPal" },
+        { warn: "⚠️ Tours may reschedule for unsafe conditions — keep phone available" }
+      ]},
+      { time: "9:30 PM", label: "Back to hotel — late snack, crash. Move day tomorrow.", type: "hotel", done: false },
     ],
     addons: ["Original Hawaiian Chocolate Factory — only US-grown cacao", "Kaloko-Honokohau NHP — sea turtles, ancient fishponds"]
   },
@@ -340,7 +415,33 @@ const DEFAULT_DAYS = [
     tip: "✅ BOOKED — Hawaii Forest & Trail, 7 spots. Pickup 8:10 AM at Queen's Marketplace",
     items: [
       { time: "7:00 AM", label: "Light breakfast — you need energy for this one", type: "food", done: false },
-      { time: "8:10 AM", label: "✅ Kohala Waterfalls Adventure — Hawaii Forest & Trail. 7 spots booked. Pickup at Queen's Marketplace.", type: "activity", done: false },
+      { time: "8:10 AM", label: "✅ Kohala Waterfalls Adventure — Hawaii Forest & Trail, 7 spots. Pickup 8:10 AM.", type: "activity", done: false, bookingDetails: [
+        { row: "Operator", val: "Hawaii Forest & Trail" },
+        { row: "Booking #", val: "348806393 · Order: FRAMHZ" },
+        { row: "Date", val: "Saturday, June 6, 2026" },
+        { row: "Time", val: "7:30 AM – 2:30 PM (6–7 hours)" },
+        { warn: "⏰ Pickup: 8:10 AM" },
+        { row: "Cost", val: "$1,816.78 (5 adults × $255 + 2 children × $230 + $81.78 tax)" },
+        { row: "Charged to", val: "Amex 1006 · \"FH* Hawaii Forest\"" },
+        { row: "Phone", val: "(808) 331-8505" },
+        { row: "Email", val: "info@hawaii-forest.com" },
+        { section: "📍 Pickup Location" },
+        { note: "Queen's Marketplace — south side near Snorkel Bob's" },
+        { note: "Long yellow curb with TWO YELLOW UMBRELLAS" },
+        { note: "🚶 Walking distance from Hilton Waikoloa — no Jeeps needed" },
+        { section: "🎒 Included" },
+        { note: "Deli-style picnic lunch · snacks · beverages · sunscreen · bug spray all day" },
+        { note: "Towels · day packs · walking sticks · rain jackets provided" },
+        { section: "🧳 What to Bring" },
+        { note: "Closed-toed shoes or water shoes (NOT flip flops)" },
+        { note: "Swim gear — swimming under waterfalls" },
+        { note: "Reusable water bottle · hat · sunglasses" },
+        { section: "👶 Kids Booster Seats" },
+        { warn: "Hawaii law: under 10 AND under 4\'9\" need booster. HF&T provides on request." },
+        { warn: "Layla (10) — check height. Adrian (9) — likely needs one. Tell them at check-in." },
+        { note: "🏊 Pool water 60–70°F · Hiking ~1 mile, ~200 ft gain, easy" },
+        { warn: "⚠️ 24-hour cancellation for full refund. No-shows charged full amount." }
+      ]},
       { time: "3:30 PM", label: "🏨 RESORT TIME — you earned it. Pool, water slides, or collapse at the lagoon", type: "beach", done: false },
       { time: "5:00 PM", label: "Walk the resort — canal boats, koi fish, tram ride between towers", type: "hotel", done: false },
       { time: "7:00 PM", label: "Easy dinner — poke bowls from Da Poke Shack in Kona. Eat on the beach.", type: "food", done: false },
@@ -407,7 +508,25 @@ const DEFAULT_DAYS = [
     tip: "Check out Volcano, hit Waipi'o on the way to Mauna Lani. The shuttle guide grew up in the valley — sacred land, real stories. Arrive at Mauna Lani by afternoon. FHR kicks in: free breakfast, $100 credit/room, upgrade, late checkout. SLOW DOWN from here.",
     items: [
       { time: "7:00 AM", label: "Check out Volcano Airbnb. Pack Jeeps, quick breakfast.", type: "transport", done: false },
-      { time: "9:30 AM", label: "Waipi'o Valley Shuttle — 105-min 4WD into Valley of the Kings. 4,000-ft cliffs, waterfalls, taro fields, wild horses. BOOK 7.", type: "activity", done: false },
+      { time: "9:00 AM", label: "Waipiʻo Valley Shuttle ✅ — 4WD into Valley of the Kings, 2 hours", type: "activity", done: false, bookingDetails: [
+        { row: "Operator", val: "Waipio Valley Shuttle" },
+        { row: "Booking #", val: "348815349" },
+        { row: "Date", val: "Wednesday, June 10, 2026" },
+        { row: "Time", val: "9:00 AM – 11:00 AM (2 hours)" },
+        { warn: "⏰ Arrive by 8:40 AM (20 min early)" },
+        { row: "Cost", val: "$449.47 (5 adults × $67 + 2 children × $36.50 + $41.47 tax)" },
+        { row: "Charged to", val: "Amex 1006 · \"FH* Waipio Valley Shut\"" },
+        { row: "Phone", val: "(808) 775-7121" },
+        { row: "Email", val: "inquiries@waipiovalleyshuttle.com" },
+        { section: "📍 Meeting Point" },
+        { note: "48-5304 Honokaa-Waipio Rd, Kukuihaele, HI 96727" },
+        { section: "🚗 Driving Note" },
+        { warn: "Leave Volcano Airbnb by 7:00 AM — 1.5 hours to meeting point" },
+        { note: "Drive north on Hwy 19 through Hilo, continue along Hamakua Coast" },
+        { warn: "⚠️ Tours may cancel on short notice — keep phone available" },
+        { warn: "⚠️ 24-hour cancellation for full refund. No-shows charged full price." },
+        { warn: "💰 Tip the driver — cash preferred" }
+      ]},
       { time: "11:30 AM", label: "Waipi'o Valley Lookout — stunning views from the top", type: "activity", done: false },
       { time: "12:30 PM", label: "Lunch in Honoka'a — Tex Drive-In for malasadas", type: "food", done: false },
       { time: "1:30 PM", label: "Drive Hamakua Coast — jungle cliffs and ocean views", type: "transport", done: false },
@@ -426,7 +545,37 @@ const DEFAULT_DAYS = [
       { time: "10:00 AM", label: "🏨 RESORT — Beach Club, lagoon snorkeling with sea turtles, cabanas, surf shack", type: "beach", done: false },
       { time: "12:00 PM", label: "Lunch at The Market — use your $100 FHR credit", type: "food", done: false },
       { time: "1:00 PM", label: "🏨 More resort — adult pool for you and wife, kids pool. Or nap for tonight.", type: "beach", done: false },
-      { time: "4:00 PM", label: "⭐ Mauna Kea Summit & Stars — ✅ BOOKED. 3 spots (Alex, Laurens, Leiven). 8-9 hrs, 13,800 ft, sunset above clouds + stargazing. Andres, Paola, Layla & Adrian stay at resort.", type: "activity", done: false },
+      { time: "3:40 PM", label: "⭐ Mauna Kea Summit & Stars ✅ — 3 spots (Alex, Laurens, Leiven). Pickup 3:40 PM, back 11:25 PM.", type: "activity", done: false, bookingDetails: [
+        { row: "Operator", val: "Hawaii Forest & Trail" },
+        { row: "Booking #", val: "348807292 · Order: FRAMHZ" },
+        { row: "Date", val: "Thursday, June 11, 2026" },
+        { row: "Time", val: "2:55 PM – 11:25 PM (8.5 hours)" },
+        { warn: "⏰ Pickup: 3:40 PM" },
+        { row: "Cost", val: "$989.52 (3 adults × $315 + taxes)" },
+        { row: "Charged to", val: "Amex 1006 · \"FH* Hawaii Forest\"" },
+        { row: "Phone", val: "(808) 331-8505" },
+        { row: "Email", val: "info@hawaii-forest.com" },
+        { section: "👥 Guests (3 only — no children under 13)" },
+        { note: "Alex, Laurens, Leiven" },
+        { section: "📍 Pickup + Return Location" },
+        { note: "Queen's Marketplace — south side near Snorkel Bob's (same yellow curb)" },
+        { warn: "⚠️ You're at Mauna Lani this day — park one Jeep at Queen's before 3:40 PM" },
+        { warn: "🌙 LATE RETURN 11:25 PM — Jeep must be parked there. Don't rely on Uber at night." },
+        { section: "🍽️ Dinner Included" },
+        { note: "Southwest Chicken Stew or Vegetarian Chili (GF/vegan) · hot chocolate · cookies · teas" },
+        { section: "🧳 What to Bring" },
+        { note: "Closed-toe shoes (NOT sandals) · long pants · sweatshirt/sweater (layer under parka)" },
+        { note: "Reusable water bottle" },
+        { section: "🎒 Gear Provided" },
+        { note: "Hooded parkas & gloves · 11\" Celestron telescope · digital telescope" },
+        { section: "⚠️ Restrictions" },
+        { warn: "No children under 13 · No pregnant guests · No respiratory/heart conditions" },
+        { warn: "No scuba diving within 24 hours · Temperature can drop BELOW FREEZING at summit" },
+        { warn: "Summit access NOT guaranteed — road can close for weather. Guide does stargazing at lower elevation if closed." },
+        { section: "👨‍👩‍👧‍👦 Rest of Group at Mauna Lani" },
+        { note: "Andres, Paola, Layla, Adrian — sunset dinner at CanoeHouse or resort pool evening" },
+        { warn: "⚠️ 24-hour cancellation for full refund. No-shows charged full amount." }
+      ]},
     ],
     addons: ["Hapuna Beach (10 min) — #1 rated beach in the US", "Original Hawaiian Chocolate Factory"]
   },
@@ -471,33 +620,33 @@ const DEFAULT_BOOKINGS = [
   { name: "🏨 Hilton Waikoloa Room 1 — Ocean View (Hilton pts)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 2 — Palace Grand Ocean View (Amex)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 3 — Palace Grand King+Sofa (Amex)", booked: true },
-  { name: "🏡 Volcano Airbnb — Jun 7–10, 3BR house (pending Sharon)", booked: false },
+  { name: "🏡 Volcano Airbnb — Jun 7–10, 3BR house ✅", booked: true },
   { name: "🏨 Mauna Lani Room 1 — 2Q Ocean View FHR (Amex)", booked: true },
   { name: "🏨 Mauna Lani Room 2 — 2Q Ocean View FHR (Amex)", booked: true },
   { name: "💰 $10K points → Business Checking deposit", booked: true },
   { name: "💳 Hilton $200 statement credit enrolled", booked: true },
   { name: "⭐ Mauna Kea Summit & Stars — 3 spots (Alex, Laurens, Leiven) Jun 11", booked: true },
   { name: "🌊 Kohala Waterfalls — 7 spots, Jun 6, pickup 8:10 AM Queen's Marketplace", booked: true },
-  { name: "🌙 Manta Ray Night Snorkel — 7 spots", booked: false },
-  { name: "🏔️ Waipi'o Valley Shuttle — call (808) 775-7121", booked: false },
-  { name: "🏎️ Kohala UTV Adventure — 2 vehicles", booked: false },
+  { name: "🌙 Manta Ray Night Snorkel — 7 spots · Booking #348812179", booked: true },
+  { name: "🏔️ Waipiʻo Valley Shuttle — 7 spots · Booking #348815349", booked: true },
+  { name: "🏎️ Kohala UTV Adventure — ✅ BOOKED. 2 vehicles, 7 guests, Jun 3, 12:30 PM. $1,260. Kohala Eco Ventures.", booked: true },
   { name: "🍽️ Merriman's Waimea — Table for 7", booked: false },
   { name: "🍽️ Kīlauea Lodge — Table for 7", booked: false },
   { name: "🍽️ CanoeHouse at Mauna Lani — Table for 7 (2 nights)", booked: false },
   { name: "💺 AA seat selection — all 7 on aa.com", booked: false },
-  { name: "📞 Call Hilton (808) 886-1234 — 3 rooms same tower", booked: false },
+  { name: "📞 Call Hilton (808) 886-1234 — 3 rooms same tower ✅", booked: true },
 ];
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('hawaii-trip-2026-v2');
+    const saved = localStorage.getItem('hawaii-trip-2026-v3');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
   return { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
 }
 
 function saveState(state) {
-  try { localStorage.setItem('hawaii-trip-2026-v2', JSON.stringify(state)); } catch(e) {}
+  try { localStorage.setItem('hawaii-trip-2026-v3', JSON.stringify(state)); } catch(e) {}
 }
 
 let state = loadState();
@@ -554,7 +703,7 @@ function render() {
     </div>
     <div class="footer">
       <div class="footer-total-label">Estimated Cash Spend (Activities, Food, Transport, Airbnb)</div>
-      <div class="footer-total">~$14,000 – $16,000</div>
+      <div class="footer-total">~$12,415+</div>
       <div class="footer-sub">Flights ($7,123) & hotels covered by points · 35% rebates pending · FHR perks at Mauna Lani</div>
     </div>
     <div class="reset-section">
@@ -618,13 +767,39 @@ function renderDay(d, di) {
   `;
 }
 
+function renderBookingDetails(details) {
+  return details.map(d => {
+    if (d.section) return `<div class="booking-detail-section">${d.section}</div>`;
+    if (d.link)    return `<div class="booking-detail-row"><a href="${d.href}" target="_blank" class="booking-detail-link">${d.link}</a></div>`;
+    if (d.warn)    return `<div class="booking-detail-warning">${d.warn}</div>`;
+    if (d.note)    return `<div class="booking-detail-note">${d.note}</div>`;
+    return `<div class="booking-detail-row"><span class="booking-detail-label">${d.row}:</span> ${d.val}</div>`;
+  }).join('');
+}
+
+function toggleBookingDetails(id) {
+  const card = document.getElementById(id);
+  const btn  = document.getElementById('btn-' + id);
+  if (!card) return;
+  const isOpen = card.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', isOpen);
+}
+
 function renderActivity(item, di, ii) {
+  const did = `bd-${di}-${ii}`;
+  const bdHtml = item.bookingDetails ? `
+    <button class="booking-details-toggle" id="btn-${did}" onclick="event.stopPropagation();toggleBookingDetails('${did}')">
+      📋 Booking Details <span class="bd-arrow">▸</span>
+    </button>
+    <div class="booking-details-card" id="${did}">
+      ${renderBookingDetails(item.bookingDetails)}
+    </div>` : '';
   return `<div class="activity-item type-${item.type} ${item.done ? 'done' : ''}">
     <div class="activity-check ${item.done ? 'checked' : ''}" onclick="toggleActivity(${di},${ii})">
       ${item.done ? '✓' : ''}
     </div>
     <div class="activity-time">${item.time}</div>
-    <div class="activity-label">${item.label}</div>
+    <div class="activity-label">${item.label}${bdHtml}</div>
     <button class="activity-remove" onclick="removeActivity(${di},${ii})">✕</button>
   </div>`;
 }
@@ -647,7 +822,7 @@ function toggleBooking(bi) { state.bookings[bi].booked = !state.bookings[bi].boo
 
 function resetAll() {
   if (confirm('Reset all data? This will clear all changes, notes, and checkmarks.')) {
-    localStorage.removeItem('hawaii-trip-2026-v2');
+    localStorage.removeItem('hawaii-trip-2026-v3');
     state = { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
     render();
   }
