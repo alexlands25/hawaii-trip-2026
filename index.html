@@ -369,10 +369,25 @@ const DEFAULT_DAYS = [
   },
   {
     day: 3, date: "Thu, Jun 4", title: "Snorkel Morning → Resort Afternoon", location: "Kona Coast + Hilton Waikoloa", icon: "🤿", vibe: "Water + resort",
-    cash: "$700 snorkel + $160 meals",
-    tip: "Kealakekua Bay is the best snorkeling on the island — spinner dolphins, reef fish, crystal water. Get out early, be back by 2:30 PM for resort time. The kava bar is a real local Polynesian experience — not a tourist thing.",
+    cash: "$1,227.93 snorkel + $160 meals",
+    tip: "Fair Wind Cruises to Kealakekua Bay — best snorkeling on the island. Spinner dolphins, reef fish, crystal water. 5.5 hours, full cruise. Back by 2:30 PM for resort time. The kava bar is a real local Polynesian experience — not a tourist thing.",
     items: [
-      { time: "8:30 AM", label: "Kealakekua Bay snorkel — dolphins, turtles, reef fish. BOOK 7 SPOTS.", type: "activity", done: false },
+      { time: "9:00 AM", label: "🤿 Kona Coast Snorkel ✅ — Fair Wind Cruises, 7 snorkelers. 9:00 AM – 2:30 PM.", type: "activity", done: false, bookingDetails: [
+        { row: "Operator", val: "Fair Wind Cruises — Kona Coast Snorkel Tour" },
+        { row: "Booking #", val: "349039146" },
+        { row: "Date", val: "Thursday, June 4, 2026" },
+        { row: "Time", val: "9:00 AM – 2:30 PM (5.5 hours)" },
+        { row: "Cost", val: "$1,227.93 (7 snorkelers)" },
+        { row: "Charged to", val: "Amex" },
+        { row: "Explore More code", val: "RPTGNUQ53AKYS2IE (20% off another tour)" },
+        { section: "📍 Check-in" },
+        { note: "Fair Wind Cruises, Hula Kai, and Capt Jack" },
+        { note: "78-7130 Kaleiopapa Street, Kailua Kona, HI 96740" },
+        { note: "Boarding begins 15 min after tour time (9:15 AM)" },
+        { note: "Street parking only — arrive early" },
+        { warn: "⚠️ No refunds if you miss the boat due to late arrival" },
+        { warn: "⚠️ Sign waivers before arrival — parents sign for kids under 18" }
+      ]},
       { time: "12:00 PM", label: "Lunch at Super J's in Captain Cook — authentic Hawaiian plate lunch (lau lau, kalua pork). Cash only.", type: "food", done: false },
       { time: "1:00 PM", label: "Around The Kava Bowl — traditional Polynesian kava drink. Real local scene.", type: "activity", done: false },
       { time: "2:30 PM", label: "🏨 RESORT TIME — Hilton pools, water slides, lagoon. Kids go wild.", type: "beach", done: false },
@@ -590,9 +605,9 @@ const DEFAULT_DAYS = [
     addons: ["Hapuna Beach (10 min) — #1 rated beach in the US", "Original Hawaiian Chocolate Factory"]
   },
   {
-    day: 11, date: "Fri, Jun 12", title: "Full Resort + Water Day", location: "Mauna Lani Resort", icon: "🏖️", vibe: "You earned this — DON'T LEAVE",
-    cash: "$150–$500",
-    tip: "DO NOT LEAVE THE RESORT. You paid premium — enjoy every inch. FHR breakfast, Beach Club, lagoon turtles, pools, fishpond walk, surf shack, kids program. This is the day your wife will remember.",
+    day: 11, date: "Fri, Jun 12", title: "Full Resort Day → Luau Farewell", location: "Mauna Lani Resort", icon: "🏖️", vibe: "You earned this — 🌺 Luau night",
+    cash: "$1,442.97 luau + $150 resort",
+    tip: "DO NOT LEAVE THE RESORT until the luau. FHR breakfast, Beach Club, lagoon turtles, pools, fishpond walk. Tonight: Hale Hoaloha Lū'au — right at your resort, no driving. Imu ceremony, buffet, fire knife dance. Last night in paradise.",
     items: [
       { time: "8:00 AM", label: "☕ FHR free breakfast — last one, make it count. Sit oceanfront.", type: "food", done: false },
       { time: "9:30 AM", label: "🏨 Beach Club — snorkel lagoon with turtles, rent paddleboards or kayaks", type: "beach", done: false },
@@ -600,8 +615,35 @@ const DEFAULT_DAYS = [
       { time: "12:00 PM", label: "Lunch at Beach Club or The Market — use remaining FHR credits", type: "food", done: false },
       { time: "1:30 PM", label: "🏨 Pool time — infinity pool, adult pool, kids pool", type: "beach", done: false },
       { time: "3:00 PM", label: "Walk the historic fishponds and cultural trail — ancient Hawaiian fishponds still in use", type: "activity", done: false },
-      { time: "4:30 PM", label: "🏨 Surf shack — boogie boards, SUP, or just float in the lagoon", type: "beach", done: false },
-      { time: "6:30 PM", label: "Farewell dinner — CanoeHouse sunset table or Merriman's Waimea. Make it special.", type: "food", done: false },
+      { time: "4:30 PM", label: "Back to room — shower, get dressed for the luau", type: "hotel", done: false },
+      { time: "5:30 PM", label: "🌺 Hale Hoaloha Lū'au at Mauna Lani — ✅ BOOKED. Check in on the lū'au grounds.", type: "activity", done: false, bookingDetails: [
+        { row: "Event", val: "Hale Hoaloha Lū'au — 'Ohana Package" },
+        { row: "Booking #", val: "349695991" },
+        { row: "Date", val: "Friday, June 12, 2026" },
+        { row: "Time", val: "5:30 PM – 8:00 PM" },
+        { row: "Cost", val: "$1,442.97 (5 adults × $230.37 + 2 children × $104.72 + $81.68 fees)" },
+        { row: "Charged to", val: "Amex (statement: \"FH* Island Breeze Luau\")" },
+        { row: "Phone", val: "(808) 326-4969" },
+        { section: "📍 Location" },
+        { note: "Lū'au grounds at Mauna Lani, Auberge Collection" },
+        { note: "68-1400 Mauna Lani Dr, South Kohala, HI 96743" },
+        { note: "AT YOUR RESORT — walk from your room. No driving." },
+        { section: "🎟️ 'Ohana Package includes" },
+        { note: "Restaurant-style seating (assigned by party)" },
+        { note: "Hawaiian buffet dinner (kalua pork, ahi poke, teriyaki chicken, keiki menu)" },
+        { note: "Complimentary welcome cocktail, soft drinks, juices" },
+        { note: "Pre-show activities: Hawaiian makahiki games on the lawn" },
+        { note: "Imu ceremony — watch the pig unearthed from the underground oven" },
+        { note: "Main show: hula, live music, storytelling, fire knife dance finale" },
+        { note: "Complimentary valet and self-parking" },
+        { warn: "⚠️ Event is primarily outdoors. May move indoors for weather — guests can reschedule if moved indoors." },
+        { warn: "⚠️ 48-hour cancellation for full refund." },
+        { warn: "⚠️ Separate parties may share a seating area." }
+      ]},
+      { time: "5:30 PM", label: "Pre-show Hawaiian games, imu ceremony (watch them dig up the pig)", type: "activity", done: false },
+      { time: "6:00 PM", label: "Buffet dinner — kalua pork, ahi poke, teriyaki chicken, keiki menu", type: "food", done: false },
+      { time: "7:00 PM", label: "Main show — hula, storytelling, music, fire knife dance finale", type: "activity", done: false },
+      { time: "8:00 PM", label: "Walk back to your room. Last night in paradise.", type: "hotel", done: false },
     ],
     addons: ["Spa at Mauna Lani — 28,000 sq ft tropical gardens", "Helicopter tour over Kīlauea (~$250/person)", "Hapuna Beach half-day trip"]
   },
@@ -641,6 +683,8 @@ const DEFAULT_BOOKINGS = [
   { name: "🏔️ Waipiʻo Valley Shuttle — 7 spots · Booking #348815349", booked: true },
   { name: "🏎️ Kohala UTV Adventure — ✅ BOOKED. 2 vehicles, 7 guests, Jun 3, 12:30 PM. $1,260. Kohala Eco Ventures.", booked: true },
   { name: "🍽️ Merriman's Waimea — ✅ BOOKED. Wahine Dinner, 7 guests, Wed Jun 3, 7:15 PM. $665 prepaid.", booked: true },
+  { name: "🤿 Kona Coast Snorkel — 7 spots, Jun 4, 9:00 AM. Booking #349039146. $1,227.93", booked: true },
+  { name: "🌺 Hale Hoaloha Luau at Mauna Lani — ✅ BOOKED. Jun 12, 5:30 PM. Booking #349695991. $1,442.97", booked: true },
   { name: "🍽️ Kīlauea Lodge — Table for 7", booked: false },
   { name: "🍽️ CanoeHouse at Mauna Lani — Table for 7 (2 nights)", booked: false },
   { name: "💺 AA seat selection — all 7 on aa.com", booked: false },
@@ -713,8 +757,8 @@ function render() {
     </div>
     <div class="footer">
       <div class="footer-total-label">Estimated Cash Spend (Activities, Food, Transport, Airbnb)</div>
-      <div class="footer-total">~$13,080+</div>
-      <div class="footer-sub">Flights ($7,123) & hotels covered by points · 35% rebates pending · FHR perks at Mauna Lani</div>
+      <div class="footer-total">~$16,340+</div>
+      <div class="footer-sub">Flights ($7,123) & hotels covered by points · 35% rebates pending · FHR perks at Mauna Lani · Includes snorkel ($1,228) + luau ($1,443)</div>
     </div>
     <div class="reset-section">
       <button class="reset-btn" onclick="resetAll()">Reset All Data</button>
