@@ -315,7 +315,32 @@ const DEFAULT_DAYS = [
     cash: "$200 Costco + $150 dinner",
     tip: "Don't plan anything big. You're 6 hours behind Miami time. Costco first, then let the kids discover the resort — water slides, tram rides between towers, canal boats, dolphins in the lagoon. The resort IS the activity tonight.",
     items: [
-      { time: "5:00 PM", label: "Arrive KOA, pick up 2 Jeep Wranglers (Gladiator + Lifted)", type: "transport", done: false },
+      { time: "5:30 PM", label: "🚙 Jeep #1 pickup — 4 Door Wrangler JLU Sahara Sunrider Top ✅ BOOKED", type: "transport", done: false, bookingDetails: [
+        { row: "Vehicle", val: "4 Door Wrangler JLU Sahara Sunrider Top (Premium Silver)" },
+        { row: "Booking ID", val: "XKXF-100526" },
+        { row: "Dates", val: "Jun 2–14 (13 days)" },
+        { row: "Cost", val: "$1,369.76 — Amex 1006" },
+        { row: "Contact", val: "Joe — text (808) 465-2331" },
+        { section: "📍 Pickup" },
+        { note: "73-4038 Hulikoa Drive, Kailua Kona (behind Matsuyamas)" },
+        { note: "4 min from airport. No face-to-face — key in lockbox inside center console." },
+        { warn: "⚠️ Schedule airport shuttle 48 hrs before (by May 31)" },
+        { section: "🚐 Shuttle options (book Armand — Escalade fits 7)" },
+        { note: "Armand: (808) 383-2791" },
+        { note: "R Jay Taxi: (808) 217-5953" },
+        { note: "Pinoa Taxi: (808) 494-4086" },
+        { section: "📋 Before trip checklist" },
+        { note: "Text Joe a selfie + driver's license photo: (808) 465-2331" },
+        { note: "Update pickup time to ~5:30 PM (currently set to 9 AM)" },
+        { section: "🏖️ Included free" },
+        { note: "Cooler + 4 beach chairs" },
+        { section: "⚠️ Important rules" },
+        { warn: "⚠️ GREEN SAND BEACH DRIVING IS FORBIDDEN per contract — take local truck rides instead ($20/person)" },
+        { warn: "⚠️ HILO SIDE THEFT: Remove valuables, leave Jeep unlocked to avoid broken windows" },
+        { warn: "⚠️ Don't lose the keys in the water!" },
+        { row: "Roadside emergency", val: "855-866-3161" }
+      ]},
+      { time: "5:45 PM", label: "Pick up Jeep #2 (Hawaii Lifted Jeep Rentals)", type: "transport", done: false },
       { time: "5:15 PM", label: "Costco Kona (5 min from airport) — water, snacks, sunscreen, groceries", type: "food", done: false },
       { time: "6:15 PM", label: "Check into Hilton Waikoloa — 3 rooms. Let kids explore: tram, boats, lagoon, water slides", type: "hotel", done: false },
       { time: "7:30 PM", label: "Dinner at Lava Lava Beach Club ✅ — beachfront, live music, toes in the sand", type: "food", done: false, bookingDetails: [
@@ -667,7 +692,7 @@ const DEFAULT_DAYS = [
 
 const DEFAULT_BOOKINGS = [
   { name: "✈️ Flights — AA MIA→LAX→KOA, 7 pax, Jun 2–14 ($7,123)", booked: true },
-  { name: "🚙 Jeep #1 — Gladiator Rubicon, Big Island Jeep Rental", booked: true },
+  { name: "🚙 Jeep #1 — Wrangler JLU Sahara, Big Island Jeep Rental. Booking XKXF-100526. Jun 2–14. $1,369.76", booked: true },
   { name: "🚙 Jeep #2 — Hawaii Lifted Jeep Rentals", booked: true },
   { name: "🏨 Hilton Waikoloa Room 1 — Ocean View (Hilton pts)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 2 — Palace Grand Ocean View (Amex)", booked: true },
