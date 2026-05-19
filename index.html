@@ -770,43 +770,43 @@ const DEFAULT_DAYS = [
 ];
 
 const DEFAULT_BOOKINGS = [
-  { name: "✈️ Flights — AA MIA→LAX→KOA, 7 pax, Jun 2–14 ($7,123)", booked: true },
-  { name: "🚙 Jeep #1 — Wrangler JLU Sahara, Big Island Jeep Rental. Booking XKXF-100526. Jun 2–14. $1,369.76", booked: true },
-  { name: "🚙 Jeep #2 — Hawaii Lifted Jeep Rentals", booked: true },
+  { name: "✈️ Flights — AA MIA→LAX→KOA, 7 pax ($7,123)", booked: true },
+  { name: "🚙 Jeep #1 — Wrangler Sahara, Big Island Jeep Rental ($1,370)", booked: true },
+  { name: "🚙 Jeep #2 — Hawaii Lifted Jeep Rentals (~$1,200)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 1 — Ocean View (Hilton pts)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 2 — Palace Grand Ocean View (Amex)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 3 — Palace Grand King+Sofa (Amex)", booked: true },
-  { name: "🏡 Volcano Airbnb — Jun 7–10, 3BR house", booked: true },
+  { name: "🏡 Volcano Airbnb — Jun 7–10, 3BR, Sharon (HMXH5D8AFF)", booked: true },
   { name: "🏨 Mauna Lani Room 1 — 2Q Ocean View FHR (Amex)", booked: true },
   { name: "🏨 Mauna Lani Room 2 — 2Q Ocean View FHR (Amex)", booked: true },
-  { name: "💰 $10K points → Business Checking deposit", booked: true },
+  { name: "💰 $10K points → Business Checking", booked: true },
   { name: "💳 Hilton $200 statement credit enrolled", booked: true },
-  { name: "⭐ Mauna Kea Summit & Stars — 3 spots (Alex, Laurens, Leiven) Jun 11", booked: true },
-  { name: "🌊 Kohala Waterfalls — 7 spots, Jun 6, pickup 8:10 AM Queen's Marketplace", booked: true },
-  { name: "🌙 Manta Ray Night Snorkel — 7 spots · Booking #348812179", booked: true },
-  { name: "🏔️ Waipiʻo Valley Shuttle — 7 spots · Booking #348815349", booked: true },
-  { name: "🏎️ Kohala UTV Adventure — 2 vehicles, 7 guests, Jun 3, 12:30 PM. $1,260. Kohala Eco Ventures.", booked: true },
-  { name: "🤿 Kona Coast Snorkel — 7 spots, Jun 4, 9:00 AM. Booking #349039146. $1,227.93", booked: true },
-  { name: "🍽️ Lava Lava Beach Club — ✅ BOOKED", booked: true },
-  { name: "🍽️ Merriman's Waimea — Wahine Dinner, 7 guests, Wed Jun 3, 7:15 PM. $665 prepaid.", booked: true },
-  { name: "🍽️ The Rim at Volcano House — ✅ BOOKED", booked: true },
-  { name: "🍽️ CanoeHouse at Mauna Lani — ✅ BOOKED", booked: true },
-  { name: "🌺 Hale Hoaloha Luau at Mauna Lani — Jun 12, 5:30 PM. Booking #349695991. $1,442.97", booked: true },
-  { name: "🍽️ Kīlauea Lodge — Table for 7 (walk-in backup)", booked: false },
-  { name: "💺 AA seat selection — opens May 25 on aa.com", booked: false },
-  { name: "📞 Call Hilton (808) 886-1234 — confirm 3 rooms same tower (May 25)", booked: false },
+  { name: "⭐ Mauna Kea Summit — 3 pax, Jun 11, 3:40 PM pickup", booked: true },
+  { name: "🌊 Kohala Waterfalls — 7 pax, Jun 6, 8:10 AM pickup", booked: true },
+  { name: "🌙 Manta Ray Snorkel — 7 pax, Jun 5, 8:40 PM", booked: true },
+  { name: "🏔️ Waipiʻo Valley Shuttle — 7 pax, Jun 10, 9:00 AM", booked: true },
+  { name: "🏎️ Kohala UTV — 2 vehicles, Jun 3, 12:30 PM", booked: true },
+  { name: "🤿 Kona Coast Snorkel — 7 pax, Jun 4, 9:00 AM", booked: true },
+  { name: "🍽️ Lava Lava Beach Club — Jun 2, 7:30 PM", booked: true },
+  { name: "🍽️ Merriman's Waimea — Jun 3, 7:15 PM, Wahine Dinner ($665)", booked: true },
+  { name: "🌋 The Rim at Volcano House — Jun 7, 7:30 PM", booked: true },
+  { name: "🍽️ CanoeHouse at Mauna Lani — Jun 10, 7:00 PM", booked: true },
+  { name: "🌺 Hale Hoaloha Luau — Jun 12, 5:30 PM ($1,443)", booked: true },
+  { name: "🍽️ Kīlauea Lodge — Jun 8, ~8 PM (walk-in backup)", booked: false },
+  { name: "💺 AA seat selection — all 7 on aa.com", booked: false },
+  { name: "📞 Call Hilton — 3 rooms same tower", booked: false },
 ];
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('hawaii-trip-2026-v3');
+    const saved = localStorage.getItem('hawaii-trip-2026-v4');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
   return { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
 }
 
 function saveState(state) {
-  try { localStorage.setItem('hawaii-trip-2026-v3', JSON.stringify(state)); } catch(e) {}
+  try { localStorage.setItem('hawaii-trip-2026-v4', JSON.stringify(state)); } catch(e) {}
 }
 
 let state = loadState();
@@ -1222,7 +1222,7 @@ function toggleBooking(bi) { state.bookings[bi].booked = !state.bookings[bi].boo
 
 function resetAll() {
   if (confirm('Reset all data? This will clear all changes, notes, and checkmarks.')) {
-    localStorage.removeItem('hawaii-trip-2026-v3');
+    localStorage.removeItem('hawaii-trip-2026-v4');
     state = { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
     render();
   }
