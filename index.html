@@ -51,7 +51,7 @@ body {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-  padding: 16px; background: rgba(255,255,255,0.80); border-radius: 12px;
+  padding: 16px; background: rgba(255,255,255,0.93); border-radius: 12px;
   border: 1px solid var(--border); margin-bottom: 30px;
 }
 .stat { text-align: center; min-width: 80px; }
@@ -65,10 +65,10 @@ body {
 
 /* Day Cards */
 .day-card {
-  border: 1px solid rgba(255,255,255,0.6); border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.75); border-radius: 14px;
   margin-bottom: 8px; overflow: hidden; transition: all 0.2s ease;
-  background: rgba(255,255,255,0.60); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 4px 20px rgba(0,100,160,0.10);
+  background: rgba(255,255,255,0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0,100,160,0.12);
 }
 .day-card.open { background: rgba(20,24,36,0.72); border-color: rgba(255,255,255,0.12); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .day-header {
@@ -206,7 +206,7 @@ body {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-top: 30px; padding: 20px; border-radius: 12px;
-  background: rgba(255,255,255,0.80); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.93); border: 1px solid var(--border);
   text-align: center;
 }
 .footer-total-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
@@ -218,7 +218,7 @@ body {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-top: 20px; padding: 20px; border-radius: 12px;
-  background: rgba(255,255,255,0.80); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.93); border: 1px solid var(--border);
 }
 .booking-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
 .booking-item {
@@ -259,7 +259,7 @@ body {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-bottom: 20px; padding: 18px 24px;
-  background: rgba(255,255,255,0.80); border-radius: 12px;
+  background: rgba(255,255,255,0.93); border-radius: 12px;
   border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center; gap: 0;
 }
@@ -277,7 +277,7 @@ body {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-bottom: 20px; padding: 22px 24px;
-  background: rgba(255,255,255,0.80); border-radius: 12px;
+  background: rgba(255,255,255,0.93); border-radius: 12px;
   border: 1px solid var(--border); text-align: center;
 }
 .countdown-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
@@ -298,7 +298,7 @@ body {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-bottom: 20px; padding: 16px; border-radius: 12px;
-  background: rgba(255,255,255,0.80); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.93); border: 1px solid var(--border);
 }
 .volcano-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
 .volcano-link {
@@ -463,10 +463,65 @@ body {
 .sound-toggle:hover { border-color:#d4007a; }
 ::-webkit-scrollbar-thumb { background:rgba(212,0,122,0.25); }
 .fish-layer { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; }
-.fish { position:absolute; animation:swim-lr linear infinite; opacity:0.50; }
+.fish { position:absolute; animation:swim-lr linear infinite; opacity:0.55; }
 .fish.rl { animation-name:swim-rl; }
 @keyframes swim-lr { from{transform:translateX(-120px);} to{transform:translateX(calc(100vw + 120px));} }
-@keyframes swim-rl { from{transform:translateX(calc(100vw + 120px)) scaleX(-1);} to{transform:translateX(-120px) scaleX(-1);} }
+@keyframes swim-rl { from{transform:translateX(calc(100vw + 120px));} to{transform:translateX(-120px);} }
+
+
+/* ═══ HIGH CONTRAST FIX ═══════════════════════════════════════════════════ */
+:root {
+  --text: #0a1e2e;
+  --text-muted: rgba(10,30,46,0.72);
+  --text-muted2: rgba(10,30,46,0.50);
+}
+body { color: #0a1e2e; }
+.day-title { color: #0a1e2e !important; font-weight: 700 !important; font-size: 17px !important; }
+.day-meta  { color: rgba(10,30,46,0.55) !important; }
+.day-badge { color: rgba(10,30,46,0.72) !important; }
+.activity-label { color: #0a1e2e !important; font-weight: 500 !important; }
+.type-activity .activity-label { color: #003f5c !important; }
+.type-food     .activity-label { color: #6b003d !important; }
+.type-beach    .activity-label { color: #003d5c !important; }
+.type-transport .activity-label { color: #003826 !important; }
+.type-hotel    .activity-label { color: #3a1045 !important; }
+.activity-time { font-weight: 700 !important; }
+.type-activity .activity-time { color: #005c8a !important; }
+.type-food     .activity-time { color: #a8005a !important; }
+.type-beach    .activity-time { color: #006e95 !important; }
+.type-transport .activity-time { color: #005840 !important; }
+.type-hotel    .activity-time { color: #501068 !important; }
+.booking-name { color: #0a1e2e !important; font-weight: 500 !important; }
+.booking-title { color: #0a1e2e !important; font-weight: 700 !important; }
+.stat-value { color: #d4007a !important; font-weight: 800 !important; }
+.stat-label { color: rgba(10,30,46,0.55) !important; }
+.tip-text { color: rgba(10,30,46,0.80) !important; }
+.tip-title { color: #c0006b !important; font-weight: 700 !important; }
+.volcano-title { color: #0a1e2e !important; font-weight: 700 !important; }
+.volcano-info  { color: rgba(10,30,46,0.72) !important; }
+.booking-detail-row { color: rgba(10,30,46,0.75) !important; }
+.booking-detail-label { color: #0a1e2e !important; font-weight: 600 !important; }
+.booking-detail-section { color: #005f9e !important; font-weight: 700 !important; }
+.booking-detail-note { color: rgba(10,30,46,0.70) !important; }
+.booking-detail-warning { color: #a00030 !important; font-weight: 600 !important; }
+.footer-total-label { color: rgba(10,30,46,0.65) !important; }
+.footer-sub { color: rgba(10,30,46,0.55) !important; }
+.cash-estimate { color: rgba(10,30,46,0.55) !important; }
+.addon-item { color: rgba(10,30,46,0.70) !important; }
+.clock-label { color: rgba(10,30,46,0.55) !important; }
+.clock-date  { color: rgba(10,30,46,0.55) !important; }
+.countdown-sub { color: rgba(10,30,46,0.55) !important; }
+.legend-item   { color: rgba(10,30,46,0.60) !important; }
+.travel-hint   { color: rgba(10,30,46,0.48) !important; }
+.add-input,.add-time-input { color: #0a1e2e !important; }
+.notes-textarea { color: #0a1e2e !important; }
+.timer-green  { color: #005c40 !important; }
+.timer-yellow { color: #705000 !important; }
+.timer-orange { color: #900050 !important; }
+.timer-red    { color: #7a1000 !important; }
+.timer-active { color: #a00060 !important; }
+.timer-done   { color: rgba(10,30,46,0.38) !important; }
+.timer-future { color: rgba(10,30,46,0.50) !important; }
 
 </style>
 
@@ -1324,13 +1379,17 @@ function resetAll() {
   var pool = ['🐠','🐡','🐟','🦈','🐬','🐙','🦑','🐠','🐡','🐟'];
   pool.forEach(function(e,i) {
     var el = document.createElement('span');
-    el.className = 'fish' + (i%2 ? ' rl' : '');
+    var goRight = i % 2 === 0;
+    el.className = 'fish' + (goRight ? '' : ' rl');
     el.textContent = e;
+    // Flip emoji direction for right-to-left swimmers
+    if (!goRight) el.style.transform = 'scaleX(-1)';
     var sz = Math.round(15 + Math.random()*14);
     var top = (4 + Math.random()*90).toFixed(1);
     var dur = (20 + Math.random()*25).toFixed(1);
     var delay = -(Math.random()*35).toFixed(1);
     el.style.cssText = 'font-size:'+sz+'px;top:'+top+'%;animation-duration:'+dur+'s;animation-delay:'+delay+'s;';
+    if (!goRight) el.style.cssText += 'transform:scaleX(-1);';
     layer.appendChild(el);
   });
 })();
