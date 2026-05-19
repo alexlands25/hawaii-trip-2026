@@ -523,6 +523,85 @@ body { color: #0a1e2e; }
 .timer-done   { color: rgba(10,30,46,0.38) !important; }
 .timer-future { color: rgba(10,30,46,0.50) !important; }
 
+
+/* ══ NUCLEAR CONTRAST FIX ══════════════════════════════════════════════════ */
+/* Background fallback if image fails */
+body { background-color: #e0f7fa !important; }
+
+/* Cards — fully white */
+.day-card { background: rgba(255,255,255,0.97) !important; box-shadow: 0 2px 16px rgba(0,80,140,0.13) !important; }
+.day-card.open { background: #ffffff !important; box-shadow: 0 6px 28px rgba(0,80,140,0.16) !important; }
+.stats-bar,.booking-section,.footer,.volcano-section,.clock-section,.countdown-section {
+  background: rgba(255,255,255,0.97) !important;
+}
+.tip-box { background: rgba(255,248,252,0.98) !important; }
+.addons-box { background: rgba(240,250,255,0.98) !important; }
+.booking-details-card { background: rgba(240,250,255,0.98) !important; }
+
+/* Activity items — WHITE background, colored LEFT BORDER only, DARK text always */
+.activity-item { background: #ffffff !important; border-left: 4px solid #ccc !important; border-radius: 0 8px 8px 0 !important; margin-bottom: 6px !important; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.type-activity { border-left-color: #0077b6 !important; }
+.type-food     { border-left-color: #d4007a !important; }
+.type-beach    { border-left-color: #00b4d8 !important; }
+.type-transport{ border-left-color: #00896b !important; }
+.type-hotel    { border-left-color: #7b2d8b !important; }
+
+/* ALL activity text — DARK, always */
+.activity-label { color: #0a1520 !important; font-weight: 500 !important; font-size: 13px !important; }
+.activity-time  { color: #0a1520 !important; font-weight: 800 !important; font-size: 11px !important; }
+
+/* Strong accent on times by type */
+.type-activity  .activity-time { color: #005f8e !important; }
+.type-food      .activity-time { color: #a8005a !important; }
+.type-beach     .activity-time { color: #006e8e !important; }
+.type-transport .activity-time { color: #006048 !important; }
+.type-hotel     .activity-time { color: #58188a !important; }
+
+/* All other text — dark */
+.day-title { color: #071520 !important; font-weight: 700 !important; font-size: 16px !important; }
+.day-meta  { color: #445566 !important; font-size: 10px !important; }
+.day-badge { background: rgba(0,0,0,0.04) !important; color: #334455 !important; border-color: rgba(0,0,0,0.10) !important; }
+.booking-title { color: #071520 !important; font-weight: 700 !important; }
+.booking-name  { color: #0a1e30 !important; font-size: 13px !important; }
+.stat-value { color: #c0006b !important; font-weight: 800 !important; }
+.stat-label { color: #446 !important; font-weight: 600 !important; font-size: 10px !important; }
+.tip-title { color: #b80060 !important; font-weight: 700 !important; }
+.tip-text  { color: #1a2e3a !important; font-size: 12px !important; line-height: 1.6 !important; }
+.volcano-title { color: #071520 !important; font-weight: 700 !important; }
+.volcano-info  { color: #2a3e50 !important; font-size: 12px !important; }
+.footer-total-label { color: #446 !important; }
+.footer-sub { color: #556 !important; font-size: 12px !important; }
+.cash-estimate { color: #557 !important; }
+.legend-item { color: #334 !important; font-size: 11px !important; }
+.booking-detail-section { color: #004f8a !important; font-weight: 700 !important; font-size: 10px !important; }
+.booking-detail-row { color: #1a2e3a !important; font-size: 12px !important; }
+.booking-detail-label { color: #071520 !important; font-weight: 600 !important; }
+.booking-detail-note { color: #2a3e50 !important; font-size: 12px !important; }
+.booking-detail-warning { color: #8b0000 !important; font-size: 11px !important; font-weight: 600 !important; }
+.addon-item { color: #1a2e40 !important; font-size: 12px !important; }
+.addons-title { color: #004f8a !important; font-size: 10px !important; font-weight: 700 !important; }
+.clock-time.hawaii { color: #c0006b !important; }
+.clock-time.florida { color: #0055a0 !important; }
+.clock-date,.clock-label { color: #446 !important; }
+.countdown-label { color: #c0006b !important; font-weight: 700 !important; }
+.countdown-time  { color: #c0006b !important; font-weight: 800 !important; }
+.countdown-sub   { color: #446 !important; }
+.travel-hint { color: #667 !important; font-size: 10px !important; }
+
+/* Timer badges — dark text, light bg */
+.timer-green  { background:#e8faf5 !important; color:#005c40 !important; border:1px solid rgba(0,137,107,0.35) !important; }
+.timer-yellow { background:#fff8e0 !important; color:#6b4a00 !important; border:1px solid rgba(160,110,0,0.35) !important; }
+.timer-orange { background:#fff0f6 !important; color:#900050 !important; border:1px solid rgba(200,0,80,0.35) !important; }
+.timer-red    { background:#fff0ee !important; color:#8b0000 !important; border:1px solid rgba(180,0,0,0.40) !important; }
+.timer-active { background:#fff0f8 !important; color:#a00060 !important; border:1px solid rgba(200,0,100,0.45) !important; }
+.timer-done   { background:#f5f5f5 !important; color:#889 !important; border:1px solid #ddd !important; }
+.timer-future { background:#f0f8ff !important; color:#336 !important; border:1px solid #c0d8f0 !important; }
+.timer-green  .timer-dot{background:#005c40 !important;}
+.timer-yellow .timer-dot{background:#6b4a00 !important;}
+.timer-orange .timer-dot{background:#900050 !important;}
+.timer-red    .timer-dot{background:#8b0000 !important;}
+.timer-active .timer-dot{background:#a00060 !important;}
+
 </style>
 
 </head>
