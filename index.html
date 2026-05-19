@@ -33,7 +33,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: 'DM Sans', -apple-system, sans-serif;
-  background: var(--bg);
+  background: linear-gradient(rgba(10,14,22,0.83), rgba(10,14,22,0.83)), url('https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=1920&q=80') center/cover fixed no-repeat;
   color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
@@ -48,6 +48,7 @@ body {
 
 /* Stats Bar */
 .stats-bar {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
   padding: 16px; background: var(--surface); border-radius: 12px;
   border: 1px solid var(--border); margin-bottom: 30px;
@@ -67,7 +68,7 @@ body {
   margin-bottom: 8px; overflow: hidden;
   transition: all 0.2s ease;
 }
-.day-card.open { background: var(--surface); border-color: rgba(255,255,255,0.12); }
+.day-card.open { background: rgba(20,24,36,0.72); border-color: rgba(255,255,255,0.12); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .day-header {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 16px; cursor: pointer; user-select: none;
@@ -200,6 +201,7 @@ body {
 
 /* Footer */
 .footer {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-top: 30px; padding: 20px; border-radius: 12px;
   background: var(--surface); border: 1px solid var(--border);
   text-align: center;
@@ -210,6 +212,7 @@ body {
 
 /* Booking Checklist */
 .booking-section {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-top: 20px; padding: 20px; border-radius: 12px;
   background: var(--surface); border: 1px solid var(--border);
 }
@@ -249,6 +252,7 @@ body {
 
 /* Dual Clock / Countdown */
 .clock-section {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-bottom: 20px; padding: 18px 24px;
   background: var(--surface); border-radius: 12px;
   border: 1px solid var(--border);
@@ -265,6 +269,7 @@ body {
 .clock-time.florida { font-size: 24px; color: var(--text-muted); }
 .clock-date { font-size: 11px; color: var(--text-muted2); margin-top: 5px; }
 .countdown-section {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-bottom: 20px; padding: 22px 24px;
   background: var(--surface); border-radius: 12px;
   border: 1px solid var(--border); text-align: center;
@@ -284,6 +289,7 @@ body {
 
 /* Volcano Status */
 .volcano-section {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   margin-bottom: 20px; padding: 16px; border-radius: 12px;
   background: var(--surface); border: 1px solid var(--border);
 }
@@ -337,6 +343,44 @@ body {
 .booking-detail-note { font-size: 12px; color: rgba(255,255,255,0.5); padding: 2px 0; line-height: 1.6; }
 .booking-detail-warning { font-size: 12px; color: var(--orange); padding: 2px 0; line-height: 1.6; }
 .activity-item.done .booking-details-toggle { opacity: 0.6; text-decoration: none !important; }
+
+/* ── Activity Timers ── */
+.timer-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Courier New', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.5px; padding: 3px 9px; border-radius: 5px;
+  margin-top: 5px; transition: background 0.4s, color 0.4s;
+}
+.timer-green  { background:rgba(52,211,153,0.13); color:#34d399; border:1px solid rgba(52,211,153,0.3); }
+.timer-yellow { background:rgba(251,191,36,0.13); color:#fbbf24; border:1px solid rgba(251,191,36,0.3); }
+.timer-orange { background:rgba(251,146,60,0.15); color:#fb923c; border:1px solid rgba(251,146,60,0.35); }
+.timer-red    { background:rgba(248,113,113,0.15); color:#f87171; border:1px solid rgba(248,113,113,0.4);
+                animation:pulse-red 0.8s ease-in-out infinite; }
+.timer-active { background:rgba(240,192,64,0.18); color:#f0c040; border:1px solid rgba(240,192,64,0.5);
+                animation:pulse-gold 1.5s ease-in-out infinite; }
+.timer-done   { background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.08); }
+.timer-future { background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.08); }
+.timer-dot { width:7px; height:7px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.timer-green  .timer-dot { background:#34d399; }
+.timer-yellow .timer-dot { background:#fbbf24; }
+.timer-orange .timer-dot { background:#fb923c; }
+.timer-red    .timer-dot { background:#f87171; }
+.timer-active .timer-dot { background:#f0c040; }
+.travel-hint { font-size:10px; color:rgba(255,255,255,0.28); margin-top:2px; }
+@keyframes pulse-red  { 0%,100%{opacity:1;} 50%{opacity:0.45;} }
+@keyframes pulse-gold { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.75;transform:scale(1.04);} }
+
+/* ── Sound Toggle ── */
+.sound-toggle {
+  position:fixed; bottom:24px; right:20px; z-index:999;
+  width:50px; height:50px; border-radius:50%;
+  background:rgba(15,17,23,0.88); backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.15); color:var(--text);
+  font-size:22px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 24px rgba(0,0,0,0.5); transition:transform 0.2s,border-color 0.2s;
+}
+.sound-toggle:hover { transform:scale(1.1); border-color:var(--accent); }
 </style>
 
 </head>
@@ -375,7 +419,7 @@ const DEFAULT_DAYS = [
         { warn: "⚠️ Don't lose the keys in the water!" },
         { row: "Roadside emergency", val: "855-866-3161" }
       ]},
-      { time: "5:45 PM", label: "Pick up Jeep #2 (Hawaii Lifted Jeep Rentals)", type: "transport", done: false },
+      { time: "5:45 PM", label: "Pick up Jeep #2 (Hawaii Lifted Jeep Rentals)", type: "transport", travelMin: 4, done: false },
       { time: "5:15 PM", label: "Costco Kona (5 min from airport) — water, snacks, sunscreen, groceries", type: "food", done: false },
       { time: "6:15 PM", label: "Check into Hilton Waikoloa — 3 rooms. Let kids explore: tram, boats, lagoon, water slides", type: "hotel", done: false },
       { time: "7:30 PM", label: "Dinner at Lava Lava Beach Club ✅ — beachfront, live music, toes in the sand", type: "food", done: false, bookingDetails: [
@@ -432,7 +476,7 @@ const DEFAULT_DAYS = [
     cash: "$1,227.93 snorkel + $160 meals",
     tip: "Fair Wind Cruises to Kealakekua Bay — best snorkeling on the island. Spinner dolphins, reef fish, crystal water. 5.5 hours, full cruise. Back by 2:30 PM for resort time. The kava bar is a real local Polynesian experience — not a tourist thing.",
     items: [
-      { time: "9:00 AM", label: "🤿 Kona Coast Snorkel ✅ — Fair Wind Cruises, 7 snorkelers. 9:00 AM – 2:30 PM.", type: "activity", done: false, bookingDetails: [
+      { time: "9:00 AM", label: "🤿 Kona Coast Snorkel ✅ — Fair Wind Cruises, 7 snorkelers. 9:00 AM – 2:30 PM.", type: "activity", travelMin: 25, done: false, bookingDetails: [
         { row: "Operator", val: "Fair Wind Cruises — Kona Coast Snorkel Tour" },
         { row: "Booking #", val: "349039146" },
         { row: "Date", val: "Thursday, June 4, 2026" },
@@ -465,7 +509,7 @@ const DEFAULT_DAYS = [
       { time: "1:00 PM", label: "Lunch at Kona Farmers Market or food truck on Ali'i Drive — mix with locals", type: "food", done: false },
       { time: "2:00 PM", label: "Explore historic Kailua Village — Hulihe'e Palace, Ahu'ena Heiau, Ali'i Drive", type: "activity", done: false },
       { time: "3:30 PM", label: "🏨 RESORT — back to Hilton, NAP. It's a late night.", type: "hotel", done: false },
-      { time: "8:40 PM", label: "🌙 Manta Ray Night Snorkel ✅ — Hawaii Oceanic, Keauhou Harbor", type: "activity", done: false, bookingDetails: [
+      { time: "8:40 PM", label: "🌙 Manta Ray Night Snorkel ✅ — Hawaii Oceanic, Keauhou Harbor", type: "activity", travelMin: 20, done: false, bookingDetails: [
         { row: "Operator", val: "Hawaii Oceanic — Manta Magic Moonlight Tour" },
         { row: "Booking #", val: "348812179" },
         { row: "Date", val: "Friday, June 5, 2026" },
@@ -717,8 +761,8 @@ const DEFAULT_DAYS = [
       { time: "12:00 PM", label: "Check out Mauna Lani (FHR late checkout — noon)", type: "transport", done: false },
       { time: "12:30 PM", label: "Last lunch — Da Poke Shack or Lava Lava Beach Club one more time", type: "food", done: false },
       { time: "2:00 PM", label: "Last beach at Kua Bay or souvenir shopping in Kona", type: "beach", done: false },
-      { time: "5:00 PM", label: "Return both Jeeps", type: "transport", done: false },
-      { time: "6:30 PM", label: "KOA airport. Amex Platinum lounge access if available.", type: "transport", done: false },
+      { time: "5:00 PM", label: "Return both Jeeps", type: "transport", travelMin: 15, done: false },
+      { time: "6:30 PM", label: "KOA airport. Amex Platinum lounge access if available.", type: "transport", travelMin: 10, done: false },
       { time: "9:25 PM", label: "Fly home: KOA → PHX → MIA. Red-eye. Kids sleep. Arrive 3:54 PM Sunday.", type: "transport", done: false },
     ],
     addons: ["Kona Saturday farmers market", "Last shave ice from a local stand"]
@@ -875,6 +919,122 @@ function getHawaiiMinutes() {
   return hi.getUTCHours() * 60 + hi.getUTCMinutes();
 }
 
+
+// ─── Timer + Sound Engine ─────────────────────────────────────────────────────
+const DAY_ANIMALS = [
+  {name:'Rooster',emoji:'🐓'},{name:'Dolphin',emoji:'🐬'},
+  {name:'Whale',emoji:'🐋'},{name:'Gecko',emoji:'🦎'},
+  {name:'Tropical Bird',emoji:'🦜'},{name:'Nene Goose',emoji:'🪿'},
+  {name:'Manta Ray',emoji:'🐟'},{name:'Hawk',emoji:'🦅'},
+  {name:'Humpback',emoji:'🐳'},{name:'Seal',emoji:'🦭'},
+  {name:'Rooster',emoji:'🐓'},{name:'Ocean',emoji:'🌊'},
+];
+let soundEnabled = true;
+const alarmFired = new Set();
+
+function parseTime(t) {
+  if (!t || t==='—') return null;
+  const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return null;
+  let h=parseInt(m[1]), mn=parseInt(m[2]);
+  if (m[3].toUpperCase()==='PM'&&h!==12) h+=12;
+  if (m[3].toUpperCase()==='AM'&&h===12) h=0;
+  return h*60+mn;
+}
+
+function fmtCountdown(diffMin) {
+  if (diffMin<=0) return 'GO NOW';
+  if (diffMin<60) return diffMin+'m';
+  const h=Math.floor(diffMin/60), mn=diffMin%60;
+  return mn>0 ? h+'h '+mn+'m' : h+'h';
+}
+
+function getTimerState(items, idx, hiNowMin, dayIdx) {
+  const item = items[idx];
+  const startMin = parseTime(item.time);
+  if (startMin===null) return null;
+  let nextMin=null;
+  for (let j=idx+1;j<items.length;j++) {
+    const nm=parseTime(items[j].time);
+    if (nm!==null){nextMin=nm;break;}
+  }
+  const travelMin = item.travelMin||0;
+  const leaveByMin = startMin - travelMin;
+  const minToLeave = leaveByMin - hiNowMin;
+  const minToStart = startMin - hiNowMin;
+  const isActive = hiNowMin>=startMin && (nextMin===null||hiNowMin<nextMin);
+  const isDone = nextMin!==null ? hiNowMin>=nextMin : hiNowMin>=startMin+90;
+  if (isDone) return {cls:'timer-done',label:'✓ DONE',dot:false};
+  if (isActive) {
+    if (nextMin!==null) {
+      const leaveForItem = items.slice(idx+1).find(it=>parseTime(it.time)!==null);
+      const nextTravel = leaveForItem?(leaveForItem.travelMin||0):0;
+      const leaveAt = nextMin-nextTravel;
+      const minLeft = leaveAt-hiNowMin;
+      const key = dayIdx+'-'+idx;
+      if (minLeft<=1&&!alarmFired.has(key)){alarmFired.add(key);playAnimalSound(dayIdx);}
+      if (minLeft<=0) return {cls:'timer-red',label:'🚨 LEAVE NOW',dot:true};
+      if (minLeft<=10) return {cls:'timer-red',label:'🔴 LEAVE IN '+minLeft+'m',dot:true};
+      if (minLeft<=20) return {cls:'timer-orange',label:'🟡 LEAVE IN '+fmtCountdown(minLeft),dot:true};
+      return {cls:'timer-active',label:'● ACTIVE — leave in '+fmtCountdown(minLeft),dot:true};
+    }
+    return {cls:'timer-active',label:'● ACTIVE NOW',dot:true};
+  }
+  if (travelMin>0&&minToLeave<=0&&minToStart>0) return {cls:'timer-red',label:'🚨 LEAVE NOW',dot:true};
+  if (travelMin>0&&minToLeave<=10) return {cls:'timer-orange',label:'🔴 LEAVE IN '+fmtCountdown(minToLeave),dot:true};
+  if (travelMin>0&&minToLeave<=25) return {cls:'timer-yellow',label:'🟡 LEAVE IN '+fmtCountdown(minToLeave),dot:true};
+  if (minToStart<=20) return {cls:'timer-yellow',label:'Starts in '+fmtCountdown(minToStart),dot:true};
+  if (minToStart<=60) return {cls:'timer-green',label:'Starts in '+fmtCountdown(minToStart),dot:true};
+  return {cls:'timer-future',label:'@ '+item.time,dot:false};
+}
+
+function playAnimalSound(dayIdx) {
+  if (!soundEnabled) return;
+  try {
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const di=((dayIdx%12)+12)%12;
+    const fns=[
+      c=>{[0,200,400,600].forEach((t,i)=>{const o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(300+i*200,c.currentTime+t/1000);o.frequency.exponentialRampToValueAtTime(900+i*200,c.currentTime+t/1000+0.25);g.gain.setValueAtTime(0.3,c.currentTime+t/1000);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t/1000+0.35);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t/1000);o.stop(c.currentTime+t/1000+0.35);});},
+      c=>{[0,120,240,360,480].forEach((t,i)=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(2200+i*200,c.currentTime+t/1000);o.frequency.exponentialRampToValueAtTime(3800,c.currentTime+t/1000+0.09);g.gain.setValueAtTime(0.22,c.currentTime+t/1000);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t/1000+0.12);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t/1000);o.stop(c.currentTime+t/1000+0.12);});},
+      c=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(75,c.currentTime);o.frequency.exponentialRampToValueAtTime(170,c.currentTime+1.5);o.frequency.exponentialRampToValueAtTime(55,c.currentTime+3);g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(0.38,c.currentTime+0.4);g.gain.linearRampToValueAtTime(0,c.currentTime+3);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+3);},
+      c=>{[0,90,180,300,420,550].forEach(t=>{const o=c.createOscillator(),g=c.createGain();o.type='square';o.frequency.value=1100;g.gain.setValueAtTime(0.18,c.currentTime+t/1000);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t/1000+0.04);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t/1000);o.stop(c.currentTime+t/1000+0.04);});},
+      c=>{[[850,1300],[1050,1500],[1250,1700],[950,1350]].forEach(([f1,f2],i)=>{const o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.setValueAtTime(f1,c.currentTime+i*0.22);o.frequency.linearRampToValueAtTime(f2,c.currentTime+i*0.22+0.14);g.gain.setValueAtTime(0.28,c.currentTime+i*0.22);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.22+0.18);o.connect(g);g.connect(c.destination);o.start(c.currentTime+i*0.22);o.stop(c.currentTime+i*0.22+0.18);});},
+      c=>{[0,550].forEach(t=>{const o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(215,c.currentTime+t/1000);o.frequency.linearRampToValueAtTime(175,c.currentTime+t/1000+0.38);g.gain.setValueAtTime(0.34,c.currentTime+t/1000);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t/1000+0.45);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t/1000);o.stop(c.currentTime+t/1000+0.45);});},
+      c=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(380,c.currentTime);o.frequency.linearRampToValueAtTime(220,c.currentTime+2.2);g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(0.28,c.currentTime+0.3);g.gain.linearRampToValueAtTime(0,c.currentTime+2.2);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+2.2);},
+      c=>{const o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(580,c.currentTime);o.frequency.exponentialRampToValueAtTime(1900,c.currentTime+0.14);o.frequency.exponentialRampToValueAtTime(750,c.currentTime+0.65);g.gain.setValueAtTime(0.32,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.7);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.7);},
+      c=>{[[55,110],[110,70],[70,190],[190,55]].forEach(([f1,f2],i)=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(f1,c.currentTime+i*0.75);o.frequency.linearRampToValueAtTime(f2,c.currentTime+i*0.75+0.65);g.gain.setValueAtTime(0,c.currentTime+i*0.75);g.gain.linearRampToValueAtTime(0.33,c.currentTime+i*0.75+0.12);g.gain.linearRampToValueAtTime(0,c.currentTime+i*0.75+0.7);o.connect(g);g.connect(c.destination);o.start(c.currentTime+i*0.75);o.stop(c.currentTime+i*0.75+0.7);});},
+      c=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(280,c.currentTime);o.frequency.linearRampToValueAtTime(380,c.currentTime+0.5);o.frequency.linearRampToValueAtTime(250,c.currentTime+1.2);g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(0.32,c.currentTime+0.15);g.gain.linearRampToValueAtTime(0,c.currentTime+1.2);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+1.2);},
+      c=>{[0,200,400,600].forEach((t,i)=>{const o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(280+i*180,c.currentTime+t/1000);o.frequency.exponentialRampToValueAtTime(840+i*180,c.currentTime+t/1000+0.25);g.gain.setValueAtTime(0.28,c.currentTime+t/1000);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t/1000+0.35);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t/1000);o.stop(c.currentTime+t/1000+0.35);});},
+      c=>{for(let i=0;i<6;i++){const o=c.createOscillator(),g=c.createGain(),t=i*0.18;o.type='sine';const freq=100+Math.sin(i)*40;o.frequency.setValueAtTime(freq,c.currentTime+t);o.frequency.linearRampToValueAtTime(freq*0.65,c.currentTime+t+0.15);g.gain.setValueAtTime(0.15,c.currentTime+t);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.18);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+0.18);}},
+    ];
+    fns[di](ctx);
+  } catch(e){console.warn('Sound:',e);}
+}
+
+function toggleSound() {
+  soundEnabled=!soundEnabled;
+  const btn=document.getElementById('sound-btn');
+  if(btn) btn.textContent=soundEnabled?'🔔':'🔕';
+}
+
+function tickTimers() {
+  const now=Date.now();
+  if(now<TRIP_START_MS||now>TRIP_END_MS) return;
+  const hiNowMin=getHawaiiMinutes();
+  const dayIdx=getHawaiiDayIndex();
+  if(dayIdx<0||dayIdx>=state.days.length) return;
+  const items=state.days[dayIdx].items;
+  items.forEach((item,ii)=>{
+    const el=document.getElementById('timer-'+dayIdx+'-'+ii);
+    if(!el) return;
+    const ts=getTimerState(items,ii,hiNowMin,dayIdx);
+    if(!ts) return;
+    el.className='timer-badge '+ts.cls;
+    el.innerHTML=(ts.dot?'<span class="timer-dot"></span>':'')+ts.label;
+  });
+}
+setInterval(tickTimers,1000);
+
 function render() {
   const stats = getStats();
   const app = document.getElementById('app');
@@ -930,6 +1090,14 @@ function render() {
     </div>
   `;
   saveState(state);
+  // Sound toggle button (fixed position, persists across renders)
+  if (!document.getElementById('sound-btn')) {
+    const btn = document.createElement('button');
+    btn.id = 'sound-btn'; btn.className = 'sound-toggle';
+    btn.textContent = '🔔'; btn.title = 'Toggle activity alarms';
+    btn.onclick = toggleSound;
+    document.body.appendChild(btn);
+  }
 }
 
 function renderDay(d, di) {
@@ -1013,12 +1181,23 @@ function renderActivity(item, di, ii) {
     <div class="booking-details-card" id="${did}">
       ${renderBookingDetails(item.bookingDetails)}
     </div>` : '';
+  // Live timer badge (today's activities only, Hawaii time)
+  let timerHtml = '';
+  const nowMs = Date.now();
+  if (nowMs >= TRIP_START_MS && nowMs <= TRIP_END_MS) {
+    const dayIdx = getHawaiiDayIndex();
+    if (di === dayIdx) {
+      const ts = getTimerState(state.days[di].items, ii, getHawaiiMinutes(), dayIdx);
+      if (ts) timerHtml = `<div class="timer-badge ${ts.cls}" id="timer-${di}-${ii}">${ts.dot?'<span class="timer-dot"></span>':''}${ts.label}</div>`;
+    }
+  }
+  const travelHint = item.travelMin > 0 ? `<div class="travel-hint">🚗 ${item.travelMin} min drive</div>` : '';
   return `<div class="activity-item type-${item.type} ${item.done ? 'done' : ''}">
     <div class="activity-check ${item.done ? 'checked' : ''}" onclick="toggleActivity(${di},${ii})">
       ${item.done ? '✓' : ''}
     </div>
     <div class="activity-time">${item.time}</div>
-    <div class="activity-label">${item.label}${bdHtml}</div>
+    <div class="activity-label">${item.label}${bdHtml}${timerHtml}${travelHint}</div>
     <button class="activity-remove" onclick="removeActivity(${di},${ii})">✕</button>
   </div>`;
 }
