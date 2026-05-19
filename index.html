@@ -247,6 +247,41 @@ body {
   .activity-remove { opacity: 1; }
 }
 
+/* Dual Clock / Countdown */
+.clock-section {
+  margin-bottom: 20px; padding: 18px 24px;
+  background: var(--surface); border-radius: 12px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; gap: 0;
+}
+.clock-divider { width: 1px; height: 64px; background: var(--border); margin: 0 28px; }
+.clock-unit { text-align: center; }
+.clock-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted2); margin-bottom: 6px; }
+.clock-time {
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-weight: 700; letter-spacing: 2px;
+}
+.clock-time.hawaii { font-size: 34px; color: var(--accent); }
+.clock-time.florida { font-size: 24px; color: var(--text-muted); }
+.clock-date { font-size: 11px; color: var(--text-muted2); margin-top: 5px; }
+.countdown-section {
+  margin-bottom: 20px; padding: 22px 24px;
+  background: var(--surface); border-radius: 12px;
+  border: 1px solid var(--border); text-align: center;
+}
+.countdown-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.countdown-time {
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 30px; font-weight: 700; color: var(--accent); letter-spacing: 3px;
+}
+.countdown-sub { font-size: 12px; color: var(--text-muted2); margin-top: 8px; }
+@media (max-width: 600px) {
+  .clock-time.hawaii { font-size: 26px; }
+  .clock-time.florida { font-size: 20px; }
+  .clock-divider { margin: 0 16px; }
+  .countdown-time { font-size: 22px; }
+}
+
 /* Volcano Status */
 .volcano-section {
   margin-bottom: 20px; padding: 16px; border-radius: 12px;
@@ -737,15 +772,120 @@ function getStats() {
   return { total, done, booked, totalBookings: state.bookings.length };
 }
 
+// ─── Hawaii Time Utilities ───────────────────────────────────────────────────
+const TRIP_START_MS = Date.UTC(2026, 5, 2, 10, 0, 0);   // Jun 2 2026 00:00 HST = 10:00 UTC
+const TRIP_END_MS   = Date.UTC(2026, 5, 15, 9, 59, 59); // Jun 14 2026 23:59 HST = Jun 15 09:59 UTC
+
+function getHawaiiDate() {
+  // Hawaii = UTC-10, no DST
+  return new Date(Date.now() - 10 * 3600000);
+}
+function getFloridaDate() {
+  // Florida EDT in June = UTC-4
+  return new Date(Date.now() - 4 * 3600000);
+}
+function fmt12(d) {
+  let h = d.getUTCHours(), m = d.getUTCMinutes(), s = d.getUTCSeconds();
+  const ap = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ap;
+}
+function fmtDate(d) {
+  const DS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const MS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return DS[d.getUTCDay()] + ', ' + MS[d.getUTCMonth()] + ' ' + d.getUTCDate();
+}
+function buildClockHtml() {
+  const now = Date.now();
+  if (now < TRIP_START_MS) {
+    const diff = TRIP_START_MS - now;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    return `<div class="countdown-section">
+      <div class="countdown-label">🌺 Hawaii departure countdown</div>
+      <div class="countdown-time" id="clock-countdown">${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s</div>
+      <div class="countdown-sub">Trip starts Jun 2, 2026 — Kailua-Kona, Big Island</div>
+    </div>`;
+  } else if (now > TRIP_END_MS) {
+    return `<div class="clock-section" style="justify-content:center;gap:12px;flex-direction:column">
+      <div style="font-size:32px;text-align:center">🤙</div>
+      <div style="font-size:18px;font-weight:700;text-align:center">Mahalo! Trip complete</div>
+      <div style="font-size:12px;color:var(--text-muted2);text-align:center">What a trip. Big Island forever. 🌴</div>
+    </div>`;
+  } else {
+    const hi = getHawaiiDate();
+    const fl = getFloridaDate();
+    return `<div class="clock-section">
+      <div class="clock-unit">
+        <div class="clock-label">🌴 hawaii (hst)</div>
+        <div class="clock-time hawaii" id="clock-hi">${fmt12(hi)}</div>
+        <div class="clock-date" id="clock-hi-date">${fmtDate(hi)}</div>
+      </div>
+      <div class="clock-divider"></div>
+      <div class="clock-unit">
+        <div class="clock-label">🏠 florida (et)</div>
+        <div class="clock-time florida" id="clock-fl">${fmt12(fl)}</div>
+        <div class="clock-date" id="clock-fl-date">${fmtDate(fl)}</div>
+      </div>
+    </div>`;
+  }
+}
+
+function tickClock() {
+  const now = Date.now();
+  if (now >= TRIP_START_MS && now <= TRIP_END_MS) {
+    const hi = getHawaiiDate(), fl = getFloridaDate();
+    const ehi = document.getElementById('clock-hi');
+    const efl = document.getElementById('clock-fl');
+    const ehid = document.getElementById('clock-hi-date');
+    const efld = document.getElementById('clock-fl-date');
+    if (ehi) ehi.textContent = fmt12(hi);
+    if (efl) efl.textContent = fmt12(fl);
+    if (ehid) ehid.textContent = fmtDate(hi);
+    if (efld) efld.textContent = fmtDate(fl);
+  } else {
+    // Countdown: update in place
+    const cEl = document.getElementById('clock-countdown');
+    if (cEl && now < TRIP_START_MS) {
+      const diff = TRIP_START_MS - now;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      cEl.textContent = d + 'd ' + String(h).padStart(2,'0') + 'h ' + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 's';
+    }
+  }
+}
+setInterval(tickClock, 1000);
+
+// Helper: current Hawaii day index (0 = Jun 2) for activity highlighting
+function getHawaiiDayIndex() {
+  const hi = getHawaiiDate();
+  // Trip days: Jun 2–13 (days[0]–days[11])
+  const tripDayOne = Date.UTC(2026, 5, 2); // Jun 2 UTC (used as offset base)
+  const hiMidnight = Date.UTC(hi.getUTCFullYear(), hi.getUTCMonth(), hi.getUTCDate());
+  return Math.floor((hiMidnight - tripDayOne) / 86400000);
+}
+
+// Helper: Hawaii minutes since midnight for activity timer
+function getHawaiiMinutes() {
+  const hi = getHawaiiDate();
+  return hi.getUTCHours() * 60 + hi.getUTCMinutes();
+}
+
 function render() {
   const stats = getStats();
   const app = document.getElementById('app');
   app.innerHTML = `
     <div class="header">
-      <div class="header-label">Big Island, Hawai'i</div>
+      <div class="header-label">Big Island, Hawai\'i</div>
       <h1>June 2–14, 2026</h1>
       <div class="header-sub">7 Passengers · 12 Days · 2 Jeeps · Hilton Waikoloa → Volcano Airbnb → Mauna Lani</div>
     </div>
+
+    <div id="clock-area">${buildClockHtml()}</div>
 
     <div class="volcano-section">
       <div class="volcano-title">🌋 Kīlauea Volcano — Live Status</div>
