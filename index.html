@@ -615,6 +615,14 @@ const DEFAULT_DAYS = [
     cash: "$200 Costco + $150 dinner",
     tip: "Don't plan anything big. You're 6 hours behind Miami time. Costco first, then let the kids discover the resort — water slides, tram rides between towers, canal boats, dolphins in the lagoon. The resort IS the activity tonight.",
     items: [
+      { time: "Morning", label: "✈️ AA 3288 — MIA → LAX (Leg 1) | Confirmation: DPJIRE | Departs Miami Jun 2", type: "transport", done: false, bookingDetails: [
+        { row: "Flight", val: "American Airlines AA 3288" },
+        { row: "Route", val: "Miami (MIA) → Los Angeles (LAX) → Kona (KOA)" },
+        { row: "Date", val: "June 2, 2026" },
+        { row: "Record Locator", val: "DPJIRE" },
+        { row: "Passengers", val: "7" },
+        { note: "Connect LAX → KOA for Big Island arrival" }
+      ]},
       { time: "5:30 PM", label: "🚙 Jeep #1 pickup — 4 Door Wrangler JLU Sahara Sunrider Top ✅ BOOKED", type: "transport", done: false, bookingDetails: [
         { row: "Vehicle", val: "4 Door Wrangler JLU Sahara Sunrider Top (Premium Silver)" },
         { row: "Booking ID", val: "XKXF-100526" },
@@ -991,7 +999,7 @@ const DEFAULT_DAYS = [
 ];
 
 const DEFAULT_BOOKINGS = [
-  { name: "✈️ Flights — AA MIA→LAX→KOA, 7 pax ($7,123)", booked: true },
+  { name: "✈️ Flights — AA 3288 MIA→LAX→KOA, 7 pax ($7,123) · Confirmation: DPJIRE", booked: true },
   { name: "🚙 Jeep #1 — Wrangler Sahara, Big Island Jeep Rental ($1,370)", booked: true },
   { name: "🚙 Jeep #2 — Hawaii Lifted Jeep Rentals (~$1,200)", booked: true },
   { name: "🏨 Hilton Waikoloa Room 1 — Ocean View (Hilton pts)", booked: true },
