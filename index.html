@@ -462,6 +462,54 @@ body {
 .sound-toggle { background:rgba(255,255,255,0.88); color:#d4007a; border-color:rgba(212,0,122,0.22); }
 .sound-toggle:hover { border-color:#d4007a; }
 ::-webkit-scrollbar-thumb { background:rgba(212,0,122,0.25); }
+
+/* ══ WEATHER WIDGET ══════════════════════════════════════════════════════════ */
+.weather-section {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  margin-bottom: 20px; padding: 16px 20px;
+  background: rgba(255,255,255,0.97) !important; border-radius: 12px;
+  border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,80,140,0.10);
+}
+.weather-title { font-size: 13px; font-weight: 700; color: #0a1e2e !important; margin-bottom: 12px; }
+.weather-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+.weather-current { display: flex; align-items: center; gap: 8px; }
+.weather-icon { font-size: 38px; line-height: 1; }
+.weather-temp { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; color: #d4007a !important; line-height: 1; }
+.weather-desc-block { display: flex; flex-direction: column; gap: 2px; }
+.weather-desc { font-size: 12px; color: rgba(10,30,46,0.65) !important; line-height: 1.4; font-weight: 500; }
+.weather-feels { font-size: 11px; color: rgba(10,30,46,0.48) !important; }
+.weather-details { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: rgba(10,30,46,0.65) !important; font-weight: 600; }
+.weather-details span { background: rgba(0,119,182,0.07); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+.weather-forecast { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.weather-day-card {
+  text-align: center; padding: 8px 14px;
+  background: rgba(0,119,182,0.07); border-radius: 10px;
+  border: 1px solid rgba(0,119,182,0.12); min-width: 68px;
+}
+.wday-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #0077b6 !important; font-weight: 700; margin-bottom: 4px; }
+.wday-icon { font-size: 20px; line-height: 1; margin-bottom: 3px; }
+.wday-hi { font-size: 14px; font-weight: 800; color: #0a1e2e !important; }
+.wday-lo { font-size: 11px; color: rgba(10,30,46,0.50) !important; }
+.weather-updated { font-size: 10px; color: rgba(10,30,46,0.38) !important; margin-top: 10px; text-align: right; }
+.weather-loading { font-size: 12px; color: rgba(10,30,46,0.48) !important; padding: 16px 0; text-align: center; }
+@media (max-width: 600px) {
+  .weather-temp { font-size: 30px; }
+  .weather-icon { font-size: 30px; }
+  .weather-day-card { min-width: 60px; padding: 6px 10px; }
+}
+
+/* ══ SAVE TOAST ══════════════════════════════════════════════════════════════ */
+.save-toast {
+  position: fixed; bottom: 84px; right: 20px; z-index: 1001;
+  padding: 7px 16px; border-radius: 20px;
+  background: rgba(0,137,107,0.96); color: #fff;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.4px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.25s, transform 0.25s; pointer-events: none;
+}
+.save-toast.show { opacity: 1; transform: translateY(0); }
+
 .fish-layer { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; }
 .fish { position:absolute; animation:swim-lr linear infinite; opacity:0.55; }
 .fish.rl { animation-name:swim-rl; }
@@ -1031,7 +1079,8 @@ function loadState() {
     const saved = localStorage.getItem('hawaii-trip-2026-v4');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
-  return { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
+  // Deep copy so toggles don't mutate DEFAULT_DAYS constants
+  return JSON.parse(JSON.stringify({ days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 }));
 }
 
 function saveState(state) {
@@ -1278,6 +1327,8 @@ function render() {
 
     <div id="clock-area">${buildClockHtml()}</div>
 
+    <div id="weather-area"><div class="weather-section"><div class="weather-loading">🌺 Loading Kona weather…</div></div></div>
+
     <div class="volcano-section">
       <div class="volcano-title">🌋 Kīlauea Volcano — Live Status</div>
       <div class="volcano-info">Kīlauea has been erupting in short, intense episodes since Dec 2024. Each episode lasts hours to days, pauses, then fires again. Check status before your volcano days (Jun 7–9).</div>
@@ -1434,7 +1485,11 @@ function renderActivity(item, di, ii) {
 }
 
 function toggleDay(di) { state.openDay = state.openDay === di ? -1 : di; render(); }
-function toggleActivity(di, ii) { state.days[di].items[ii].done = !state.days[di].items[ii].done; render(); }
+function toggleActivity(di, ii) {
+  state.days[di].items[ii].done = !state.days[di].items[ii].done;
+  render();
+  showSaveToast(state.days[di].items[ii].done ? '✓ Marked complete' : '↩ Unmarked');
+}
 
 function addActivity(di) {
   const time = document.getElementById(`add-time-${di}`).value || '—';
@@ -1457,6 +1512,87 @@ function resetAll() {
   }
 }
 
+
+// ─── Save Toast ─────────────────────────────────────────────────────────────
+function showSaveToast(msg) {
+  let toast = document.getElementById('save-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'save-toast';
+    toast.className = 'save-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg || '✓ Saved';
+  toast.classList.add('show');
+  clearTimeout(window._saveToastTimer);
+  window._saveToastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ─── Weather Widget ───────────────────────────────────────────────────────────
+async function fetchWeather() {
+  const el = document.getElementById('weather-area');
+  if (!el) return;
+  function wEmoji(code) {
+    const c = parseInt(code);
+    if (c === 113) return '☀️';
+    if (c === 116) return '⛅';
+    if ([119, 122].includes(c)) return '☁️';
+    if (c === 143) return '🌫️';
+    if ([176, 263, 266, 281, 284, 296, 299].includes(c)) return '🌦️';
+    if ([302, 305, 308, 311, 314, 317, 320, 353, 356, 359, 362, 365, 368, 371, 374, 377].includes(c)) return '🌧️';
+    if ([200, 386, 389, 392, 395].includes(c)) return '⛈️';
+    return '🌤️';
+  }
+  const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function dayShort(dateStr) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return DAY_SHORT[new Date(y, m - 1, d).getDay()];
+  }
+  try {
+    const r = await fetch('https://wttr.in/Kona,Hawaii?format=j1');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    const cur = data.current_condition[0];
+    const days = data.weather;
+    const today = days[0], d2 = days[1], d3 = days[2];
+    const now = new Date();
+    const mins = now.getUTCHours() * 60 + now.getUTCMinutes() - 10 * 60; // HST offset
+    const hourIdx = Math.max(0, Math.min(7, Math.floor(((mins % 1440 + 1440) % 1440) / 180)));
+    el.innerHTML = `
+    <div class="weather-section">
+      <div class="weather-title">🌴 Kona Weather — Live</div>
+      <div class="weather-row">
+        <div class="weather-current">
+          <span class="weather-icon">${wEmoji(cur.weatherCode)}</span>
+          <span class="weather-temp">${cur.temp_F}°</span>
+          <div class="weather-desc-block">
+            <span class="weather-desc">${cur.weatherDesc[0].value}</span>
+            <span class="weather-feels">Feels like ${cur.FeelsLikeF}°F · High ${today.maxtempF}° / Low ${today.mintempF}°</span>
+          </div>
+        </div>
+        <div class="weather-details">
+          <span>💧 ${cur.humidity}% humidity</span>
+          <span>💨 ${cur.windspeedMiles} mph ${cur.winddir16Point}</span>
+          <span>☀️ UV ${cur.uvIndex}</span>
+          <span>🌅 Rise ${today.astronomy[0].sunrise}</span>
+          <span>🌇 Set ${today.astronomy[0].sunset}</span>
+        </div>
+      </div>
+      <div class="weather-forecast">
+        ${[{label:'Today',w:today},{label:dayShort(d2.date),w:d2},{label:dayShort(d3.date),w:d3}]
+          .map(({label,w}) => `<div class="weather-day-card">
+            <div class="wday-label">${label}</div>
+            <div class="wday-icon">${wEmoji(w.hourly[3].weatherCode)}</div>
+            <div class="wday-hi">${w.maxtempF}°</div>
+            <div class="wday-lo">${w.mintempF}°</div>
+          </div>`).join('')}
+      </div>
+      <div class="weather-updated">🕐 Updated ${new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'})} HST · Kona International Airport area</div>
+    </div>`;
+  } catch(e) {
+    el.innerHTML = `<div class="weather-section"><div class="weather-title">🌴 Kona Weather</div><div class="weather-loading">Could not load — tap <a href="https://wttr.in/Kona,Hawaii" target="_blank">wttr.in</a> to check manually</div></div>`;
+  }
+}
 
 // Fish spawner
 (function spawnFish() {
@@ -1482,6 +1618,8 @@ function resetAll() {
 })();
 
 render();
+fetchWeather();
+setInterval(fetchWeather, 600000); // refresh weather every 10 min
 </script>
 
 </body>
