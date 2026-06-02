@@ -1198,7 +1198,7 @@ const DEFAULT_BOOKINGS = [
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('hawaii-trip-2026-v4');
+    const saved = localStorage.getItem('hawaii-trip-2026-v5');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
   // Deep copy so toggles don't mutate DEFAULT_DAYS constants
@@ -1206,7 +1206,7 @@ function loadState() {
 }
 
 function saveState(state) {
-  try { localStorage.setItem('hawaii-trip-2026-v4', JSON.stringify(state)); } catch(e) {}
+  try { localStorage.setItem('hawaii-trip-2026-v5', JSON.stringify(state)); } catch(e) {}
 }
 
 let state = loadState();
@@ -1678,7 +1678,7 @@ function toggleBooking(bi) { state.bookings[bi].booked = !state.bookings[bi].boo
 
 function resetAll() {
   if (confirm('Reset all data? This will clear all changes, notes, and checkmarks.')) {
-    localStorage.removeItem('hawaii-trip-2026-v4');
+    localStorage.removeItem('hawaii-trip-2026-v5');
     state = { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
     render();
   }
