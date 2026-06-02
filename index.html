@@ -273,6 +273,51 @@ body {
 .clock-time.hawaii { font-size: 34px; color: var(--accent); }
 .clock-time.florida { font-size: 24px; color: var(--text-muted); }
 .clock-date { font-size: 11px; color: var(--text-muted2); margin-top: 5px; }
+
+/* Time Reference Strip */
+.time-ref-wrap {
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  margin-bottom: 20px; padding: 14px 18px;
+  background: rgba(255,255,255,0.97); border-radius: 12px;
+  border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,80,140,0.10);
+}
+.time-ref-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.time-ref-title { font-size: 12px; font-weight: 700; color: #0a1e2e; letter-spacing: 0.3px; }
+.time-ref-diff { font-size: 10px; color: rgba(10,30,46,0.50); font-style: italic; }
+.time-ref-cols { display: flex; gap: 0; }
+.time-ref-col { flex: 1; }
+.time-ref-col-label {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 700; padding: 4px 8px 6px; text-align: center;
+  border-bottom: 1px solid rgba(10,30,46,0.08);
+}
+.time-ref-col-label.fl { color: #0055a0; background: rgba(0,85,160,0.06); border-radius: 6px 0 0 0; }
+.time-ref-col-label.hi { color: #c0006b; background: rgba(192,0,107,0.06); border-radius: 0 6px 0 0; }
+.time-ref-row { display: flex; }
+.time-ref-cell {
+  flex: 1; padding: 5px 8px; text-align: center;
+  font-size: 12px; font-weight: 600; color: rgba(10,30,46,0.70);
+  border-bottom: 1px solid rgba(10,30,46,0.05);
+  transition: background 0.2s;
+}
+.time-ref-cell.fl { border-right: 1px solid rgba(10,30,46,0.08); }
+.time-ref-row.now .time-ref-cell {
+  background: linear-gradient(90deg, rgba(0,85,160,0.12) 0%, rgba(192,0,107,0.12) 100%);
+  color: #0a1e2e; font-weight: 800;
+}
+.time-ref-row.now .time-ref-cell.fl { color: #0055a0; }
+.time-ref-row.now .time-ref-cell.hi { color: #c0006b; }
+.time-ref-arrow { width: 28px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(10,30,46,0.25); border-bottom: 1px solid rgba(10,30,46,0.05); }
+.time-ref-now-badge {
+  display: inline-block; font-size: 8px; letter-spacing: 1px;
+  background: #d4007a; color: #fff; padding: 1px 5px;
+  border-radius: 4px; margin-left: 5px; vertical-align: middle;
+  font-weight: 700; text-transform: uppercase;
+}
+@media (max-width: 600px) {
+  .time-ref-cell { font-size: 11px; padding: 5px 4px; }
+  .time-ref-arrow { width: 18px; }
+}
 .countdown-section {
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -631,6 +676,8 @@ body { background-color: #e0f7fa !important; }
 .clock-time.hawaii { color: #c0006b !important; }
 .clock-time.florida { color: #0055a0 !important; }
 .clock-date,.clock-label { color: #446 !important; }
+.time-ref-wrap { background: rgba(255,255,255,0.97) !important; border: 1px solid rgba(10,30,46,0.12) !important; }
+.time-ref-title { color: #0a1e2e !important; }
 .countdown-label { color: #c0006b !important; font-weight: 700 !important; }
 .countdown-time  { color: #c0006b !important; font-weight: 800 !important; }
 .countdown-sub   { color: #446 !important; }
@@ -1119,6 +1166,51 @@ function fmtDate(d) {
   const MS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return DS[d.getUTCDay()] + ', ' + MS[d.getUTCMonth()] + ' ' + d.getUTCDate();
 }
+// Florida is UTC-4 (EDT in June), Hawaii is UTC-10 (HST, no DST)
+// Florida is always 6 hours ahead of Hawaii
+const TZ_DIFF_HOURS = 6; // FL - HI = 6
+
+function buildTimeRefHtml() {
+  const now = new Date();
+  // Get current Florida hour (0-23)
+  const flHour = parseInt(now.toLocaleString('en-US',{timeZone:'America/New_York',hour:'numeric',hour12:false}).replace('24','0'));
+  // Rows: show every 3 hours across a 24hr day starting from midnight Florida
+  const rows = [];
+  for (let fh = 0; fh < 24; fh += 3) {
+    let hh = fh - TZ_DIFF_HOURS;
+    if (hh < 0) hh += 24;
+    function fmt(h) {
+      const ampm = h < 12 ? 'AM' : 'PM';
+      const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+      return h12 + ':00 ' + ampm;
+    }
+    const isNow = flHour >= fh && flHour < fh + 3;
+    rows.push({ fl: fmt(fh), hi: fmt(hh), isNow });
+  }
+  const rowsHtml = rows.map(r => `
+    <div class="time-ref-row${r.isNow ? ' now' : ''}">
+      <div class="time-ref-cell fl">${r.fl}${r.isNow ? '<span class="time-ref-now-badge">NOW</span>' : ''}</div>
+      <div class="time-ref-arrow">→</div>
+      <div class="time-ref-cell hi">${r.hi}${r.isNow ? '<span class="time-ref-now-badge">NOW</span>' : ''}</div>
+    </div>`).join('');
+  return `<div class="time-ref-wrap">
+    <div class="time-ref-header">
+      <div class="time-ref-title">🕒 Florida ↔ Kona Time Reference</div>
+      <div class="time-ref-diff">Hawaii is always 6 hrs behind Florida</div>
+    </div>
+    <div class="time-ref-cols">
+      <div class="time-ref-col">
+        <div class="time-ref-col-label fl">🏠 Florida (ET)</div>
+      </div>
+      <div style="width:28px"></div>
+      <div class="time-ref-col">
+        <div class="time-ref-col-label hi">🌴 Kona (HST)</div>
+      </div>
+    </div>
+    ${rowsHtml}
+  </div>`;
+}
+
 function buildClockHtml() {
   const now = Date.now();
   if (now < TRIP_START_MS) {
@@ -1183,6 +1275,12 @@ function tickClock() {
   }
 }
 setInterval(tickClock, 1000);
+
+// Refresh time-ref NOW highlight every minute
+setInterval(function() {
+  const area = document.getElementById('time-ref-area');
+  if (area) area.innerHTML = buildTimeRefHtml();
+}, 60000);
 
 // Helper: current Hawaii day index (0 = Jun 2) for activity highlighting
 function getHawaiiDayIndex() {
@@ -1326,6 +1424,7 @@ function render() {
     </div>
 
     <div id="clock-area">${buildClockHtml()}</div>
+    <div id="time-ref-area">${buildTimeRefHtml()}</div>
 
     <div id="weather-area"><div class="weather-section"><div class="weather-loading">🌺 Loading Kona weather…</div></div></div>
 
