@@ -260,25 +260,88 @@ body {
   .activity-remove { opacity: 1; }
 }
 
-/* Dual Clock / Countdown */
+/* ══ DUAL CLOCK ══════════════════════════════════════════════════════════════ */
 .clock-section {
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  margin-bottom: 20px; padding: 18px 24px;
-  background: rgba(255,255,255,0.93); border-radius: 12px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; gap: 0;
+  position:relative; overflow:hidden;
+  margin-bottom:20px; padding:22px 24px 16px;
+  border-radius:16px; border:none;
+  box-shadow:0 8px 32px rgba(0,0,0,0.22);
+  display:flex; flex-direction:column; align-items:center; gap:0;
+  transition:background 2s;
 }
-.clock-divider { width: 1px; height: 64px; background: var(--border); margin: 0 28px; }
-.clock-unit { text-align: center; }
-.clock-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted2); margin-bottom: 6px; }
-.clock-time {
-  font-family: 'Courier New', 'Lucida Console', monospace;
-  font-weight: 700; letter-spacing: 2px;
+.clock-bg { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.clock-inner { position:relative; z-index:1; display:flex; align-items:center; justify-content:center; width:100%; }
+.clock-vibe { position:relative; z-index:1; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; opacity:0.70; margin-top:10px; }
+.clock-divider { width:1px; height:64px; margin:0 28px; transition:background 1s; }
+.clock-unit { text-align:center; }
+.clock-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; transition:color 1s; }
+.clock-time { font-family:'Courier New','Lucida Console',monospace; font-weight:700; letter-spacing:2px; transition:color 1s, text-shadow 1s; }
+.clock-time.hawaii { font-size:34px; }
+.clock-time.florida { font-size:24px; }
+.clock-date { font-size:11px; margin-top:5px; transition:color 1s; }
+
+/* Clock animated elements */
+.cstar { position:absolute; border-radius:50%; background:#fff; animation:twinkle ease-in-out infinite; }
+@keyframes twinkle{0%,100%{opacity:0.15;transform:scale(1);}50%{opacity:1;transform:scale(1.5);}}
+.csun { position:absolute; border-radius:50%; animation:cSunPulse ease-in-out infinite; }
+@keyframes cSunPulse{0%,100%{opacity:0.7;transform:scale(1);}50%{opacity:1;transform:scale(1.15);}}
+.ccloud { position:absolute; border-radius:50%; animation:cCloudDrift linear infinite; }
+@keyframes cCloudDrift{0%{transform:translateX(-120px);}100%{transform:translateX(120vw);}}
+.chorizon { position:absolute; bottom:0; left:0; right:0; height:40%; pointer-events:none; }
+
+/* ─ DAWN (5–7am) ─ */
+.cs-dawn { background:linear-gradient(160deg,#1a0533 0%,#7b2660 35%,#d45c3a 70%,#ffc97a 100%); }
+.cs-dawn .clock-time.hawaii { color:#ffc97a; text-shadow:0 0 20px rgba(255,150,50,0.7); }
+.cs-dawn .clock-time.florida { color:rgba(255,190,130,0.75); }
+.cs-dawn .clock-label,.cs-dawn .clock-date,.cs-dawn .clock-vibe { color:rgba(255,190,130,0.70); }
+.cs-dawn .clock-divider { background:rgba(255,190,130,0.30); }
+
+/* ─ MORNING (7am–12pm) ─ */
+.cs-morning { background:linear-gradient(160deg,#1a6dbf 0%,#3aaef0 50%,#7ad4f8 100%); }
+.cs-morning .clock-time.hawaii { color:#fff; text-shadow:0 0 22px rgba(255,240,80,0.65); }
+.cs-morning .clock-time.florida { color:rgba(255,255,255,0.72); }
+.cs-morning .clock-label,.cs-morning .clock-date,.cs-morning .clock-vibe { color:rgba(255,255,255,0.68); }
+.cs-morning .clock-divider { background:rgba(255,255,255,0.28); }
+
+/* ─ MIDDAY (12–3pm) ─ */
+.cs-midday { background:linear-gradient(160deg,#00b4e8 0%,#29d9ff 40%,#9aeeff 100%); }
+.cs-midday .clock-time.hawaii { color:#003d55; text-shadow:0 0 20px rgba(255,245,100,0.55); }
+.cs-midday .clock-time.florida { color:rgba(0,60,90,0.72); }
+.cs-midday .clock-label,.cs-midday .clock-date,.cs-midday .clock-vibe { color:rgba(0,60,90,0.60); }
+.cs-midday .clock-divider { background:rgba(0,60,90,0.18); }
+
+/* ─ AFTERNOON (3–6pm) ─ */
+.cs-afternoon { background:linear-gradient(160deg,#f9d423 0%,#f5a020 55%,#e07000 100%); }
+.cs-afternoon .clock-time.hawaii { color:#5a2800; text-shadow:0 0 16px rgba(255,200,0,0.50); }
+.cs-afternoon .clock-time.florida { color:rgba(80,35,0,0.72); }
+.cs-afternoon .clock-label,.cs-afternoon .clock-date,.cs-afternoon .clock-vibe { color:rgba(80,35,0,0.62); }
+.cs-afternoon .clock-divider { background:rgba(80,35,0,0.22); }
+
+/* ─ SUNSET (6–8pm) ─ */
+.cs-sunset { background:linear-gradient(160deg,#0d0a2e 0%,#8b1a5a 25%,#e84040 55%,#f5a020 80%,#ffd060 100%); }
+.cs-sunset .clock-time.hawaii { color:#ffd060; text-shadow:0 0 22px rgba(255,140,0,0.70); }
+.cs-sunset .clock-time.florida { color:rgba(255,195,100,0.75); }
+.cs-sunset .clock-label,.cs-sunset .clock-date,.cs-sunset .clock-vibe { color:rgba(255,195,100,0.65); }
+.cs-sunset .clock-divider { background:rgba(255,195,100,0.30); }
+
+/* ─ DUSK (8–10pm) ─ */
+.cs-dusk { background:linear-gradient(160deg,#070310 0%,#180d40 50%,#2e1060 100%); }
+.cs-dusk .clock-time.hawaii { color:#c8a8ff; text-shadow:0 0 18px rgba(180,100,255,0.55); }
+.cs-dusk .clock-time.florida { color:rgba(180,150,255,0.68); }
+.cs-dusk .clock-label,.cs-dusk .clock-date,.cs-dusk .clock-vibe { color:rgba(180,150,255,0.55); }
+.cs-dusk .clock-divider { background:rgba(180,150,255,0.22); }
+
+/* ─ NIGHT (10pm–5am) ─ */
+.cs-night { background:linear-gradient(160deg,#020406 0%,#040c18 55%,#071428 100%); }
+.cs-night .clock-time.hawaii { color:#80c8ff; text-shadow:0 0 18px rgba(80,160,255,0.55); }
+.cs-night .clock-time.florida { color:rgba(120,170,255,0.65); }
+.cs-night .clock-label,.cs-night .clock-date,.cs-night .clock-vibe { color:rgba(120,170,255,0.50); }
+.cs-night .clock-divider { background:rgba(120,170,255,0.18); }
+
+@media(max-width:600px){
+  .clock-time.hawaii{font-size:26px;} .clock-time.florida{font-size:20px;}
+  .clock-divider{margin:0 16px;}
 }
-.clock-time.hawaii { font-size: 34px; color: var(--accent); }
-.clock-time.florida { font-size: 24px; color: var(--text-muted); }
-.clock-date { font-size: 11px; color: var(--text-muted2); margin-top: 5px; }
 
 /* Time Reference Strip */
 .time-ref-wrap {
@@ -738,9 +801,7 @@ body { background-color: #e0f7fa !important; }
 .booking-detail-warning { color: #8b0000 !important; font-size: 11px !important; font-weight: 600 !important; }
 .addon-item { color: #1a2e40 !important; font-size: 12px !important; }
 .addons-title { color: #004f8a !important; font-size: 10px !important; font-weight: 700 !important; }
-.clock-time.hawaii { color: #c0006b !important; }
-.clock-time.florida { color: #0055a0 !important; }
-.clock-date,.clock-label { color: #446 !important; }
+/* clock colors handled by cs-* skin classes */
 .time-ref-wrap { background: rgba(255,255,255,0.97) !important; border: 1px solid rgba(10,30,46,0.12) !important; }
 .time-ref-title { color: #0a1e2e !important; }
 .countdown-label { color: #c0006b !important; font-weight: 700 !important; }
@@ -1242,8 +1303,61 @@ function fmtDate(d) {
   return DS[d.getUTCDay()] + ', ' + MS[d.getUTCMonth()] + ' ' + d.getUTCDate();
 }
 // Florida is UTC-4 (EDT in June), Hawaii is UTC-10 (HST, no DST)
-// Florida is always 6 hours ahead of Hawaii
-const TZ_DIFF_HOURS = 6; // FL - HI = 6
+const TZ_DIFF_HOURS = 6;
+
+// Clock skin helpers
+function getClockSkin(hiHour) {
+  if (hiHour >= 5  && hiHour < 7)  return 'dawn';
+  if (hiHour >= 7  && hiHour < 12) return 'morning';
+  if (hiHour >= 12 && hiHour < 15) return 'midday';
+  if (hiHour >= 15 && hiHour < 18) return 'afternoon';
+  if (hiHour >= 18 && hiHour < 20) return 'sunset';
+  if (hiHour >= 20 && hiHour < 22) return 'dusk';
+  return 'night';
+}
+const CLOCK_VIBES = {
+  dawn:      '🌅 Dawn in Kona',
+  morning:   '🌞 Good Morning, Hawaii!',
+  midday:    '☀️ High Noon in Paradise',
+  afternoon: '🌤️ Golden Afternoon',
+  sunset:    '🌇 Sunset Hour · Mahalo',
+  dusk:      '🌆 Dusk Falling in Kona',
+  night:     '🌙 Nighttime in Paradise'
+};
+function genClockBg(skin) {
+  if (skin === 'night' || skin === 'dusk') {
+    return Array.from({length:22},() => {
+      const s=(1+Math.random()*2).toFixed(1), top=(Math.random()*88).toFixed(1),
+            left=(Math.random()*100).toFixed(1), dur=(1.5+Math.random()*3).toFixed(1),
+            del=(Math.random()*4).toFixed(1);
+      return `<div class="cstar" style="width:${s}px;height:${s}px;top:${top}%;left:${left}%;animation-duration:${dur}s;animation-delay:-${del}s"></div>`;
+    }).join('');
+  }
+  if (skin === 'dawn' || skin === 'sunset') {
+    const clouds = [0,1,2].map(i => {
+      const w=70+i*35, h=(w*.45).toFixed(0), top=15+i*22, dur=18+i*9;
+      const col = skin==='sunset' ? 'rgba(255,120,60,0.14)' : 'rgba(255,180,120,0.13)';
+      return `<div class="ccloud" style="width:${w}px;height:${h}px;top:${top}%;background:${col};border-radius:50%;animation-duration:${dur}s;animation-delay:-${i*5}s"></div>`;
+    }).join('');
+    const glow = `<div style="position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,rgba(255,${skin==='sunset'?'100':'160'},30,0.22),transparent);pointer-events:none"></div>`;
+    return clouds + glow;
+  }
+  if (skin === 'morning') {
+    const sun = `<div class="csun" style="width:80px;height:80px;top:-22px;right:36px;background:radial-gradient(circle,rgba(255,245,80,0.55) 30%,transparent 70%);animation-duration:7s"></div>`;
+    const clouds = [0,1].map(i => {
+      const w=80+i*45, dur=22+i*12;
+      return `<div class="ccloud" style="width:${w}px;height:${(w*.48).toFixed(0)}px;top:${18+i*28}%;background:rgba(255,255,255,0.16);border-radius:50%;animation-duration:${dur}s;animation-delay:-${i*8}s"></div>`;
+    }).join('');
+    return sun + clouds;
+  }
+  if (skin === 'midday') {
+    return `<div class="csun" style="width:110px;height:110px;top:-30px;right:-18px;background:radial-gradient(circle,rgba(255,255,180,0.50) 30%,transparent 70%);animation-duration:9s"></div>`;
+  }
+  if (skin === 'afternoon') {
+    return `<div class="csun" style="width:90px;height:90px;bottom:-10px;right:24px;background:radial-gradient(circle,rgba(255,210,40,0.48) 30%,transparent 70%);animation-duration:8s"></div>`;
+  }
+  return '';
+}
 
 function buildTimeRefHtml() {
   const now = new Date();
@@ -1308,22 +1422,30 @@ function buildClockHtml() {
   } else {
     const hi = getHawaiiDate();
     const fl = getFloridaDate();
-    return `<div class="clock-section">
-      <div class="clock-unit">
-        <div class="clock-label">🌴 hawaii (hst)</div>
-        <div class="clock-time hawaii" id="clock-hi">${fmt12(hi)}</div>
-        <div class="clock-date" id="clock-hi-date">${fmtDate(hi)}</div>
+    const skin = getClockSkin(hi.getHours());
+    const bg = genClockBg(skin);
+    const vibe = CLOCK_VIBES[skin] || '';
+    return `<div class="clock-section cs-${skin}" id="clock-section">
+      <div class="clock-bg">${bg}</div>
+      <div class="clock-inner">
+        <div class="clock-unit">
+          <div class="clock-label">🌴 hawaii (hst)</div>
+          <div class="clock-time hawaii" id="clock-hi">${fmt12(hi)}</div>
+          <div class="clock-date" id="clock-hi-date">${fmtDate(hi)}</div>
+        </div>
+        <div class="clock-divider"></div>
+        <div class="clock-unit">
+          <div class="clock-label">🏠 florida (et)</div>
+          <div class="clock-time florida" id="clock-fl">${fmt12(fl)}</div>
+          <div class="clock-date" id="clock-fl-date">${fmtDate(fl)}</div>
+        </div>
       </div>
-      <div class="clock-divider"></div>
-      <div class="clock-unit">
-        <div class="clock-label">🏠 florida (et)</div>
-        <div class="clock-time florida" id="clock-fl">${fmt12(fl)}</div>
-        <div class="clock-date" id="clock-fl-date">${fmtDate(fl)}</div>
-      </div>
+      <div class="clock-vibe" id="clock-vibe">${vibe}</div>
     </div>`;
   }
 }
 
+let _lastClockSkin = null;
 function tickClock() {
   const now = Date.now();
   if (now >= TRIP_START_MS && now <= TRIP_END_MS) {
@@ -1336,6 +1458,19 @@ function tickClock() {
     if (efl) efl.textContent = fmt12(fl);
     if (ehid) ehid.textContent = fmtDate(hi);
     if (efld) efld.textContent = fmtDate(fl);
+    // Update skin if hour changed
+    const newSkin = getClockSkin(hi.getHours());
+    if (newSkin !== _lastClockSkin) {
+      _lastClockSkin = newSkin;
+      const sec = document.getElementById('clock-section');
+      if (sec) {
+        sec.className = 'clock-section cs-' + newSkin;
+        const bg = sec.querySelector('.clock-bg');
+        if (bg) bg.innerHTML = genClockBg(newSkin);
+        const vib = document.getElementById('clock-vibe');
+        if (vib) vib.textContent = CLOCK_VIBES[newSkin] || '';
+      }
+    }
   } else {
     // Countdown: update in place
     const cEl = document.getElementById('clock-countdown');
