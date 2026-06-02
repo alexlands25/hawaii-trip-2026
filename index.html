@@ -508,39 +508,98 @@ body {
 .sound-toggle:hover { border-color:#d4007a; }
 ::-webkit-scrollbar-thumb { background:rgba(212,0,122,0.25); }
 
-/* ══ WEATHER WIDGET ══════════════════════════════════════════════════════════ */
+/* ══ WEATHER SKINS ══════════════════════════════════════════════════════════════ */
 .weather-section {
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  margin-bottom: 20px; padding: 16px 20px;
-  background: rgba(255,255,255,0.97) !important; border-radius: 12px;
-  border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,80,140,0.10);
+  position:relative; overflow:hidden;
+  margin-bottom:20px; padding:22px 22px 16px;
+  border-radius:16px; border:none;
+  box-shadow:0 10px 40px rgba(0,0,0,0.28);
+  min-height:170px;
 }
-.weather-title { font-size: 13px; font-weight: 700; color: #0a1e2e !important; margin-bottom: 12px; }
-.weather-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
-.weather-current { display: flex; align-items: center; gap: 8px; }
-.weather-icon { font-size: 38px; line-height: 1; }
-.weather-temp { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; color: #d4007a !important; line-height: 1; }
-.weather-desc-block { display: flex; flex-direction: column; gap: 2px; }
-.weather-desc { font-size: 12px; color: rgba(10,30,46,0.65) !important; line-height: 1.4; font-weight: 500; }
-.weather-feels { font-size: 11px; color: rgba(10,30,46,0.48) !important; }
-.weather-details { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: rgba(10,30,46,0.65) !important; font-weight: 600; }
-.weather-details span { background: rgba(0,119,182,0.07); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
-.weather-forecast { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-.weather-day-card {
-  text-align: center; padding: 8px 14px;
-  background: rgba(0,119,182,0.07); border-radius: 10px;
-  border: 1px solid rgba(0,119,182,0.12); min-width: 68px;
-}
-.wday-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #0077b6 !important; font-weight: 700; margin-bottom: 4px; }
-.wday-icon { font-size: 20px; line-height: 1; margin-bottom: 3px; }
-.wday-hi { font-size: 14px; font-weight: 800; color: #0a1e2e !important; }
-.wday-lo { font-size: 11px; color: rgba(10,30,46,0.50) !important; }
-.weather-updated { font-size: 10px; color: rgba(10,30,46,0.38) !important; margin-top: 10px; text-align: right; }
-.weather-loading { font-size: 12px; color: rgba(10,30,46,0.48) !important; padding: 16px 0; text-align: center; }
-@media (max-width: 600px) {
-  .weather-temp { font-size: 30px; }
-  .weather-icon { font-size: 30px; }
-  .weather-day-card { min-width: 60px; padding: 6px 10px; }
+.wbg { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.wcontent { position:relative; z-index:2; }
+.weather-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; opacity:0.75; }
+.weather-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:14px; }
+.weather-current { display:flex; align-items:center; gap:10px; }
+.weather-icon { font-size:48px; line-height:1; filter:drop-shadow(0 3px 8px rgba(0,0,0,0.25)); }
+.weather-temp { font-family:'Playfair Display',serif; font-size:56px; font-weight:700; line-height:1; }
+.weather-desc-block { display:flex; flex-direction:column; gap:4px; }
+.weather-desc { font-size:14px; font-weight:600; line-height:1.3; }
+.weather-feels { font-size:11px; opacity:0.72; }
+.weather-details { display:flex; gap:7px; flex-wrap:wrap; font-size:11px; font-weight:600; }
+.weather-details span { padding:4px 10px; border-radius:20px; white-space:nowrap; }
+.weather-forecast { display:flex; gap:8px; flex-wrap:wrap; }
+.weather-day-card { text-align:center; padding:10px 14px; border-radius:12px; min-width:68px; }
+.wday-label { font-size:9px; letter-spacing:2px; text-transform:uppercase; font-weight:700; margin-bottom:5px; }
+.wday-icon { font-size:22px; line-height:1; margin-bottom:4px; }
+.wday-hi { font-size:15px; font-weight:800; }
+.wday-lo { font-size:11px; opacity:0.58; }
+.weather-updated { font-size:10px; opacity:0.50; margin-top:12px; text-align:right; }
+.weather-loading { font-size:12px; padding:20px 0; text-align:center; opacity:0.65; }
+
+/* — SUNNY — */
+.ws-sunny { background:linear-gradient(140deg,#fde84e 0%,#f5a623 50%,#e06b00 100%); color:#5c2900; }
+.ws-sunny .weather-title,.ws-sunny .weather-desc,.ws-sunny .weather-feels,.ws-sunny .weather-updated { color:#6b3500; }
+.ws-sunny .weather-temp { color:#7a3800; text-shadow:0 2px 14px rgba(255,160,0,0.5); }
+.ws-sunny .weather-details span { background:rgba(255,255,255,0.30); color:#6b3500; }
+.ws-sunny .weather-day-card { background:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.40); color:#5c2900; }
+.ws-sunny .wday-label { color:rgba(100,44,0,0.75); } .ws-sunny .wday-hi { color:#5a2800; }
+/* sun anim */
+.sun-orb { position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.50) 0%,rgba(255,220,0,0.10) 60%,transparent 75%);
+  animation:sunGlow 5s ease-in-out infinite; }
+@keyframes sunGlow{0%,100%{transform:scale(1);opacity:0.75;}50%{transform:scale(1.2);opacity:1;}}
+.sun-ray { position:absolute; top:40px; right:40px; width:160px; height:2px;
+  background:linear-gradient(90deg,rgba(255,255,255,0.55),transparent);
+  transform-origin:0 50%; border-radius:2px; }
+@keyframes rayRot{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* — PARTLY CLOUDY — */
+.ws-partlycloudy { background:linear-gradient(135deg,#5dbbf5 0%,#1a7ed4 100%); color:#fff; }
+.ws-partlycloudy .weather-title,.ws-partlycloudy .weather-desc,.ws-partlycloudy .weather-feels,.ws-partlycloudy .weather-updated { color:rgba(255,255,255,0.85); }
+.ws-partlycloudy .weather-temp { color:#fff; text-shadow:0 2px 10px rgba(0,60,120,0.35); }
+.ws-partlycloudy .weather-details span { background:rgba(255,255,255,0.22); color:#fff; }
+.ws-partlycloudy .weather-day-card { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.30); color:#fff; }
+.ws-partlycloudy .wday-label { color:rgba(255,255,255,0.78); } .ws-partlycloudy .wday-hi { color:#fff; }
+/* cloud puff anim */
+.cpuff { position:absolute; border-radius:50%; background:rgba(255,255,255,0.18); animation:cloudFloat linear infinite; }
+@keyframes cloudFloat{0%{transform:translateX(-150px);}100%{transform:translateX(120vw);}}
+
+/* — CLOUDY — */
+.ws-cloudy { background:linear-gradient(135deg,#c5cdd6 0%,#7f8c99 100%); color:#fff; }
+.ws-cloudy .weather-title,.ws-cloudy .weather-desc,.ws-cloudy .weather-feels,.ws-cloudy .weather-updated { color:rgba(255,255,255,0.82); }
+.ws-cloudy .weather-temp { color:#fff; }
+.ws-cloudy .weather-details span { background:rgba(255,255,255,0.20); color:#fff; }
+.ws-cloudy .weather-day-card { background:rgba(255,255,255,0.17); border:1px solid rgba(255,255,255,0.28); color:#fff; }
+.ws-cloudy .wday-label { color:rgba(255,255,255,0.72); } .ws-cloudy .wday-hi { color:#fff; }
+
+/* — RAINY — */
+.ws-rainy { background:linear-gradient(150deg,#0f1c3a 0%,#1e3f7a 60%,#1565c0 100%); color:#fff; }
+.ws-rainy .weather-title,.ws-rainy .weather-desc,.ws-rainy .weather-feels,.ws-rainy .weather-updated { color:rgba(180,215,255,0.82); }
+.ws-rainy .weather-temp { color:#fff; text-shadow:0 2px 16px rgba(50,120,220,0.60); }
+.ws-rainy .weather-details span { background:rgba(255,255,255,0.12); color:rgba(200,230,255,0.95); }
+.ws-rainy .weather-day-card { background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.16); color:#fff; }
+.ws-rainy .wday-label { color:#90caf9; } .ws-rainy .wday-hi { color:#fff; }
+/* rain drop anim */
+.rdrop { position:absolute; width:1.5px; background:rgba(174,214,241,0.60); border-radius:2px; animation:rfall linear infinite; }
+@keyframes rfall{0%{transform:translateY(-30px) skewX(-8deg);opacity:0;}20%{opacity:0.75;}100%{transform:translateY(250px) skewX(-8deg);opacity:0.05;}}
+
+/* — STORMY — */
+.ws-stormy { background:linear-gradient(150deg,#0a0a18 0%,#151530 55%,#0d2050 100%); color:#fff; }
+.ws-stormy .weather-title,.ws-stormy .weather-desc,.ws-stormy .weather-feels,.ws-stormy .weather-updated { color:rgba(190,195,255,0.78); }
+.ws-stormy .weather-temp { color:#fff; text-shadow:0 0 22px rgba(160,160,255,0.65); }
+.ws-stormy .weather-details span { background:rgba(255,255,255,0.09); color:rgba(200,205,255,0.90); }
+.ws-stormy .weather-day-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); color:#fff; }
+.ws-stormy .wday-label { color:#b39ddb; } .ws-stormy .wday-hi { color:#fff; }
+.lbolt { position:absolute; width:22px; opacity:0;
+  background:linear-gradient(180deg,#ffe566,#fff 50%,#ffe566);
+  clip-path:polygon(55% 0%,100% 0%,45% 48%,100% 48%,0% 100%,55% 52%,0% 52%);
+  animation:lflash 4.5s ease-in-out infinite; }
+@keyframes lflash{0%,78%,80%,82%,100%{opacity:0;}79%,81%{opacity:0.95;}}
+
+@media(max-width:600px){
+  .weather-temp{font-size:44px;} .weather-icon{font-size:38px;}
+  .weather-day-card{min-width:60px;padding:8px 10px;}
 }
 
 /* ══ SAVE TOAST ══════════════════════════════════════════════════════════════ */
@@ -710,13 +769,23 @@ const DEFAULT_DAYS = [
     cash: "$200 Costco + $150 dinner",
     tip: "Don't plan anything big. You're 6 hours behind Miami time. Costco first, then let the kids discover the resort — water slides, tram rides between towers, canal boats, dolphins in the lagoon. The resort IS the activity tonight.",
     items: [
-      { time: "Morning", label: "✈️ AA 3288 — MIA → LAX (Leg 1) | Confirmation: DPJIRE | Departs Miami Jun 2", type: "transport", done: false, bookingDetails: [
+      { time: "Morning", label: "✈️ AA 3288 — MIA → LAX (Leg 1) ✓ DONE", type: "transport", done: true, bookingDetails: [
         { row: "Flight", val: "American Airlines AA 3288" },
-        { row: "Route", val: "Miami (MIA) → Los Angeles (LAX) → Kona (KOA)" },
+        { row: "Route", val: "Miami (MIA) → Los Angeles (LAX)" },
         { row: "Date", val: "June 2, 2026" },
         { row: "Record Locator", val: "DPJIRE" },
-        { row: "Passengers", val: "7" },
-        { note: "Connect LAX → KOA for Big Island arrival" }
+        { row: "Passengers", val: "7" }
+      ]},
+      { time: "2:16 PM PDT", label: "✈️ AA 59 — LAX → KOA · Gate 48A, Terminal 4 · Seat 34D · On Time 🟢", type: "transport", done: false, bookingDetails: [
+        { row: "Flight", val: "American Airlines AA 59" },
+        { row: "Route", val: "Los Angeles (LAX) → Kona (KOA)" },
+        { row: "Departs", val: "2:16 PM PDT — Terminal 4, Gate 48A" },
+        { row: "Arrives", val: "~4:45 PM HST (Kona local time)" },
+        { row: "Seat", val: "34D" },
+        { row: "Passenger", val: "Franz Collier (Member #N175TE2)" },
+        { row: "Status", val: "✅ On Time" },
+        { row: "Record Locator", val: "DPJIRE" },
+        { warn: "⏰ LAX is 3 hrs behind Florida. 2:16 PM PDT = 5:16 PM EDT = 12:16 PM HST departure" }
       ]},
       { time: "5:30 PM", label: "🚙 Jeep #1 pickup — 4 Door Wrangler JLU Sahara Sunrider Top ✅ BOOKED", type: "transport", done: false, bookingDetails: [
         { row: "Vehicle", val: "4 Door Wrangler JLU Sahara Sunrider Top (Premium Silver)" },
@@ -1625,69 +1694,116 @@ function showSaveToast(msg) {
   window._saveToastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-// ─── Weather Widget ───────────────────────────────────────────────────────────
+// ─── Weather Widget (Dynamic Skins) ─────────────────────────────────────────────
 async function fetchWeather() {
   const el = document.getElementById('weather-area');
   if (!el) return;
+
   function wEmoji(code) {
     const c = parseInt(code);
     if (c === 113) return '☀️';
     if (c === 116) return '⛅';
-    if ([119, 122].includes(c)) return '☁️';
+    if ([119,122].includes(c)) return '☁️';
     if (c === 143) return '🌫️';
-    if ([176, 263, 266, 281, 284, 296, 299].includes(c)) return '🌦️';
-    if ([302, 305, 308, 311, 314, 317, 320, 353, 356, 359, 362, 365, 368, 371, 374, 377].includes(c)) return '🌧️';
-    if ([200, 386, 389, 392, 395].includes(c)) return '⛈️';
+    if ([176,263,266,281,284,293,296,299].includes(c)) return '🌦️';
+    if ([302,305,308,311,314,317,320,353,356,359,362,365,368,371,374,377].includes(c)) return '🌧️';
+    if ([200,386,389,392,395].includes(c)) return '⛈️';
     return '🌤️';
   }
+
+  function getSkin(code) {
+    const c = parseInt(code);
+    if (c === 113) return 'sunny';
+    if (c === 116) return 'partlycloudy';
+    if ([119,122].includes(c)) return 'cloudy';
+    if ([200,386,389,392,395].includes(c)) return 'stormy';
+    return 'rainy'; // all rain/drizzle/mist codes
+  }
+
+  function genBgAnim(skin) {
+    if (skin === 'sunny') {
+      const rays = Array.from({length:10},(_,i) =>
+        `<div class="sun-ray" style="transform:rotate(${i*36}deg);animation:rayRot ${10+i*0.6}s linear infinite ${i%2===0?'':'reverse'}"></div>`
+      ).join('');
+      return `<div class="sun-orb"></div>${rays}`;
+    }
+    if (skin === 'rainy' || skin === 'stormy') {
+      const drops = Array.from({length:30},() => {
+        const l = (Math.random()*110-5).toFixed(1);
+        const h = (10+Math.random()*18).toFixed(0);
+        const dur = (0.5+Math.random()*0.7).toFixed(2);
+        const del = (Math.random()*2).toFixed(2);
+        return `<div class="rdrop" style="left:${l}%;height:${h}px;animation-duration:${dur}s;animation-delay:-${del}s"></div>`;
+      }).join('');
+      if (skin === 'stormy') {
+        const bolts = [35,62,78].map((lp,i) =>
+          `<div class="lbolt" style="left:${lp}%;top:${8+i*6}%;height:${55+i*12}px;animation-delay:${i*1.4}s"></div>`
+        ).join('');
+        return drops + bolts;
+      }
+      return drops;
+    }
+    if (skin === 'partlycloudy') {
+      return [1,2,3].map(i => {
+        const w=80+i*40, h=w*0.55, top=10+i*20, dur=18+i*8, del=i*4;
+        return `<div class="cpuff" style="width:${w}px;height:${h}px;top:${top}%;animation-duration:${dur}s;animation-delay:-${del}s"></div>`;
+      }).join('');
+    }
+    return '';
+  }
+
   const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   function dayShort(dateStr) {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    return DAY_SHORT[new Date(y, m - 1, d).getDay()];
+    const [y,m,d] = dateStr.split('-').map(Number);
+    return DAY_SHORT[new Date(y,m-1,d).getDay()];
   }
+
   try {
     const r = await fetch('https://wttr.in/Kona,Hawaii?format=j1');
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+    if (!r.ok) throw new Error('HTTP '+r.status);
     const data = await r.json();
     const cur = data.current_condition[0];
-    const days = data.weather;
-    const today = days[0], d2 = days[1], d3 = days[2];
-    const now = new Date();
-    const mins = now.getUTCHours() * 60 + now.getUTCMinutes() - 10 * 60; // HST offset
-    const hourIdx = Math.max(0, Math.min(7, Math.floor(((mins % 1440 + 1440) % 1440) / 180)));
+    const today = data.weather[0], d2 = data.weather[1], d3 = data.weather[2];
+    const skin = getSkin(cur.weatherCode);
+    const bgAnim = genBgAnim(skin);
+    const timeStr = new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'});
+
     el.innerHTML = `
-    <div class="weather-section">
-      <div class="weather-title">🌴 Kona Weather — Live</div>
-      <div class="weather-row">
-        <div class="weather-current">
-          <span class="weather-icon">${wEmoji(cur.weatherCode)}</span>
-          <span class="weather-temp">${cur.temp_F}°</span>
-          <div class="weather-desc-block">
-            <span class="weather-desc">${cur.weatherDesc[0].value}</span>
-            <span class="weather-feels">Feels like ${cur.FeelsLikeF}°F · High ${today.maxtempF}° / Low ${today.mintempF}°</span>
+    <div class="weather-section ws-${skin}">
+      <div class="wbg">${bgAnim}</div>
+      <div class="wcontent">
+        <div class="weather-title">🌴 Kona Weather — Live</div>
+        <div class="weather-row">
+          <div class="weather-current">
+            <span class="weather-icon">${wEmoji(cur.weatherCode)}</span>
+            <span class="weather-temp">${cur.temp_F}°</span>
+            <div class="weather-desc-block">
+              <span class="weather-desc">${cur.weatherDesc[0].value}</span>
+              <span class="weather-feels">Feels ${cur.FeelsLikeF}°F · H ${today.maxtempF}° / L ${today.mintempF}°</span>
+            </div>
+          </div>
+          <div class="weather-details">
+            <span>💧 ${cur.humidity}%</span>
+            <span>💨 ${cur.windspeedMiles}mph ${cur.winddir16Point}</span>
+            <span>☀️ UV ${cur.uvIndex}</span>
+            <span>🌅 ${today.astronomy[0].sunrise}</span>
+            <span>🌇 ${today.astronomy[0].sunset}</span>
           </div>
         </div>
-        <div class="weather-details">
-          <span>💧 ${cur.humidity}% humidity</span>
-          <span>💨 ${cur.windspeedMiles} mph ${cur.winddir16Point}</span>
-          <span>☀️ UV ${cur.uvIndex}</span>
-          <span>🌅 Rise ${today.astronomy[0].sunrise}</span>
-          <span>🌇 Set ${today.astronomy[0].sunset}</span>
+        <div class="weather-forecast">
+          ${[{label:'Today',w:today},{label:dayShort(d2.date),w:d2},{label:dayShort(d3.date),w:d3}]
+            .map(({label,w}) => `<div class="weather-day-card">
+              <div class="wday-label">${label}</div>
+              <div class="wday-icon">${wEmoji(w.hourly[3].weatherCode)}</div>
+              <div class="wday-hi">${w.maxtempF}°</div>
+              <div class="wday-lo">${w.mintempF}°</div>
+            </div>`).join('')}
         </div>
+        <div class="weather-updated">🕐 ${timeStr} HST · Kona International Airport</div>
       </div>
-      <div class="weather-forecast">
-        ${[{label:'Today',w:today},{label:dayShort(d2.date),w:d2},{label:dayShort(d3.date),w:d3}]
-          .map(({label,w}) => `<div class="weather-day-card">
-            <div class="wday-label">${label}</div>
-            <div class="wday-icon">${wEmoji(w.hourly[3].weatherCode)}</div>
-            <div class="wday-hi">${w.maxtempF}°</div>
-            <div class="wday-lo">${w.mintempF}°</div>
-          </div>`).join('')}
-      </div>
-      <div class="weather-updated">🕐 Updated ${new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'})} HST · Kona International Airport area</div>
     </div>`;
   } catch(e) {
-    el.innerHTML = `<div class="weather-section"><div class="weather-title">🌴 Kona Weather</div><div class="weather-loading">Could not load — tap <a href="https://wttr.in/Kona,Hawaii" target="_blank">wttr.in</a> to check manually</div></div>`;
+    el.innerHTML = `<div class="weather-section ws-cloudy"><div class="wcontent"><div class="weather-title">🌴 Kona Weather</div><div class="weather-loading">Could not load — <a href="https://wttr.in/Kona,Hawaii" target="_blank">check here</a></div></div></div>`;
   }
 }
 
