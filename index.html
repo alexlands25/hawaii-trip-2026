@@ -603,8 +603,17 @@ body {
 .wday-icon { font-size:22px; line-height:1; margin-bottom:4px; }
 .wday-hi { font-size:15px; font-weight:800; }
 .wday-lo { font-size:11px; opacity:0.58; }
-.weather-updated { font-size:10px; opacity:0.50; margin-top:12px; text-align:right; }
+.weather-updated { font-size:10px; opacity:0.50; margin-top:10px; text-align:right; }
 .weather-loading { font-size:12px; padding:20px 0; text-align:center; opacity:0.65; }
+.weather-week-label { font-size:9px; letter-spacing:2px; text-transform:uppercase; opacity:0.60; font-weight:700; margin:12px 0 8px; }
+.weather-week {
+  display:flex; gap:6px; overflow-x:auto; padding-bottom:4px;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.weather-week::-webkit-scrollbar { display:none; }
+.weather-week .weather-day-card { flex-shrink:0; min-width:62px; }
+.wday-today { outline:2px solid rgba(255,255,255,0.40); outline-offset:2px; }
+.wday-pop { font-size:9px; margin-top:3px; opacity:0.80; font-weight:700; }
 
 /* — SUNNY — */
 .ws-sunny { background:linear-gradient(140deg,#fde84e 0%,#f5a623 50%,#e06b00 100%); color:#5c2900; }
@@ -1835,11 +1844,12 @@ function showSaveToast(msg) {
   window._saveToastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-// ─── Weather Widget (Dynamic Skins) ─────────────────────────────────────────────
+// ─── Weather Widget (Dynamic Skins + 7-Day) ────────────────────────────────────
 async function fetchWeather() {
   const el = document.getElementById('weather-area');
   if (!el) return;
 
+  // wttr.in code → emoji
   function wEmoji(code) {
     const c = parseInt(code);
     if (c === 113) return '☀️';
@@ -1851,16 +1861,27 @@ async function fetchWeather() {
     if ([200,386,389,392,395].includes(c)) return '⛈️';
     return '🌤️';
   }
-
+  // WMO code (Open-Meteo) → emoji
+  function wmoEmoji(code) {
+    const c = parseInt(code);
+    if (c === 0) return '☀️';
+    if ([1,2].includes(c)) return '⛅';
+    if (c === 3) return '☁️';
+    if ([45,48].includes(c)) return '🌫️';
+    if ([51,53,55,56,57].includes(c)) return '🌦️';
+    if ([61,63,65,66,67,80,81,82].includes(c)) return '🌧️';
+    if ([71,73,75,77,85,86].includes(c)) return '❄️';
+    if ([95,96,99].includes(c)) return '⛈️';
+    return '🌤️';
+  }
   function getSkin(code) {
     const c = parseInt(code);
     if (c === 113) return 'sunny';
     if (c === 116) return 'partlycloudy';
     if ([119,122].includes(c)) return 'cloudy';
     if ([200,386,389,392,395].includes(c)) return 'stormy';
-    return 'rainy'; // all rain/drizzle/mist codes
+    return 'rainy';
   }
-
   function genBgAnim(skin) {
     if (skin === 'sunny') {
       const rays = Array.from({length:10},(_,i) =>
@@ -1870,44 +1891,66 @@ async function fetchWeather() {
     }
     if (skin === 'rainy' || skin === 'stormy') {
       const drops = Array.from({length:30},() => {
-        const l = (Math.random()*110-5).toFixed(1);
-        const h = (10+Math.random()*18).toFixed(0);
-        const dur = (0.5+Math.random()*0.7).toFixed(2);
-        const del = (Math.random()*2).toFixed(2);
+        const l=(Math.random()*110-5).toFixed(1),h=(10+Math.random()*18).toFixed(0),
+              dur=(0.5+Math.random()*0.7).toFixed(2),del=(Math.random()*2).toFixed(2);
         return `<div class="rdrop" style="left:${l}%;height:${h}px;animation-duration:${dur}s;animation-delay:-${del}s"></div>`;
       }).join('');
-      if (skin === 'stormy') {
-        const bolts = [35,62,78].map((lp,i) =>
-          `<div class="lbolt" style="left:${lp}%;top:${8+i*6}%;height:${55+i*12}px;animation-delay:${i*1.4}s"></div>`
-        ).join('');
-        return drops + bolts;
+      if (skin==='stormy') {
+        const bolts=[35,62,78].map((lp,i)=>`<div class="lbolt" style="left:${lp}%;top:${8+i*6}%;height:${55+i*12}px;animation-delay:${i*1.4}s"></div>`).join('');
+        return drops+bolts;
       }
       return drops;
     }
-    if (skin === 'partlycloudy') {
-      return [1,2,3].map(i => {
-        const w=80+i*40, h=w*0.55, top=10+i*20, dur=18+i*8, del=i*4;
+    if (skin==='partlycloudy') {
+      return [1,2,3].map(i=>{
+        const w=80+i*40,h=(w*0.55).toFixed(0),top=10+i*20,dur=18+i*8,del=i*4;
         return `<div class="cpuff" style="width:${w}px;height:${h}px;top:${top}%;animation-duration:${dur}s;animation-delay:-${del}s"></div>`;
       }).join('');
     }
     return '';
   }
-
-  const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   function dayShort(dateStr) {
-    const [y,m,d] = dateStr.split('-').map(Number);
-    return DAY_SHORT[new Date(y,m-1,d).getDay()];
+    const [y,m,d]=dateStr.split('-').map(Number);
+    return DAYS[new Date(y,m-1,d).getDay()];
   }
 
   try {
-    const r = await fetch('https://wttr.in/Kona,Hawaii?format=j1');
-    if (!r.ok) throw new Error('HTTP '+r.status);
-    const data = await r.json();
-    const cur = data.current_condition[0];
-    const today = data.weather[0], d2 = data.weather[1], d3 = data.weather[2];
+    // Fetch current conditions (wttr.in) + 7-day forecast (Open-Meteo) in parallel
+    const [wttrRes, omRes] = await Promise.all([
+      fetch('https://wttr.in/Kona,Hawaii?format=j1'),
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=19.639&longitude=-155.996&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=Pacific%2FHonolulu&forecast_days=7')
+    ]);
+    if (!wttrRes.ok) throw new Error('wttr ' + wttrRes.status);
+    const wttr = await wttrRes.json();
+    const cur = wttr.current_condition[0];
+    const today = wttr.weather[0];
     const skin = getSkin(cur.weatherCode);
     const bgAnim = genBgAnim(skin);
     const timeStr = new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'});
+
+    // 7-day strip from Open-Meteo
+    let weekHtml = '';
+    if (omRes.ok) {
+      const om = await omRes.json();
+      const {time, weathercode, temperature_2m_max, temperature_2m_min, precipitation_probability_max} = om.daily;
+      weekHtml = `
+      <div class="weather-week-label">7-DAY FORECAST · KONA</div>
+      <div class="weather-week">
+        ${time.map((date,i) => {
+          const label = i===0 ? 'Today' : (i===1 ? 'Tmrw' : dayShort(date));
+          const pop = precipitation_probability_max[i];
+          const popHtml = pop > 20 ? `<div class="wday-pop">💧${pop}%</div>` : '';
+          return `<div class="weather-day-card ${i===0?'wday-today':''}">
+            <div class="wday-label">${label}</div>
+            <div class="wday-icon">${wmoEmoji(weathercode[i])}</div>
+            <div class="wday-hi">${Math.round(temperature_2m_max[i])}°</div>
+            <div class="wday-lo">${Math.round(temperature_2m_min[i])}°</div>
+            ${popHtml}
+          </div>`;
+        }).join('')}
+      </div>`;
+    }
 
     el.innerHTML = `
     <div class="weather-section ws-${skin}">
@@ -1926,20 +1969,12 @@ async function fetchWeather() {
           <div class="weather-details">
             <span>💧 ${cur.humidity}%</span>
             <span>💨 ${cur.windspeedMiles}mph ${cur.winddir16Point}</span>
-            <span>☀️ UV ${cur.uvIndex}</span>
+            <span>☀️ UV ${cur.uvIndex}</span>
             <span>🌅 ${today.astronomy[0].sunrise}</span>
             <span>🌇 ${today.astronomy[0].sunset}</span>
           </div>
         </div>
-        <div class="weather-forecast">
-          ${[{label:'Today',w:today},{label:dayShort(d2.date),w:d2},{label:dayShort(d3.date),w:d3}]
-            .map(({label,w}) => `<div class="weather-day-card">
-              <div class="wday-label">${label}</div>
-              <div class="wday-icon">${wEmoji(w.hourly[3].weatherCode)}</div>
-              <div class="wday-hi">${w.maxtempF}°</div>
-              <div class="wday-lo">${w.mintempF}°</div>
-            </div>`).join('')}
-        </div>
+        ${weekHtml}
         <div class="weather-updated">🕐 ${timeStr} HST · Kona International Airport</div>
       </div>
     </div>`;
