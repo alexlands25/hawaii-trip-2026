@@ -502,6 +502,21 @@ body {
   box-shadow:0 4px 24px rgba(0,0,0,0.5); transition:transform 0.2s,border-color 0.2s;
 }
 .sound-toggle:hover { transform:scale(1.1); border-color:var(--accent); }
+.save-btn {
+  position:fixed; bottom:82px; right:20px; z-index:999;
+  width:50px; height:50px; border-radius:50%;
+  background:rgba(0,137,107,0.92); backdrop-filter:blur(14px);
+  border:2px solid rgba(0,200,150,0.5); color:#fff;
+  font-size:20px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 24px rgba(0,137,107,0.45); transition:transform 0.2s,background 0.2s;
+}
+.save-btn:hover { transform:scale(1.1); background:rgba(0,160,120,0.96); }
+.save-btn.flash { background:rgba(0,200,150,0.96); transform:scale(1.15); }
+#last-saved-bar {
+  text-align:center; font-size:10px; letter-spacing:1px;
+  color:rgba(18,52,77,0.38); margin-top:-18px; margin-bottom:22px;
+}
 
 /* ═══ TROPICAL HAWAIIAN THEME ═══════════════════════════════════════════════ */
 .header h1 { background: linear-gradient(135deg,#d4007a 0%,#0077b6 55%,#00b4d8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
@@ -575,6 +590,8 @@ body {
 .travel-hint { color:rgba(18,52,77,0.36); }
 .sound-toggle { background:rgba(255,255,255,0.88); color:#d4007a; border-color:rgba(212,0,122,0.22); }
 .sound-toggle:hover { border-color:#d4007a; }
+.save-btn { background:rgba(0,137,107,0.90); border-color:rgba(0,200,150,0.45); }
+.save-btn:hover { background:rgba(0,160,120,0.96); }
 ::-webkit-scrollbar-thumb { background:rgba(212,0,122,0.25); }
 
 /* ══ WEATHER SKINS ══════════════════════════════════════════════════════════════ */
@@ -1273,10 +1290,30 @@ const DEFAULT_BOOKINGS = [
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('hawaii-trip-2026-v6');
-    if (saved) return JSON.parse(saved);
+    const raw = localStorage.getItem('hawaii-trip-2026-v6');
+    if (raw) {
+      const saved = JSON.parse(raw);
+      // Smart merge: use current DEFAULT_DAYS for structure, preserve done/notes/user-added items
+      const base = JSON.parse(JSON.stringify({ days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: saved.openDay || 0 }));
+      base.days.forEach((day, di) => {
+        const sd = saved.days && saved.days[di];
+        if (!sd) return;
+        day.notes = sd.notes || '';
+        // Preserve done state for matching items by index
+        day.items.forEach((item, ii) => {
+          if (sd.items && sd.items[ii] !== undefined) item.done = !!sd.items[ii].done;
+        });
+        // Preserve user-added items beyond the default set
+        if (sd.items && sd.items.length > day.items.length) {
+          day.items.push(...sd.items.slice(day.items.length).map(i => ({...i})));
+        }
+      });
+      base.bookings.forEach((b, bi) => {
+        if (saved.bookings && saved.bookings[bi]) b.booked = !!saved.bookings[bi].booked;
+      });
+      return base;
+    }
   } catch(e) {}
-  // Deep copy so toggles don't mutate DEFAULT_DAYS constants
   return JSON.parse(JSON.stringify({ days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 }));
 }
 
@@ -1645,6 +1682,7 @@ function render() {
       <div class="header-label">Big Island, Hawai\'i</div>
       <h1>June 2–14, 2026</h1>
       <div class="header-sub">7 Passengers · 12 Days · 2 Jeeps · Hilton Waikoloa → Volcano Airbnb → Mauna Lani</div>
+      <div id="last-saved-bar">💾 Auto-saved · v2.1</div>
     </div>
 
     <div id="clock-area">${buildClockHtml()}</div>
@@ -1702,6 +1740,28 @@ function render() {
     btn.textContent = '🔔'; btn.title = 'Toggle activity alarms';
     btn.onclick = toggleSound;
     document.body.appendChild(btn);
+  }
+  // Save button (fixed position)
+  if (!document.getElementById('save-btn')) {
+    const sb = document.createElement('button');
+    sb.id = 'save-btn'; sb.className = 'save-btn';
+    sb.textContent = '💾'; sb.title = 'Save progress';
+    sb.onclick = function() {
+      saveState(state);
+      const t = new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'});
+      const bar = document.getElementById('last-saved-bar');
+      if (bar) bar.textContent = '💾 Saved ' + t + ' HST · v2.1';
+      sb.classList.add('flash');
+      setTimeout(()=>sb.classList.remove('flash'),600);
+      showSaveToast('✓ Saved ' + t + ' HST');
+    };
+    document.body.appendChild(sb);
+  }
+  // Update last-saved bar timestamp
+  const bar = document.getElementById('last-saved-bar');
+  if (bar) {
+    const t = new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'});
+    bar.textContent = '💾 Auto-saved ' + t + ' HST · v2.1';
   }
 }
 
@@ -1856,39 +1916,47 @@ async function fetchWeather() {
   const el = document.getElementById('weather-area');
   if (!el) return;
 
-  // wttr.in code → emoji
-  function wEmoji(code) {
-    const c = parseInt(code);
-    if (c === 113) return '☀️';
-    if (c === 116) return '⛅';
-    if ([119,122].includes(c)) return '☁️';
-    if (c === 143) return '🌫️';
-    if ([176,263,266,281,284,293,296,299].includes(c)) return '🌦️';
-    if ([302,305,308,311,314,317,320,353,356,359,362,365,368,371,374,377].includes(c)) return '🌧️';
-    if ([200,386,389,392,395].includes(c)) return '⛈️';
-    return '🌤️';
-  }
   // WMO code (Open-Meteo) → emoji
-  function wmoEmoji(code) {
+  function wmoEmoji(code, isDay) {
     const c = parseInt(code);
-    if (c === 0) return '☀️';
-    if ([1,2].includes(c)) return '⛅';
+    if (c === 0) return isDay ? '☀️' : '🌙';
+    if (c === 1) return isDay ? '🌤️' : '🌙';
+    if (c === 2) return '⛅';
     if (c === 3) return '☁️';
-    if ([45,48].includes(c)) return '🌫️';
-    if ([51,53,55,56,57].includes(c)) return '🌦️';
-    if ([61,63,65,66,67,80,81,82].includes(c)) return '🌧️';
-    if ([71,73,75,77,85,86].includes(c)) return '❄️';
-    if ([95,96,99].includes(c)) return '⛈️';
+    if (c === 45 || c === 48) return '🌫️';
+    if (c >= 51 && c <= 57) return '🌦️';
+    if (c >= 61 && c <= 67) return '🌧️';
+    if (c >= 71 && c <= 77) return '🌨️';
+    if (c >= 80 && c <= 82) return '🌦️';
+    if (c >= 85 && c <= 86) return '🌨️';
+    if (c >= 95) return '⛈️';
     return '🌤️';
   }
-  function getSkin(code) {
+
+  function wmoDesc(code) {
     const c = parseInt(code);
-    if (c === 113) return 'sunny';
-    if (c === 116) return 'partlycloudy';
-    if ([119,122].includes(c)) return 'cloudy';
-    if ([200,386,389,392,395].includes(c)) return 'stormy';
-    return 'rainy';
+    const m = {
+      0:'Clear Sky', 1:'Mainly Clear', 2:'Partly Cloudy', 3:'Overcast',
+      45:'Foggy', 48:'Icy Fog',
+      51:'Light Drizzle', 53:'Drizzle', 55:'Dense Drizzle',
+      61:'Light Rain', 63:'Moderate Rain', 65:'Heavy Rain',
+      80:'Rain Showers', 81:'Showers', 82:'Heavy Showers',
+      95:'Thunderstorm', 96:'Thunderstorm + Hail', 99:'Heavy Thunderstorm'
+    };
+    return m[c] || 'Partly Cloudy';
   }
+
+  // FIXED: no longer defaults to rainy — uses isDay + proper WMO ranges
+  function getSkin(code, isDay) {
+    const c = parseInt(code);
+    if (c === 0 || c === 1) return 'sunny';
+    if (c === 2) return 'partlycloudy';
+    if (c === 3 || c === 45 || c === 48) return 'cloudy';
+    if (c >= 95) return 'stormy';
+    if (c >= 51) return 'rainy';
+    return 'partlycloudy'; // safe default — NOT rainy
+  }
+
   function genBgAnim(skin) {
     if (skin === 'sunny') {
       const rays = Array.from({length:10},(_,i) =>
@@ -1916,48 +1984,56 @@ async function fetchWeather() {
     }
     return '';
   }
+
   const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   function dayShort(dateStr) {
     const [y,m,d]=dateStr.split('-').map(Number);
     return DAYS[new Date(y,m-1,d).getDay()];
   }
+  const windDirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
 
   try {
-    // Fetch current conditions (wttr.in) + 7-day forecast (Open-Meteo) in parallel
-    const [wttrRes, omRes] = await Promise.all([
-      fetch('https://wttr.in/Kona,Hawaii?format=j1'),
-      fetch('https://api.open-meteo.com/v1/forecast?latitude=19.639&longitude=-155.996&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=Pacific%2FHonolulu&forecast_days=7')
-    ]);
-    if (!wttrRes.ok) throw new Error('wttr ' + wttrRes.status);
-    const wttr = await wttrRes.json();
-    const cur = wttr.current_condition[0];
-    const today = wttr.weather[0];
-    const skin = getSkin(cur.weatherCode);
+    // Use Open-Meteo exclusively — accurate real-time conditions with is_day flag
+    const res = await fetch(
+      'https://api.open-meteo.com/v1/forecast' +
+      '?latitude=19.639&longitude=-155.996' +
+      '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,uv_index,is_day' +
+      '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset' +
+      '&temperature_unit=fahrenheit&wind_speed_unit=mph' +
+      '&timezone=Pacific%2FHonolulu&forecast_days=7'
+    );
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+
+    const cur = data.current;
+    const daily = data.daily;
+    const skin = getSkin(cur.weather_code, cur.is_day);
     const bgAnim = genBgAnim(skin);
     const timeStr = new Date().toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'});
+    const windDirStr = windDirs[Math.round((cur.wind_direction_10m||0)/22.5)%16];
 
-    // 7-day strip from Open-Meteo
-    let weekHtml = '';
-    if (omRes.ok) {
-      const om = await omRes.json();
-      const {time, weathercode, temperature_2m_max, temperature_2m_min, precipitation_probability_max} = om.daily;
-      weekHtml = `
-      <div class="weather-week-label">7-DAY FORECAST · KONA</div>
-      <div class="weather-week">
-        ${time.map((date,i) => {
-          const label = i===0 ? 'Today' : (i===1 ? 'Tmrw' : dayShort(date));
-          const pop = precipitation_probability_max[i];
-          const popHtml = pop > 20 ? `<div class="wday-pop">💧${pop}%</div>` : '';
-          return `<div class="weather-day-card ${i===0?'wday-today':''}">
-            <div class="wday-label">${label}</div>
-            <div class="wday-icon">${wmoEmoji(weathercode[i])}</div>
-            <div class="wday-hi">${Math.round(temperature_2m_max[i])}°</div>
-            <div class="wday-lo">${Math.round(temperature_2m_min[i])}°</div>
-            ${popHtml}
-          </div>`;
-        }).join('')}
-      </div>`;
-    }
+    const fmtSun = (iso) => {
+      if (!iso) return '—';
+      try { return new Date(iso).toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',hour:'numeric',minute:'2-digit'}); }
+      catch(e) { return iso.slice(11,16); }
+    };
+
+    const weekHtml = `
+    <div class="weather-week-label">7-DAY FORECAST · KONA</div>
+    <div class="weather-week">
+      ${daily.time.map((date,i) => {
+        const label = i===0?'Today':(i===1?'Tmrw':dayShort(date));
+        const pop = daily.precipitation_probability_max[i];
+        const popHtml = pop>20?`<div class="wday-pop">💧${pop}%</div>`:'';
+        return `<div class="weather-day-card ${i===0?'wday-today':''}">
+          <div class="wday-label">${label}</div>
+          <div class="wday-icon">${wmoEmoji(daily.weathercode[i],1)}</div>
+          <div class="wday-hi">${Math.round(daily.temperature_2m_max[i])}°</div>
+          <div class="wday-lo">${Math.round(daily.temperature_2m_min[i])}°</div>
+          ${popHtml}
+        </div>`;
+      }).join('')}
+    </div>`;
 
     el.innerHTML = `
     <div class="weather-section ws-${skin}">
@@ -1966,26 +2042,27 @@ async function fetchWeather() {
         <div class="weather-title">🌴 Kona Weather — Live</div>
         <div class="weather-row">
           <div class="weather-current">
-            <span class="weather-icon">${wEmoji(cur.weatherCode)}</span>
-            <span class="weather-temp">${cur.temp_F}°</span>
+            <span class="weather-icon">${wmoEmoji(cur.weather_code,cur.is_day)}</span>
+            <span class="weather-temp">${Math.round(cur.temperature_2m)}°</span>
             <div class="weather-desc-block">
-              <span class="weather-desc">${cur.weatherDesc[0].value}</span>
-              <span class="weather-feels">Feels ${cur.FeelsLikeF}°F · H ${today.maxtempF}° / L ${today.mintempF}°</span>
+              <span class="weather-desc">${wmoDesc(cur.weather_code)}</span>
+              <span class="weather-feels">Feels ${Math.round(cur.apparent_temperature)}°F · H ${Math.round(daily.temperature_2m_max[0])}° / L ${Math.round(daily.temperature_2m_min[0])}°</span>
             </div>
           </div>
           <div class="weather-details">
-            <span>💧 ${cur.humidity}%</span>
-            <span>💨 ${cur.windspeedMiles}mph ${cur.winddir16Point}</span>
-            <span>☀️ UV ${cur.uvIndex}</span>
-            <span>🌅 ${today.astronomy[0].sunrise}</span>
-            <span>🌇 ${today.astronomy[0].sunset}</span>
+            <span>💧 ${cur.relative_humidity_2m}%</span>
+            <span>💨 ${Math.round(cur.wind_speed_10m)}mph ${windDirStr}</span>
+            <span>☀️ UV ${cur.uv_index!=null?cur.uv_index:'—'}</span>
+            <span>🌅 ${fmtSun(daily.sunrise?daily.sunrise[0]:'')}</span>
+            <span>🌇 ${fmtSun(daily.sunset?daily.sunset[0]:'')}</span>
           </div>
         </div>
         ${weekHtml}
-        <div class="weather-updated">🕐 ${timeStr} HST · Kona International Airport</div>
+        <div class="weather-updated">🕐 ${timeStr} HST · Open-Meteo · Kona Airport</div>
       </div>
     </div>`;
   } catch(e) {
+    console.error('Weather error:', e);
     el.innerHTML = `<div class="weather-section ws-cloudy"><div class="wcontent"><div class="weather-title">🌴 Kona Weather</div><div class="weather-loading">Could not load — <a href="https://wttr.in/Kona,Hawaii" target="_blank">check here</a></div></div></div>`;
   }
 }
