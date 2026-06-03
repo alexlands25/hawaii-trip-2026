@@ -892,14 +892,13 @@ const DEFAULT_DAYS = [
       { time: "5:45 PM", label: "Pick up Jeep #2 (Hawaii Lifted Jeep Rentals)", type: "transport", travelMin: 4, done: false },
       { time: "5:15 PM", label: "Costco Kona (5 min from airport) — water, snacks, sunscreen, groceries", type: "food", done: false },
       { time: "6:15 PM", label: "Check into Hilton Waikoloa — 3 rooms. Let kids explore: tram, boats, lagoon, water slides", type: "hotel", done: false },
-      { time: "7:30 PM", label: "Dinner at Lava Lava Beach Club ✅ — beachfront, live music, toes in the sand", type: "food", done: false, bookingDetails: [
-        { row: "Reservation", val: "OpenTable · 6 people" },
-        { warn: "⚠️ Requested 7 — call to update: (808) 769-5282" },
-        { row: "Time", val: "7:30 PM" },
+      { time: "7:30 PM", label: "🍴 Dinner at Lava Lava Beach Club ✅ — beachfront, live music, toes in the sand", type: "food", done: true, bookingDetails: [
+        { row: "Reservation", val: "OpenTable · Walk-in accommodated on arrival night" },
+        { row: "Actual Cost", val: "$490" },
+        { note: "✅ Done — reservation was for Sunday Jun 7 but restaurant accommodated the group on arrival night (Jun 2). Sunday reservation cancelled." },
         { row: "Phone", val: "(808) 769-5282" },
         { row: "Location", val: "Anaeho'omalu Bay, Waikoloa Beach Resort (5 min walk from Hilton)" },
-        { row: "Request", val: "Outdoor beachfront table" },
-        { note: "🎵 Live music · toes-in-the-sand dining" }
+        { note: "🎵 Live music · toes-in-the-sand dining — great first night" }
       ]},
     ],
     addons: ["Walk the Museum Walkway between towers — $7M art collection", "Dolphin Quest viewing area (free to watch)"]
@@ -1060,7 +1059,12 @@ const DEFAULT_DAYS = [
       { time: "4:30 PM", label: "Check into Volcano Airbnb — 3BR house, 5 min from park. Drop bags only — going right back out.", type: "hotel", done: false },
       { time: "5:30 PM", label: "Volcano Winery — only winery on the Big Island. Quick tasting.", type: "activity", done: false },
       { time: "7:00 PM", label: "🌋 Volcanoes National Park — Crater Rim for Halema'uma'u glow at dusk. $30/vehicle.", type: "activity", done: false },
-      { time: "8:30 PM", label: "Dinner at Kīlauea Lodge — fireplace, elk, fresh fish. RESERVE TABLE FOR 7.", type: "food", done: false },
+      { time: "7:30 PM", label: "🍴 The Rim at Volcano House ✅ BOOKED — only restaurant in the US overlooking an active erupting volcano. Reserve confirmed.", type: "food", done: false, bookingDetails: [
+        { row: "Restaurant", val: "The Rim at Volcano House" },
+        { row: "Time", val: "7:30 PM, Sunday Jun 7" },
+        { row: "Status", val: "✅ BOOKED" },
+        { note: "Inside Volcanoes National Park. Crater views while you eat. Dress smart-casual." }
+      ]},
     ],
     addons: ["Night walk around steam vents", "Hilo Sharks Coffee for local coffee on the way"]
   },
@@ -1229,7 +1233,7 @@ const DEFAULT_DAYS = [
       { time: "8:00 AM", label: "☕ Last FHR breakfast at CanoeHouse — soak it in", type: "food", done: false },
       { time: "9:30 AM", label: "🏨 Last beach/pool — lagoon snorkel, one more swim, take photos", type: "beach", done: false },
       { time: "12:00 PM", label: "Check out Mauna Lani (FHR late checkout — noon)", type: "transport", done: false },
-      { time: "12:30 PM", label: "Last lunch — Da Poke Shack or Lava Lava Beach Club one more time", type: "food", done: false },
+      { time: "12:30 PM", label: "🍴 Lava Lava Beach Club — one more time. Full circle moment. Same beach where the trip started.", type: "food", done: false },
       { time: "2:00 PM", label: "Last beach at Kua Bay or souvenir shopping in Kona", type: "beach", done: false },
       { time: "5:00 PM", label: "Return both Jeeps", type: "transport", travelMin: 15, done: false },
       { time: "6:30 PM", label: "KOA airport. Amex Platinum lounge access if available.", type: "transport", travelMin: 10, done: false },
@@ -1257,7 +1261,7 @@ const DEFAULT_BOOKINGS = [
   { name: "🏔️ Waipiʻo Valley Shuttle — 7 pax, Jun 10, 9:00 AM", booked: true },
   { name: "🏎️ Kohala UTV — 2 vehicles, Jun 3, 12:30 PM", booked: true },
   { name: "🤿 Kona Coast Snorkel — 7 pax, Jun 4, 9:00 AM", booked: true },
-  { name: "🍽️ Lava Lava Beach Club — Jun 2, 7:30 PM", booked: true },
+  { name: "🍽️ Lava Lava Beach Club — Jun 2 ✓ Done ($490) · Sun Jun 7 reservation cancelled", booked: true },
   { name: "🍽️ Merriman's Waimea — Jun 3, 7:15 PM, Wahine Dinner ($665)", booked: true },
   { name: "🌋 The Rim at Volcano House — Jun 7, 7:30 PM", booked: true },
   { name: "🍽️ CanoeHouse at Mauna Lani — Jun 10, 7:00 PM", booked: true },
@@ -1269,7 +1273,7 @@ const DEFAULT_BOOKINGS = [
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('hawaii-trip-2026-v5');
+    const saved = localStorage.getItem('hawaii-trip-2026-v6');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
   // Deep copy so toggles don't mutate DEFAULT_DAYS constants
@@ -1277,7 +1281,7 @@ function loadState() {
 }
 
 function saveState(state) {
-  try { localStorage.setItem('hawaii-trip-2026-v5', JSON.stringify(state)); } catch(e) {}
+  try { localStorage.setItem('hawaii-trip-2026-v6', JSON.stringify(state)); } catch(e) {}
 }
 
 let state = loadState();
@@ -1823,7 +1827,7 @@ function toggleBooking(bi) { state.bookings[bi].booked = !state.bookings[bi].boo
 
 function resetAll() {
   if (confirm('Reset all data? This will clear all changes, notes, and checkmarks.')) {
-    localStorage.removeItem('hawaii-trip-2026-v5');
+    localStorage.removeItem('hawaii-trip-2026-v6');
     state = { days: DEFAULT_DAYS, bookings: DEFAULT_BOOKINGS, openDay: 0 };
     render();
   }
